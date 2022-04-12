@@ -3,8 +3,13 @@ package com.igorwojda.string.ispalindrome.basic
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
+private fun isPalindrome1(str: String): Boolean = str.equals(str.reversed())
+
 private fun isPalindrome(str: String): Boolean {
-    TODO("not implemented")
+    for (i in 0 .. str.length/2) {
+        if (str[i] != str[str.length - i - 1]) return false
+    }
+    return true
 }
 
 private class Test {

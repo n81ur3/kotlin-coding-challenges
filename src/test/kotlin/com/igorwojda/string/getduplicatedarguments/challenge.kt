@@ -3,9 +3,11 @@ package com.igorwojda.string.getduplicatedarguments
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-fun getDuplicatedArguments(vararg strings: String): List<String>? {
-    TODO("not implemented")
-}
+fun getDuplicatedArguments(vararg strings: String): List<String>? = strings
+    .groupingBy { it }
+    .eachCount()
+    .filter { it.value > 1 }
+    .keys.toList()
 
 private class Test {
     @Test

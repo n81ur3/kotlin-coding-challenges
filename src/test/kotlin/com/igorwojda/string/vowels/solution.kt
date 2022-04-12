@@ -26,6 +26,7 @@ private object Solution2 {
 
 // Regex
 private object Solution3 {
+    @OptIn(ExperimentalStdlibApi::class)
     private fun vowels(str: String): Int {
         return Regex("[aeiouy]").findAll(str.lowercase()).count()
     }

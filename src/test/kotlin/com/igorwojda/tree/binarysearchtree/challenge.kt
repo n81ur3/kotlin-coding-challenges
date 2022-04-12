@@ -8,16 +8,44 @@ private class BinarySearchTree<E : Comparable<E>> {
         private set
 
     fun add(element: E) {
-        TODO("not implemented")
+
+        if (contains(element)) return
+
+        val node = BinaryNode(element)
+        if (root == null) {
+            root = node
+            return
+        }
+        var prev = root
+        var tmp = root
+        while (tmp != null) {
+            prev = tmp
+            if (element < tmp.data) {
+                tmp = tmp.left
+            } else {
+                tmp = tmp.right
+            }
+        }
+        if (element < prev!!.data) {
+            prev.left = node
+        } else {
+            prev.right = node
+        }
     }
 
     fun contains(element: E): Boolean {
-        TODO("not implemented")
+        var tmp = root
+        while (true) {
+            when {
+                tmp == null -> return false
+                tmp.data == element -> return true
+                element < tmp.data -> tmp = tmp.left
+                else -> tmp = tmp.right
+            }
+        }
     }
 
-    fun isEmpty(): Boolean {
-        TODO("not implemented")
-    }
+    fun isEmpty(): Boolean = root == null
 }
 
 private data class BinaryNode<E : Comparable<E>>(

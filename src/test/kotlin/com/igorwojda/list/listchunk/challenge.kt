@@ -4,7 +4,16 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun chunk(list: List<Int>, size: Int): List<List<Int>> {
-    TODO("not implemented")
+    val result = mutableListOf<List<Int>>()
+
+    val tmpList = list.toMutableList()
+
+    while (tmpList.size > 0) {
+        result.add(tmpList.take(size))
+        tmpList.removeAll(result.last())
+    }
+
+    return result.toList()
 }
 
 private class Test {

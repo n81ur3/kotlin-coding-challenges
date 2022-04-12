@@ -4,7 +4,15 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun formatTrainRoute(stations: List<String>): String {
-    TODO("not implemented")
+    fun getSeparator(index: Int, totalSize: Int) = when (totalSize - index) {
+        totalSize -> " "
+        1 -> " and "
+        else -> ", "
+    }
+
+    return stations.foldIndexed("Train is calling at") { index, acc, station ->
+        acc + getSeparator( index, stations.size ) + station
+    }
 }
 
 private class Test {

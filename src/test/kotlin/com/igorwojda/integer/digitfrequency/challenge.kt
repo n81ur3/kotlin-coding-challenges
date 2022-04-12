@@ -4,12 +4,12 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun equalDigitFrequency(i1: Int, i2: Int): Boolean {
-    TODO("not implemented")
+    return i1.toString().toCharArray().sorted() == i2.toString().toCharArray().sorted()
 }
 
 private class Test {
     @Test
-    fun `"789" and "897" have the same digit frequency`() {
+    fun `789 and 897 have the same digit frequency`() {
         equalDigitFrequency(789, 897) shouldBeEqualTo true
     }
 

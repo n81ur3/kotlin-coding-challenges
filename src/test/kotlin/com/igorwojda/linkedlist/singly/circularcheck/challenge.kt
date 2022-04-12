@@ -6,7 +6,12 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun circularCheck(list: SinglyLinkedList<Char>): Boolean {
-    TODO("not implemented")
+    val collected = mutableListOf<Node<Char>>()
+    list.forEach {
+        if (collected.contains(it)) return true
+        collected.add(it)
+    }
+    return false
 }
 
 private class Test {

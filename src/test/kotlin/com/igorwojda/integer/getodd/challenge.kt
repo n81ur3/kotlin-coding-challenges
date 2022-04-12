@@ -4,7 +4,16 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun filterOdd(list: List<Int>): List<Int> {
-    TODO("not implemented")
+    //return list.filter { (it % 2) == 1 }
+    if (list.isEmpty()) {
+        return list
+    }
+    if (list.first() % 2 == 1) {
+        val resultingList = mutableListOf<Int>(list.first())
+        return resultingList + (filterOdd(list.drop(1)))
+    } else {
+        return filterOdd(list.drop(1))
+    }
 }
 
 private class Test {

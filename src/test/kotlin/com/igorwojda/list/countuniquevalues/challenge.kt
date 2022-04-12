@@ -3,9 +3,7 @@ package com.igorwojda.list.countuniquevalues
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-private fun countUniqueValues(list: List<Int>): Int {
-    TODO("not implemented")
-}
+private fun countUniqueValues(list: List<Int>): Int = list.toSet().size
 
 private class Test {
     @Test

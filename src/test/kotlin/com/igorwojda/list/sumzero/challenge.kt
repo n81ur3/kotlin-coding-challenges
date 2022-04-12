@@ -2,9 +2,15 @@ package com.igorwojda.list.sumzero
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
+import java.lang.Math.abs
 
 private fun sumZero(list: List<Int>): Pair<Int, Int>? {
-    TODO("not implemented")
+    list.forEachIndexed { index, first ->
+        ((index + 1)..list.lastIndex).forEach { innerIndex ->
+            if (abs(list[index]) == abs(list[innerIndex])) return Pair(list[index], list[innerIndex])
+        }
+    }
+    return null
 }
 
 private class Test {

@@ -3,9 +3,14 @@ package com.igorwojda.list.capitalizeFirst
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
+private fun capitalizeFirst1(list: List<String>): List<String> = list.map { it.capitalize() }
+
 private fun capitalizeFirst(list: List<String>): List<String> {
-    TODO("not implemented")
+    val result = mutableListOf<String>()
+    list.forEach { result.add(it.capitalize())}
+    return result
 }
+
 
 private class Test {
     @Test

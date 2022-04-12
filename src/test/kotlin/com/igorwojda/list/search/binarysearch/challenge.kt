@@ -2,9 +2,20 @@ package com.igorwojda.list.search.binarysearch
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
+import java.lang.Math.ceil
 
 private fun binarySearch(list: List<Char>, element: Char): Int {
-    TODO("not implemented")
+    var left = 0
+    var right = list.lastIndex
+
+    var pos: Int
+    while (left <= right) {
+        pos = ceil((right + left) / 2.0).toInt()
+        if (list[pos] == element) return pos
+        else if (element < list[pos]) right = pos - 1
+        else left = pos + 1
+    }
+    return -1
 }
 
 private class Test {

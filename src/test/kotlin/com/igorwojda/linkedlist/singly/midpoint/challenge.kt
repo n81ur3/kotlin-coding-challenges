@@ -5,9 +5,8 @@ import com.igorwojda.linkedlist.singly.base.Solution1.SinglyLinkedList
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-private fun midpoint(list: SinglyLinkedList<Char>): Node<Char>? {
-    TODO("not implemented")
-}
+//private fun midpoint(list: SinglyLinkedList<Char>): Node<Char>? = if (list.size == 0) null else list.getAt((list.size-1) / 2)
+private fun midpoint(list: SinglyLinkedList<Char>): Node<Char>? = list.getAt((list.size - 1) / 2)
 
 private class Test {
     @Test

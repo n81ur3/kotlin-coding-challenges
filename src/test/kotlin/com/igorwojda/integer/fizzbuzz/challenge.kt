@@ -4,7 +4,15 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun fizzBuzz(n: Int): List<String> {
-    TODO("not implemented")
+    val mapper = { value: Int ->
+        when {
+            value % 15 == 0 -> "FizzBuzz"
+            value % 3 == 0 -> "Fizz"
+            value % 5 == 0 -> "Buzz"
+            else -> value.toString()
+        }
+    }
+    return (1..n).map(mapper)
 }
 
 private class Test {

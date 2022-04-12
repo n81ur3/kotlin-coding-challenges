@@ -4,7 +4,21 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun isTolerantPalindrome(str: String, characterRemoved: Boolean = false): Boolean {
-    TODO("not implemented")
+    if (str.length < 2) return true
+
+    val front = str.first()
+    val rear = str.last()
+    if (front != rear && characterRemoved) {
+        return false
+    }
+    else if (front == rear) {
+        return isTolerantPalindrome(str.substring(1, str.lastIndex), characterRemoved)
+    }
+    else {
+        val frontRemoved = isTolerantPalindrome(str.substring(1, str.lastIndex + 1), true)
+        val rearRemoved = isTolerantPalindrome(str.substring(0, str.lastIndex), true)
+        return (frontRemoved || rearRemoved)
+    }
 }
 
 private class Test {

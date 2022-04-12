@@ -4,7 +4,23 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun findRectangle(image: List<List<Int>>): List<Int>? {
-    TODO("not implemented")
+    var upperLeftFound = false
+    var upperLeft = Pair(0, 0)
+    var lowerRight = Pair(0, 0)
+
+    image.forEachIndexed { indexY, list ->
+        list.forEachIndexed { indexX, num ->
+            if (list[indexX] == 0) {
+                if (!upperLeftFound && list[indexX] == 0) {
+                    upperLeft = Pair(indexY, indexX)
+                    upperLeftFound = true
+                }
+                lowerRight = Pair(indexY, indexX)
+            }
+        }
+    }
+
+    return listOf(upperLeft.first, upperLeft.second, lowerRight.first, lowerRight.second)
 }
 
 private class Test {

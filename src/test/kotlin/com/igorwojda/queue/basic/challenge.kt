@@ -2,22 +2,29 @@ package com.igorwojda.queue.basic
 
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
+import java.util.*
 
 private class Queue<E> {
     var size = 0
         private set
+    //val elements = mutableListOf<E>()
+    //val elements = LinkedList<E>()
+    val elements = Stack<E>()
 
     fun add(element: E) {
-        TODO("not implemented")
+        elements.add(0, element)
+        size++
     }
 
-    fun remove(): E = TODO("not implemented")
-
-    fun peek(): E = TODO("not implemented")
-
-    fun isEmpty(): Boolean {
-        TODO("not implemented")
+    fun remove(): E? {
+        if (isEmpty()) return null
+        size--
+        return elements.removeLast()
     }
+
+    fun peek(): E? = if (isEmpty()) null else elements.last()
+
+    fun isEmpty(): Boolean = elements.size == 0
 }
 
 private class Test {

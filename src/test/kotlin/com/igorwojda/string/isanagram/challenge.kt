@@ -3,8 +3,28 @@ package com.igorwojda.string.isanagram
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
+private fun isAnagram1(str1: String, str2: String): Boolean {
+    var first = filterString(str1)
+    var second = filterString(str2)
+    first = first.toLowerCase().split("").sorted().toString()
+    second = second.toLowerCase().split("").sorted().toString()
+    return first == second
+}
+
 private fun isAnagram(str1: String, str2: String): Boolean {
-    TODO("not implemented")
+    val characterMap = (str1 + str2).filter{ it.isLetter() }.toLowerCase().split("").groupBy { it }
+    for ((_, entries) in characterMap) {
+        if (entries.size % 2 != 0) return false
+    }
+    return true
+}
+
+private fun filterString(str: String): String {
+    val sb = StringBuilder()
+    for (c in str.chars()) {
+        if (c in 65..90 || c in 97..122) sb.append(c.toChar())
+    }
+    return sb.toString()
 }
 
 private class Test {

@@ -6,10 +6,27 @@ import org.junit.jupiter.api.Test
 private fun mergeSort(list: List<Int>): List<Int> {
     // Take two sorted lists and merge them together into one sorted list
     fun merge(left: MutableList<Int>, right: MutableList<Int>): MutableList<Int> {
-        TODO("not implemented")
+        val result = mutableListOf<Int>()
+
+        while (left.isNotEmpty() && right.isNotEmpty()) {
+            when {
+                left.first() < right.first() -> result.add(left.removeAt(0))
+                else -> result.add(right.removeAt(0))
+            }
+        }
+
+        if (left.isNotEmpty()) result.addAll(left)
+        if (right.isNotEmpty()) result.addAll(right)
+
+        return result
     }
 
-    TODO("not implemented")
+    if (list.size < 2) return list
+
+    val firstList = mergeSort(list.subList(0, list.size / 2))
+    val secondList = mergeSort(list.subList(list.size / 2, list.size))
+
+    return merge(firstList.toMutableList(), secondList.toMutableList())
 }
 
 private class Test {

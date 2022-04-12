@@ -5,9 +5,7 @@ import com.igorwojda.linkedlist.singly.base.Solution1.SinglyLinkedList
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-private fun fromLast(list: SinglyLinkedList<Char>, endIndex: Int): Node<Char>? {
-    TODO("not implemented")
-}
+private fun fromLast(list: SinglyLinkedList<Char>, endIndex: Int): Node<Char>? = list.getAt(list.size - 1 - endIndex)
 
 private class Test {
     @Test
@@ -41,5 +39,15 @@ private class Test {
 
             fromLast(this, 3)?.data shouldBeEqualTo 'b'
         }
+    }
+
+    @Test
+    fun streamDebugging() {
+        val numbers = listOf(123, 23, 43, 2, 43, 5, 8, 234, 88).asSequence()
+            .flatMap { listOf(it) }
+            .distinct()
+            .sorted()
+            .sum()
+        println("result: $numbers")
     }
 }

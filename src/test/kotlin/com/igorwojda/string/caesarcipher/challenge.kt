@@ -4,7 +4,7 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun encodeCaesarCipher(str: String, shift: Int): String {
-    TODO("not implemented")
+    return str.toCharArray().map { ((it.toInt() - 97 + shift) % 26 + 97).toChar() }.joinToString(separator = "")
 }
 
 private class Test {

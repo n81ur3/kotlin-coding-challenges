@@ -4,7 +4,8 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 fun generatePyramid(n: Int): List<String> {
-    TODO("not implemented")
+    var spaces = n - 1
+    return (0 until n).map { " ".repeat(spaces) + "#".repeat(it*2 + 1) + " ".repeat(spaces--) }
 }
 
 private class Test {
@@ -36,6 +37,18 @@ private class Test {
             it[1] shouldBeEqualTo "  ###  "
             it[2] shouldBeEqualTo " ##### "
             it[3] shouldBeEqualTo "#######"
+        }
+    }
+
+    @Test
+    fun `pyramid n = 5`() {
+        generatePyramid(5).also {
+            it.size shouldBeEqualTo 5
+            it[0] shouldBeEqualTo "    #    "
+            it[1] shouldBeEqualTo "   ###   "
+            it[2] shouldBeEqualTo "  #####  "
+            it[3] shouldBeEqualTo " ####### "
+            it[4] shouldBeEqualTo "#########"
         }
     }
 }

@@ -4,19 +4,14 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 fun hasAverage(list: List<Int>, average: Double): Boolean {
-    TODO("not implemented")
-}
+    var last = 0
+    do {
+        for (index in (last + 1)..list.lastIndex) {
+            if ((list[last].toDouble() + list[index].toDouble()) / 2 == average) return true
+        }
+    } while (last++ < list.lastIndex)
 
-private fun <E> MutableList<E>.aaa2(a: E) {
-    set(0, a)
-}
-
-fun MutableList<Int>.aaa() {
-    set(0, 12)
-}
-
-inline fun <K, V> MutableMap<K, V>.incrementExisting(key: K, value: V) {
-    put(key, value)
+    return false
 }
 
 private class Test {

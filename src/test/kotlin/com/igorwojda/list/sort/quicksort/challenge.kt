@@ -4,7 +4,24 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun quickSort(list: MutableList<Int>, left: Int = 0, right: Int = list.lastIndex): List<Number> {
-    TODO("not implemented")
+    if (list.isEmpty() || right <= left) return list
+    var pivot = left
+
+    for (index in left + 1..right) {
+        if (list[index] < list[pivot]) {
+            if (pivot + 1 == index) {
+                list.swap(pivot, index)
+            } else {
+                list.swap(pivot, pivot + 1)
+                list.swap(pivot, index)
+            }
+            pivot++
+        }
+    }
+    quickSort(list, left, pivot)
+    quickSort(list, pivot + 1, right)
+
+    return list
 }
 
 private fun <T> MutableList<T>.swap(index1: Int, index2: Int) {

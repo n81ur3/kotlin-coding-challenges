@@ -3,9 +3,7 @@ package com.igorwojda.string.capitalizesentence
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-private fun capitalizeSentence(str: String): String {
-    TODO("not implemented")
-}
+private fun capitalizeSentence(str: String): String = str.split(" ").joinToString(" ") { it.capitalize() }
 
 private class Test {
     @Test

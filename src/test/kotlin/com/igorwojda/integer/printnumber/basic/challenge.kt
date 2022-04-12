@@ -3,9 +3,7 @@ package com.igorwojda.integer.printnumber.basic
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
-private fun printNumber(n: Int): List<Int> {
-    TODO("not implemented")
-}
+private fun printNumber(n: Int): List<Int> = if (n == 0) listOf() else (n downTo 1).toList()
 
 class RecursivePrintNumber {
     @Test

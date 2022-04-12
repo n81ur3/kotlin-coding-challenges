@@ -3,8 +3,12 @@ package com.igorwojda.list.product
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
+private fun product1(list: List<Int>) = list.reduce {acc, current -> acc * current}
+
 private fun product(list: List<Int>): Int {
-    TODO("not implemented")
+    if (list.size == 0) return 1
+    else return list[0] * product(list.subList(1, list.size))
+
 }
 
 private class Test {

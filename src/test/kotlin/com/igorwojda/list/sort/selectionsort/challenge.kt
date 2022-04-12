@@ -4,7 +4,18 @@ import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 private fun selectionSort(list: List<Int>): List<Number> {
-    return list
+    val result = list.toMutableList()
+
+    (0..list.size - 2).forEach { index ->
+        var smallestIndex = index
+        (index..result.size - 1).forEach { innerIndex ->
+            if (result[innerIndex] < result[smallestIndex]) smallestIndex = innerIndex
+        }
+        result[index] = result[smallestIndex].also { result[smallestIndex] = result[index] }
+        println("State at index:$index >> $result")
+    }
+
+    return result.toList()
 }
 
 private class Test {
