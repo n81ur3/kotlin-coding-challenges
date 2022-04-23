@@ -1,10 +1,18 @@
-package adventofcode
+package adventofcode2020
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
 
 class Day02PasswordPhilosophyTest {
+
+    lateinit var file: File
+
+    @BeforeEach
+    fun setup() {
+        file = ResourceLoader.getFile("day02_input.txt")
+    }
 
     @Test
     fun testDataClass() {
@@ -31,10 +39,16 @@ class Day02PasswordPhilosophyTest {
     }
 
     @Test
-    fun solution03() {
-        val file = File("src/test/kotlin/resources/day02_input.txt")
+    fun solution02_1() {
         val lines = file.readLines().map { PasswordEntry(it) }
         val result = lines.filter { entry -> entry.isValid() }.count()
         println("Number of valid entries: $result")
+    }
+
+    @Test
+    fun solution02_2() {
+        val lines = file.readLines().map { PasswordEntry(it) }
+        val result = lines.filter { entry -> entry.isValidPartTwo() }.count()
+        println("Number of valid entries for part two: $result")
     }
 }

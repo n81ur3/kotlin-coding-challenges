@@ -1,4 +1,4 @@
-package adventofcode
+package adventofcode2020
 
 class Day02PasswordPhilosophy
 
@@ -21,6 +21,8 @@ data class PasswordEntry(val line: String) {
         val characterCount = entry.filter { it == character }.count()
         return characterCount in lowerLimit..upperLimit
     }
+
+    fun isValidPartTwo(): Boolean = (entry[lowerLimit - 1] == character) xor (entry[upperLimit - 1] == character)
 
     override fun toString(): String {
         return "PasswordEntry(lowerLimit=$lowerLimit, upperLimit=$upperLimit, character=$character, entry='$entry')"
