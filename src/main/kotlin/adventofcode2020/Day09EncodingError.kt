@@ -1,0 +1,3 @@
+package adventofcode2020
+
+class Day09EncodingError
