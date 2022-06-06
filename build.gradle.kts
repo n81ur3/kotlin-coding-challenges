@@ -15,6 +15,8 @@ dependencies {
 	implementation("junit:junit:4.13.1")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
 	testImplementation("org.amshove.kluent:kluent:1.65")
+	implementation(kotlin("test"))
+	implementation(kotlin("test-junit"))
 }
 
 tasks.test {
