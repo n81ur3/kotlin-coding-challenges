@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
 
-    class Day16TicketTranslationTest {
+class Day16TicketTranslationTest {
     lateinit var file: File
 
     @BeforeEach
@@ -64,7 +64,7 @@ import java.io.File
         val departureFieldIndexes = ticketFields.filter { entry -> entry.second.contains("departure") }
 
         var result = 1L
-        departureFieldIndexes.forEach { entry -> result *= myTicketFields[entry.first]}
+        departureFieldIndexes.forEach { entry -> result *= myTicketFields[entry.first] }
 
         //426362917709
         println("Solution day16 part 2: $result")
