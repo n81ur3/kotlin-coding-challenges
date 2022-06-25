@@ -40,8 +40,22 @@ class Day17ConwayCubesTest {
         )
 
         val conwayCube = ConwayCube.fromLines(lines)
-        println(conwayCube.getActiveNeighborCountAt(0,0,0))
-        conwayCube.takeTurn()
+        conwayCube.printCubeLayers()
+        repeat(6) {
+            conwayCube.takeTurn()
+            conwayCube.printCubeLayers()
+        }
+
+        println("Number of active cubes after six cycles: ${conwayCube.numberOfActiveCubes}")
+    }
+
+    @Test
+    fun solutionDay17Part1() {
+        val lines = file.readLines()
+        val conwayCube = ConwayCube.fromLines(lines)
+
+        repeat(6) { conwayCube.takeTurn() }
+        println("Solution day17 part 1: Number of active cells after six cycles = ${conwayCube.numberOfActiveCubes}")
     }
 
 
