@@ -19,7 +19,7 @@ class Day17ConwayCubesTest {
         conwayCube.printActiveCubes()
         conwayCube.printCubeLayers()
 
-        println(conwayCube.getCubeAtPosition(1, 0, 1))
+        println(conwayCube.getCubeAtPosition(1, 0, 1, 0))
     }
 
     @Test
@@ -28,7 +28,7 @@ class Day17ConwayCubesTest {
         val conwayCube = ConwayCube.fromLines(lines)
         conwayCube.printCubeLayers()
 
-        println("Active neighbors: ${conwayCube.getActiveNeighborCountAt(7, 7, 0)}")
+        println("Active neighbors: ${conwayCube.getActiveNeighborCountAt(7, 7, 0, 0)}")
     }
 
     @Test
@@ -55,7 +55,7 @@ class Day17ConwayCubesTest {
         val conwayCube = ConwayCube.fromLines(lines)
 
         repeat(6) { conwayCube.takeTurn() }
-        println("Solution day17 part 1: Number of active cells after six cycles = ${conwayCube.numberOfActiveCubes}")
+        println("Solution day17 part 2: Number of active cells after six cycles = ${conwayCube.numberOfActiveCubes}")
     }
 
 

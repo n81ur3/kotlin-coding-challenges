@@ -7,7 +7,7 @@ enum class CubeState {
     INACTIVE
 }
 
-data class Cube(var x: Int, var y: Int, val z: Int, var state: CubeState = CubeState.INACTIVE) {
+data class Cube(var x: Int, var y: Int, val z: Int, val w: Int, var state: CubeState = CubeState.INACTIVE) {
     override fun toString(): String = "[$x/$y/$z]"
 }
 
@@ -24,6 +24,10 @@ class ConwayCube(val activeCubes: MutableList<Cube>) {
         get() = activeCubes.minByOrNull { cube -> cube.z }?.z ?: 0
     val maxZ: Int
         get() = activeCubes.maxByOrNull { cube -> cube.z }?.z ?: 0
+    val minW: Int
+        get() = activeCubes.minByOrNull { cube -> cube.w }?.w ?: 0
+    val maxW: Int
+        get() = activeCubes.maxByOrNull { cube -> cube.w }?.w ?: 0
     val numberOfActiveCubes
         get() = activeCubes.size
 
@@ -38,6 +42,7 @@ class ConwayCube(val activeCubes: MutableList<Cube>) {
                                 xIndex,
                                 yIndex,
                                 0,
+                                0,
                                 CubeState.ACTIVE
                             )
                         )
@@ -48,48 +53,33 @@ class ConwayCube(val activeCubes: MutableList<Cube>) {
         }
     }
 
-    fun getActiveNeighborCountAt(x: Int, y: Int, z: Int): Int {
-        val offsets = listOf(
-            Triple(-1, -1, 1),
-            Triple(0, -1, 1),
-            Triple(1, -1, 1),
-            Triple(-1, 0, 1),
-            Triple(0, 0, 1),
-            Triple(1, 0, 1),
-            Triple(-1, 1, 1),
-            Triple(0, 1, 1),
-            Triple(1, 1, 1),
-            Triple(-1, -1, 0),
-            Triple(0, -1, 0),
-            Triple(1, -1, 0),
-            Triple(-1, 0, 0),
-            Triple(1, 0, 0),
-            Triple(-1, 1, 0),
-            Triple(0, 1, 0),
-            Triple(1, 1, 0),
-            Triple(-1, -1, -1),
-            Triple(0, -1, -1),
-            Triple(1, -1, -1),
-            Triple(-1, 0, -1),
-            Triple(0, 0, -1),
-            Triple(1, 0, -1),
-            Triple(-1, 1, -1),
-            Triple(0, 1, -1),
-            Triple(1, 1, -1),
-        )
-        val neighborCubes = offsets.mapNotNull { (xOffset, yOffset, zOffset) ->
+    data class Offset(val xOffset: Int, val yOffset: Int, val zOffset: Int, val wOffset: Int)
+
+    fun getActiveNeighborCountAt(x: Int, y: Int, z: Int, w: Int): Int {
+        val offsets = mutableListOf<Offset>()
+        (-1..1).forEach { xOffset ->
+            (-1..1).forEach { yOffset ->
+                (-1..1).forEach { zOffset ->
+                    (-1..1).forEach { wOffset ->
+                        offsets.add(Offset(xOffset, yOffset, zOffset, wOffset))
+                    }
+                }
+            }
+        }
+        val neighborCubes = offsets.mapNotNull { (xOffset, yOffset, zOffset, wOffset) ->
             val xPos = x + xOffset
             val yPos = y + yOffset
             val zPos = z + zOffset
-            getCubeAtPosition(xPos, yPos, zPos)
+            val wPos = w + wOffset
+            getCubeAtPosition(xPos, yPos, zPos, wPos)
         }.toMutableSet()
 
-        neighborCubes.removeIf { cube -> cube == Cube(x, y, z, CubeState.ACTIVE) }
+        neighborCubes.removeIf { cube -> cube == Cube(x, y, z, w, CubeState.ACTIVE) }
         return neighborCubes.size
     }
 
-    fun getCubeAtPosition(x: Int, y: Int, z: Int): Cube? {
-        return activeCubes.find { it.x == x && it.y == y && it.z == z }
+    fun getCubeAtPosition(x: Int, y: Int, z: Int, w: Int): Cube? {
+        return activeCubes.find { it.x == x && it.y == y && it.z == z && it.w == w }
     }
 
     fun takeTurn() {
@@ -97,13 +87,15 @@ class ConwayCube(val activeCubes: MutableList<Cube>) {
         (minX - 1..maxX + 1).forEach { x ->
             (minY - 1..maxY + 1).forEach { y ->
                 (minZ - 1..maxZ + 1).forEach { z ->
-                    if (getCubeAtPosition(x, y, z) != null) {
-                        if (getActiveNeighborCountAt(x, y, z) in 2..3) {
-                            newCubes.add(getCubeAtPosition(x, y, z)!!)
-                        }
-                    } else {
-                        if (getActiveNeighborCountAt(x, y, z) == 3) {
-                            newCubes.add(Cube(x, y, z, state = CubeState.ACTIVE))
+                    (minW - 1..maxW + 1).forEach { w ->
+                        if (getCubeAtPosition(x, y, z, w) != null) {
+                            if (getActiveNeighborCountAt(x, y, z, w) in 2..3) {
+                                newCubes.add(getCubeAtPosition(x, y, z, w)!!)
+                            }
+                        } else {
+                            if (getActiveNeighborCountAt(x, y, z, w) == 3) {
+                                newCubes.add(Cube(x, y, z, w, state = CubeState.ACTIVE))
+                            }
                         }
                     }
                 }
@@ -118,13 +110,15 @@ class ConwayCube(val activeCubes: MutableList<Cube>) {
     }
 
     fun printCubeLayers() {
-        (minZ..maxZ).forEach { z ->
-            println("z=$z")
-            (minY..maxY).forEach { y ->
-                (minX..maxX).forEach { x ->
-                    print(if (getCubeAtPosition(x, y, z) != null) '#' else '.')
+        (minW..maxW).forEach { w ->
+            (minZ..maxZ).forEach { z ->
+                println("z=$z, w=$w")
+                (minY..maxY).forEach { y ->
+                    (minX..maxX).forEach { x ->
+                        print(if (getCubeAtPosition(x, y, z, w) != null) '#' else '.')
+                    }
+                    println()
                 }
-                println()
             }
         }
         println("-".repeat(20))
