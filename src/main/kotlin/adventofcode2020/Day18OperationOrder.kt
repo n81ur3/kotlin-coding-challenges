@@ -26,12 +26,29 @@ class OperationEvaluator {
         return purgedOperation
     }
 
+    private fun evaluateAndReplaceAdditions(operation: String): String {
+        var currentOperation = operation
+        while (currentOperation.contains("+")) {
+            currentOperation = evaluateAndReplaceNextAddition(currentOperation)
+        }
+        return currentOperation
+    }
+
+    private fun evaluateAndReplaceNextAddition(operation: String): String {
+        val substringBefore = operation.substringBefore("+")
+        val substringAfter = operation.substringAfter("+")
+        val secondOperant = substringAfter.takeWhile { char -> char.isDigit() }.toLong()
+        val firstOperant = substringBefore.reversed().takeWhile { char -> char.isDigit() }.reversed().toLong()
+        return substringBefore.dropLastWhile { char -> char.isDigit() } + (firstOperant + secondOperant) + substringAfter.dropWhile { char -> char.isDigit() }
+    }
+
     fun evaluateOperation(operation: String): Long {
-        var result: Long = operation.takeWhile { it.isDigit() }.toLong()
-        (1 until operation.length).forEach { index ->
-            when (operation[index]) {
-                '+' -> result += operation.substring(index + 1).takeWhile { it.isDigit() }.toLong()
-                '*' -> result *= operation.substring(index + 1).takeWhile { it.isDigit() }.toLong()
+        val multiplyOnlyOperation = evaluateAndReplaceAdditions(operation)
+        var result: Long = multiplyOnlyOperation.takeWhile { it.isDigit() }.toLong()
+        (1 until multiplyOnlyOperation.length).forEach { index ->
+            when (multiplyOnlyOperation[index]) {
+                '+' -> result += multiplyOnlyOperation.substring(index + 1).takeWhile { it.isDigit() }.toLong()
+                '*' -> result *= multiplyOnlyOperation.substring(index + 1).takeWhile { it.isDigit() }.toLong()
             }
         }
         return result
@@ -41,7 +58,7 @@ class OperationEvaluator {
         val paranthesesPairs = mutableListOf<Pair<Int, Int>>()
         val openParanthesesIndexes = mutableListOf<Int>()
         operation.forEachIndexed { index, char ->
-            when(char) {
+            when (char) {
                 '(' -> openParanthesesIndexes.add(index)
                 ')' -> {
                     val openIndex = openParanthesesIndexes.removeLast()
@@ -49,6 +66,6 @@ class OperationEvaluator {
                 }
             }
         }
-        return paranthesesPairs.sortedBy{ it.second - it.first }
+        return paranthesesPairs.sortedBy { it.second - it.first }
     }
 }
