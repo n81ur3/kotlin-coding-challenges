@@ -113,9 +113,6 @@ class Day21AllergenAssessmentTest {
 
     @Test
     fun solutionDay21Part02() {
-        val lines = file.readLines()
-        val grocery = Grocery.buildGroceryFromStrings(lines)
-
         val foodsWithAllergen = mapOf(
             "fish" to "cxk",
             "soy" to "cfnt",
