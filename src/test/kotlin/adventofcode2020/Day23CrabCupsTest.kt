@@ -1,6 +1,5 @@
 package adventofcode2020
 
-import org.junit.Assert.*
 import org.junit.jupiter.api.Test
 
 class Day23CrabCupsTest {
@@ -21,5 +20,14 @@ class Day23CrabCupsTest {
             crabCupGame.move()
         }
         crabCupGame.getResult()
+    }
+
+    @Test
+    fun solutionDay23Part02() {
+        val cups = Day23CrabCups.Cups("952316487", 1_000_000)
+        val firstCup = cups.playRounds(10_000_000)
+        val nextTwo = firstCup.nextAsList(2).map { it.value.toLong() }
+        val result = nextTwo.reduce { acc, next -> acc * next }
+        println("Result: $result")
     }
 }
