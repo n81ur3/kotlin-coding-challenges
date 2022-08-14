@@ -65,8 +65,104 @@ class Day24LobbyLayoutTest {
         val lobbyLayout = Day24LobbyLayout()
         lobbyLayout.parseInput(input)
 
-        assertEquals(5, lobbyLayout.numberOfWhiteTiles())
         assertEquals(10, lobbyLayout.numberOfBlackTiles())
+
+        repeat(100) {
+            lobbyLayout.calculateLayoutForNextDay()
+            println("Day ${it + 1}: ${lobbyLayout.numberOfBlackTiles()}")
+        }
+//        assertEquals(15, lobbyLayout.numberOfBlackTiles())
+    }
+
+    @Test
+    fun solutionDay24Part01() {
+        val input = file.readLines()
+        val lobbyLayout = Day24LobbyLayout()
+        lobbyLayout.parseInput(input)
+        lobbyLayout.buildFloor()
+
+        println("Number of black tiles: ${lobbyLayout.numberOfBlackTiles()}")
+    }
+
+    @Test
+    fun getBlackAndWhiteNeighborCounts() {
+        val input = file.readLines()
+        val lobbyLayout = Day24LobbyLayout()
+        lobbyLayout.parseInput(input)
+        lobbyLayout.buildFloor()
+
+        println(
+            "Black neighbor count: ${
+                lobbyLayout.getColoredNeighborCountForTile(
+                    Day24LobbyLayout.Tile(-10f, 10f),
+                    Day24LobbyLayout.TileColor.BLACK
+                )
+            }"
+        )
+        println(
+            "White neighbor count: ${
+                lobbyLayout.getColoredNeighborCountForTile(
+                    Day24LobbyLayout.Tile(-10f, 10f),
+                    Day24LobbyLayout.TileColor.WHITE
+                )
+            }"
+        )
+    }
+
+    @Test
+    fun checkNeighborCountAtPosition() {
+        val lobbyLayout = Day24LobbyLayout()
+        lobbyLayout.buildFloor()
+
+        lobbyLayout.flipTileAtPosition(-0.5f, 3f)
+        lobbyLayout.flipTileAtPosition(0.5f, 3f)
+        lobbyLayout.flipTileAtPosition(-1f, 2f)
+        lobbyLayout.flipTileAtPosition(1f, 2f)
+        lobbyLayout.flipTileAtPosition(-0.5f, 1f)
+        lobbyLayout.flipTileAtPosition(0.5f, 1f)
+
+        assertEquals(
+            6,
+            lobbyLayout.getColoredNeighborCountForTile(
+                Day24LobbyLayout.Tile(0.0f, 2f),
+                Day24LobbyLayout.TileColor.BLACK
+            )
+        )
+
+        lobbyLayout.flipTileAtPosition(1f, 2f)
+
+        assertEquals(
+            1,
+            lobbyLayout.getColoredNeighborCountForTile(
+                Day24LobbyLayout.Tile(0.0f, 2f),
+                Day24LobbyLayout.TileColor.WHITE
+            )
+        )
+
+        lobbyLayout.flipTileAtPosition(1f, 2f)
+
+        assertEquals(
+            6,
+            lobbyLayout.getColoredNeighborCountForTile(
+                Day24LobbyLayout.Tile(0.0f, 2f),
+                Day24LobbyLayout.TileColor.BLACK
+            )
+        )
+
+        lobbyLayout.flipTileAtPosition(-0.5f, 3f)
+        lobbyLayout.flipTileAtPosition(0.5f, 3f)
+        lobbyLayout.flipTileAtPosition(-1f, 2f)
+        lobbyLayout.flipTileAtPosition(1f, 2f)
+        lobbyLayout.flipTileAtPosition(-0.5f, 1f)
+        lobbyLayout.flipTileAtPosition(0.5f, 1f)
+
+        assertEquals(
+            6,
+            lobbyLayout.getColoredNeighborCountForTile(
+                Day24LobbyLayout.Tile(0.0f, 2f),
+                Day24LobbyLayout.TileColor.WHITE
+            )
+        )
     }
 
     @Test
@@ -75,6 +171,10 @@ class Day24LobbyLayoutTest {
         val lobbyLayout = Day24LobbyLayout()
         lobbyLayout.parseInput(input)
 
-        println("Number of black tiles: ${lobbyLayout.numberOfBlackTiles()}")
+        repeat(100) {
+            lobbyLayout.calculateLayoutForNextDay()
+        }
+
+        println("Number of black tiles after 100 days: ${lobbyLayout.numberOfBlackTiles()}")
     }
 }
