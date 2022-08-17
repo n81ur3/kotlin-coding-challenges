@@ -4,6 +4,7 @@ import adventofcode2020.WaypointDirection.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day12RainRiskTest {
@@ -11,7 +12,7 @@ class Day12RainRiskTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day12_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day12_input.txt")
     }
 
     @Test

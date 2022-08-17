@@ -1,8 +1,8 @@
 package adventofcode2020
 
-import org.junit.Assert.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day08HandheldHaltingTest {
@@ -10,7 +10,7 @@ class Day08HandheldHaltingTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day08_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day08_input.txt")
     }
 
     @Test

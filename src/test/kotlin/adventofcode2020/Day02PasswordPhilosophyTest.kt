@@ -3,6 +3,7 @@ package adventofcode2020
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day02PasswordPhilosophyTest {
@@ -11,7 +12,7 @@ class Day02PasswordPhilosophyTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day02_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day02_input.txt")
     }
 
     @Test

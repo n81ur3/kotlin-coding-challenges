@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day24LobbyLayoutTest {
@@ -11,7 +12,7 @@ class Day24LobbyLayoutTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day24_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day24_input.txt")
     }
 
     @Test

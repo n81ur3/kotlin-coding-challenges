@@ -3,6 +3,7 @@ package adventofcode2020
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day18OperationOrderTest {
@@ -10,7 +11,7 @@ class Day18OperationOrderTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day18_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day18_input.txt")
     }
 
 

@@ -1,4 +1,4 @@
-package adventofcode2020
+package utils
 
 import java.io.File
 

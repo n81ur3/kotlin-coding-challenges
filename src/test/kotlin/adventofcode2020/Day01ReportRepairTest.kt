@@ -1,13 +1,13 @@
 package adventofcode2020
 
 import org.junit.jupiter.api.Test
-import java.io.File
+import utils.ResourceLoader
 
 class Day01ReportRepairTest {
 
     @Test
     fun solution01_1() {
-        val file = ResourceLoader.getFile("day01_input.txt")
+        val file = ResourceLoader.getFile("aoc2020/day01_input.txt")
         val numbers = file.readLines().map { it.toInt() }
         numbers.forEach { first ->
             numbers.forEach { second ->
@@ -23,7 +23,7 @@ class Day01ReportRepairTest {
 
     @Test
     fun solution01_2() {
-        val file = ResourceLoader.getFile("day01_input.txt")
+        val file = ResourceLoader.getFile("aoc2020/day01_input.txt")
         val numbers = file.readLines().map { it.toInt() }
         numbers.forEach { first ->
             numbers.forEach { second ->

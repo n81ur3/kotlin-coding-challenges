@@ -2,6 +2,7 @@ package adventofcode2020
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day06CustomCustomsTest {
@@ -9,7 +10,7 @@ class Day06CustomCustomsTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day06_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day06_input.txt")
     }
 
     @Test

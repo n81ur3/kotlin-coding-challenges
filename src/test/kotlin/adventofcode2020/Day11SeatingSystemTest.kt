@@ -3,6 +3,7 @@ package adventofcode2020
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import utils.ResourceLoader
 import java.io.File
 
 class Day11SeatingSystemTest {
@@ -10,7 +11,7 @@ class Day11SeatingSystemTest {
 
     @BeforeEach
     fun setup() {
-        file = ResourceLoader.getFile("day11_input.txt")
+        file = ResourceLoader.getFile("aoc2020/day11_input.txt")
     }
 
     @Test
