@@ -15,14 +15,24 @@ class Day01InverseCaptchaTest {
     }
 
     @Test
-    fun printInputCaptcha() {
+    fun solutionPart1() {
         val input = file.readLines()
-        println(input[0])
-
         val captchaEvaluator = Day01InverseCaptcha(input[0])
+
         val solutionPart1 = captchaEvaluator.calculateCaptchaSum()
 
         assertEquals(1175, solutionPart1)
         println("Solution for AoC2017-Day01-Part01: $solutionPart1")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val captchaEvaluator = Day01InverseCaptcha(input[0])
+
+        val solutionPart2 = captchaEvaluator.calculateCaptchaSumPart2()
+
+        assertEquals(1166, solutionPart2)
+        println("Solution for AoC2017-Day01-Part02: $solutionPart2")
     }
 }
