@@ -15,7 +15,7 @@ class Day02CorrectionChecksumTest {
     }
 
     @Test
-    fun checkSample() {
+    fun checkSamplePart1() {
         val input = listOf(
             "5 1     9 5",
             "7    5    3",
@@ -30,6 +30,21 @@ class Day02CorrectionChecksumTest {
     }
 
     @Test
+    fun checkSamplePart2() {
+        val input = listOf(
+            "5 9 2 8",
+            "9 4 7 3",
+            "3 8 6 5"
+        )
+
+        val checksumCalculator = ChecksumCalculator(input)
+        val checksum = checksumCalculator.calculateChecksum2()
+
+        assertEquals(9, checksum)
+        println("Sample result: $checksum")
+    }
+
+    @Test
     fun solutionPart1() {
         val input = file.readLines()
         val checksumCalculator = ChecksumCalculator(input)
@@ -38,5 +53,15 @@ class Day02CorrectionChecksumTest {
 
         assertEquals(58975, checksum)
         println("Solution AoC2017-Day02-Part01: $checksum")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val checksumCalculator = ChecksumCalculator(input)
+
+        val checksum = checksumCalculator.calculateChecksum2()
+
+        println("Solution AoC2017-Day02-Par02: $checksum")
     }
 }
