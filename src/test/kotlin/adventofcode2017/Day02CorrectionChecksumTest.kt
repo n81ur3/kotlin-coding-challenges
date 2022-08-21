@@ -62,6 +62,6 @@ class Day02CorrectionChecksumTest {
 
         val checksum = checksumCalculator.calculateChecksum2()
 
-        println("Solution AoC2017-Day02-Par02: $checksum")
+        println("Solution AoC2017-Day02-Part02: $checksum")
     }
 }

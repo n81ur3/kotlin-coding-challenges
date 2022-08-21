@@ -14,8 +14,9 @@ enum class Direction {
     DOWN
 }
 
-class SpiralMemory(private val input: Int) {
+class SpiralMemory(private val input: Int = 1) {
     private val memory = mutableMapOf<Int, Coordinate>()
+    private val stressTestMemory = mutableMapOf<Coordinate, Int>()
     private var maxX = 1
     private var minX = -1
     private var maxY = 1
@@ -35,53 +36,89 @@ class SpiralMemory(private val input: Int) {
         }
     }
 
-    fun manhattanDistanceForCell(value: Int): Int {
-        memory[value]?.let { coordinate ->
-            return (coordinate.x.absoluteValue + coordinate.y.absoluteValue)
-        } ?: return 0
+    private fun buildStressTestMemory(targetValue: Int) {
+        var currentValue = 1
+        var currentPosition = Coordinate(0, 0)
+        stressTestMemory[currentPosition] = currentValue
+        currentPosition = getNextPosition(currentPosition)
+        do {
+            currentValue = sumOfNeighborsAtPos(currentPosition.x, currentPosition.y)
+            stressTestMemory[currentPosition] = currentValue
+            currentPosition = getNextPosition(currentPosition)
+        } while (currentValue < targetValue)
     }
 
-    private fun getNextPosition(currentPosition: Coordinate): Coordinate {
-        when (currentDirection) {
-            RIGHT -> {
-                return if (currentPosition.x == maxX) {
-                    currentDirection = UP
-                    maxX++
-                    Coordinate(currentPosition.x, currentPosition.y - 1)
-                } else {
-                    Coordinate(currentPosition.x + 1, currentPosition.y)
-                }
-            }
+    fun stressTest(targetValue: Int): Int {
+        buildStressTestMemory(targetValue)
+        return stressTestMemory.values.last()
+    }
 
-            UP -> {
-                return if (currentPosition.y == minY) {
-                    currentDirection = LEFT
-                    minY--
-                    Coordinate(currentPosition.x - 1, currentPosition.y)
-                } else {
-                    Coordinate(currentPosition.x, currentPosition.y - 1)
-                }
-            }
+    private fun sumOfNeighborsAtPos(x: Int, y: Int): Int {
+        val offsets = listOf(
+            -1 to 0,
+            -1 to 1,
+            -1 to -1,
+            0 to 1,
+            0 to -1,
+            1 to 0,
+            1 to 1,
+            1 to -1
+        )
 
-            LEFT -> {
-                return if (currentPosition.x == minX) {
-                    currentDirection = DOWN
-                    minX--
-                    Coordinate(currentPosition.x, currentPosition.y + 1)
-                } else {
-                    Coordinate(currentPosition.x - 1, currentPosition.y)
-                }
-            }
+        val neighbors = offsets.mapNotNull { offset ->
+            stressTestMemory.keys.find { it.x == x + offset.first && it.y == y + offset.second }
+        }
 
-            DOWN -> {
-                return if (currentPosition.y == maxY) {
-                    currentDirection = RIGHT
-                    maxY++
-                    Coordinate(currentPosition.x + 1, currentPosition.y)
-                } else {
-                    Coordinate(currentPosition.x, currentPosition.y + 1)
+        return stressTestMemory.filter { it.key in neighbors }.values.sum()
+    }
+
+        fun manhattanDistanceForCell(value: Int): Int {
+            memory[value]?.let { coordinate ->
+                return (coordinate.x.absoluteValue + coordinate.y.absoluteValue)
+            } ?: return 0
+        }
+
+        private fun getNextPosition(currentPosition: Coordinate): Coordinate {
+            when (currentDirection) {
+                RIGHT -> {
+                    return if (currentPosition.x == maxX) {
+                        currentDirection = UP
+                        maxX++
+                        Coordinate(currentPosition.x, currentPosition.y - 1)
+                    } else {
+                        Coordinate(currentPosition.x + 1, currentPosition.y)
+                    }
+                }
+
+                UP -> {
+                    return if (currentPosition.y == minY) {
+                        currentDirection = LEFT
+                        minY--
+                        Coordinate(currentPosition.x - 1, currentPosition.y)
+                    } else {
+                        Coordinate(currentPosition.x, currentPosition.y - 1)
+                    }
+                }
+
+                LEFT -> {
+                    return if (currentPosition.x == minX) {
+                        currentDirection = DOWN
+                        minX--
+                        Coordinate(currentPosition.x, currentPosition.y + 1)
+                    } else {
+                        Coordinate(currentPosition.x - 1, currentPosition.y)
+                    }
+                }
+
+                DOWN -> {
+                    return if (currentPosition.y == maxY) {
+                        currentDirection = RIGHT
+                        maxY++
+                        Coordinate(currentPosition.x + 1, currentPosition.y)
+                    } else {
+                        Coordinate(currentPosition.x, currentPosition.y + 1)
+                    }
                 }
             }
         }
     }
-}
