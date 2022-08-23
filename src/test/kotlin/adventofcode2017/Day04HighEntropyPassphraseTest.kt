@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource
 import utils.ResourceLoader
 import java.io.File
 
-class Day04HighEntryopyPassphraseTest {
+class Day04HighEntropyPassphraseTest {
     lateinit var file: File
 
     @BeforeEach
@@ -66,6 +66,7 @@ class Day04HighEntryopyPassphraseTest {
         val passphrases = input.map { Passphrase(it) }
         val solution = passphrases.filter { it.isSecure() }.size
 
+        assertEquals(223, solution)
         println("Solution AoC2017-Day04-Part02: $solution")
     }
 }
