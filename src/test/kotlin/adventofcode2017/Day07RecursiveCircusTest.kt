@@ -14,7 +14,6 @@ class Day07RecursiveCircusTest {
         file = ResourceLoader.getFile("aoc2017/aoc2017_day07_input.txt")
     }
 
-
     @Test
     fun runSamplePart1() {
         val input = listOf(
