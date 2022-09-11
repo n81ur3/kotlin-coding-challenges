@@ -3,6 +3,9 @@ package adventofcode2017
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import utils.ResourceLoader
 import java.io.File
 
@@ -37,19 +40,11 @@ class Day10KnotHashTest {
         println("Dense Hash: $result")
     }
 
-    @Test
-    fun runSamplePart2() {
-        val samples = mapOf(
-            "" to "a2582a3a0e66e6e86e3812dcb672a272",
-            "AoC 2017" to "33efeb34ea91902bb2f59c9920caa6cd",
-            "1,2,3" to "3efbe78a8d82f29979031a4aa0b16a9d",
-            "1,2,4" to "63960835bcdc130f0b66d7ff4f6a5a8e"
-        )
+    @ParameterizedTest
+    @MethodSource("samplesPart2")
+    fun runSamplePart2(input: String, expectedHash: String) {
         val knotHash = KnotHash(256)
-        samples.forEach { input, hash ->
-            assertEquals(hash, knotHash.hashAdvanced(input))
-            knotHash.reset()
-        }
+        assertEquals(expectedHash, knotHash.hashAdvanced(input))
     }
 
     @Test
@@ -72,5 +67,15 @@ class Day10KnotHashTest {
 
         assertEquals("2f8c3d2100fdd57cec130d928b0fd2dd", result)
         println("Solution for day 10 part 2: $result")
+    }
+
+    companion object {
+        @JvmStatic
+        fun samplesPart2() = listOf(
+            Arguments.of("", "a2582a3a0e66e6e86e3812dcb672a272"),
+            Arguments.of("AoC 2017", "33efeb34ea91902bb2f59c9920caa6cd"),
+            Arguments.of("1,2,3", "3efbe78a8d82f29979031a4aa0b16a9d"),
+            Arguments.of("1,2,4", "63960835bcdc130f0b66d7ff4f6a5a8e")
+        )
     }
 }
