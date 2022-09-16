@@ -9,6 +9,8 @@ enum class HexDirection {
 }
 
 class HexWalker(var curX: Int = 0, var curY: Int = 0) {
+    var furthestPath = 0
+
     companion object {
         val directionMap = mapOf(
             "n" to N,
@@ -31,7 +33,10 @@ class HexWalker(var curX: Int = 0, var curY: Int = 0) {
 
     fun walkPath(path: String) {
         val steps = path.split(",")
-        steps.forEach { step(directionMap[it] ?: NOP) }
+        steps.forEach {
+            step(directionMap[it] ?: NOP)
+            updateFurthestPath()
+        }
     }
 
     fun getFewestStepCountToStart(): Int {
@@ -42,7 +47,7 @@ class HexWalker(var curX: Int = 0, var curY: Int = 0) {
             return (diff / 2) + (xAbs - diff)
         } else if (yAbs > xAbs) {
             val diff = yAbs - xAbs
-            return (diff / 2) + (yAbs -diff)
+            return (diff / 2) + (yAbs - diff)
         } else {
             return xAbs
         }
@@ -73,5 +78,11 @@ class HexWalker(var curX: Int = 0, var curY: Int = 0) {
                 curY++
             }
         }
+
+    }
+
+    private fun updateFurthestPath() {
+        val currentPathLength = getFewestStepCountToStart()
+        if (currentPathLength > furthestPath) furthestPath = currentPathLength
     }
 }

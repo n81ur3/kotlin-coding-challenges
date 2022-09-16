@@ -40,6 +40,18 @@ class Day11HexEdTest {
         println("Solution for day 11 part 1: $shortestPathStepCount")
     }
 
+    @Test
+    fun solution_part2() {
+        val input = file.readLines()[0]
+        val hexWalker = HexWalker()
+
+        hexWalker.walkPath(input)
+
+        val furthestPath = hexWalker.furthestPath
+        assertEquals(1558, furthestPath)
+        println("Solution for day 11 part 2: $furthestPath")
+    }
+
     companion object {
         @JvmStatic
         fun samplesPart1() = listOf(
