@@ -35,6 +35,25 @@ class Day12DigitalPlumberTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val input = listOf(
+            "0 <-> 2",
+            "1 <-> 1",
+            "2 <-> 0, 3, 4",
+            "3 <-> 2, 4",
+            "4 <-> 2, 3, 6",
+            "5 <-> 6",
+            "6 <-> 4, 5"
+        )
+
+        val plumbParser = PlumbParser(input)
+        plumbParser.buildGroups()
+
+        assertEquals(2, plumbParser.numberOfGroups)
+        println("Number of groups: ${plumbParser.numberOfGroups}")
+    }
+
+    @Test
     fun solution_part1() {
         val input = file.readLines()
         val plumbParser = PlumbParser(input)
@@ -44,4 +63,14 @@ class Day12DigitalPlumberTest {
         println("Solution for day 12 part 1: $result")
     }
 
+    @Test
+    fun solution_part2() {
+        val input = file.readLines()
+        val plumbParser = PlumbParser(input)
+
+        plumbParser.buildGroups()
+
+        assertEquals(181, plumbParser.numberOfGroups)
+        println("Solution for day 13 part 2: ${plumbParser.numberOfGroups}")
+    }
 }

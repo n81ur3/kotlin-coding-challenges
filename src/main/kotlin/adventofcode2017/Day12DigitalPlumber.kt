@@ -6,6 +6,9 @@ data class PlumbProgram(val id: Int, val pipes: MutableList<Int>)
 
 class PlumbParser(input: List<String>) {
     val programms: MutableList<PlumbProgram>
+    val groups = mutableListOf<Int>()
+    val numberOfGroups: Int
+        get() = groups.size
 
     init {
         programms = input.map { parseLine(it) }.toMutableList()
@@ -20,7 +23,7 @@ class PlumbParser(input: List<String>) {
     fun getZeroIdGroupSize(): Int =
         programms.filter { it.id == 0 || containsZeroIdProgram(it.pipes, mutableListOf()) }.count()
 
-    fun containsZeroIdProgram(programIds: List<Int>, alreadyCheckedIds: MutableList<Int>): Boolean {
+    private fun containsZeroIdProgram(programIds: List<Int>, alreadyCheckedIds: MutableList<Int>): Boolean {
         if (programIds.isEmpty()) return false
         programIds.forEach { programId ->
             val currentProgram = programms.find { it.id == programId } ?: return false
@@ -38,5 +41,26 @@ class PlumbParser(input: List<String>) {
             }
         }
         return false
+    }
+
+    fun buildGroups() {
+        programms.forEach {
+            val result = findGroupId(it.pipes, mutableListOf())
+            result ?: groups.add(it.id)
+        }
+    }
+
+    private fun findGroupId(programIds: List<Int>, alreadyCheckedIds: MutableList<Int>): Int? {
+        var result = programIds.firstOrNull { groups.contains(it) }
+        result?.let { return result }
+        for (pipeP in programIds) {
+            val program = programms.find { it.id == pipeP }
+            program?.let {
+                alreadyCheckedIds.add(program.id)
+                result = findGroupId(program.pipes.filterNot { alreadyCheckedIds.contains(it) }, alreadyCheckedIds)
+            }
+            result?.let { return result }
+        }
+        return result
     }
 }
