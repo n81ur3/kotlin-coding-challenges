@@ -14,7 +14,6 @@ class Day12DigitalPlumberTest {
         file = ResourceLoader.getFile("aoc2017/aoc2017_day12_input.txt")
     }
 
-
     @Test
     fun runSamplePart1() {
         val input = listOf(
