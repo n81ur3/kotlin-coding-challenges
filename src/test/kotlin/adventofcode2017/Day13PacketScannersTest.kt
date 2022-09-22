@@ -31,11 +31,24 @@ class Day13PacketScannersTest {
             "4: 4",
             "6: 4"
         )
-
         val firewall = Firewall(input)
 
         assertEquals(24, firewall.calculateTotalSeverity())
         println("Total severity of sample part 1: ${firewall.calculateTotalSeverity()}")
+    }
+
+    @Test
+    fun runSamplePart2() {
+        val input = listOf(
+            "0: 3",
+            "1: 2",
+            "4: 4",
+            "6: 4"
+        )
+        val firewall = Firewall(input)
+
+        assertEquals(10, firewall.findBreakthroughDelay())
+        println("Delay for successful firewall breakthrough part 1: ${firewall.findBreakthroughDelay()}")
     }
 
     @Test
@@ -47,6 +60,17 @@ class Day13PacketScannersTest {
 
         assertEquals(748, totalSeverity)
         println("Solution for day 13 part 1: $totalSeverity")
+    }
+
+    @Test
+    fun solution_part2() {
+        val input = file.readLines()
+        val firewall = Firewall(input)
+
+        val breakthroughDelay = firewall.findBreakthroughDelay()
+
+        assertEquals(3873662, breakthroughDelay)
+        println("Solution for day 13 part 2: $breakthroughDelay")
     }
 
     companion object {

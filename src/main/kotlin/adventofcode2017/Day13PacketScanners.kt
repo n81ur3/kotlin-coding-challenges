@@ -6,26 +6,12 @@ data class Scanner(val depth: Int, val range: Int) {
     val severity: Int
         get() = depth * (range)
 
-    fun caught(step: Int): Boolean {
-        return (positionAtStep(step) == 0)
-    }
-
-    private fun positionAtStep(step: Int): Int {
-        var moveDown = true
-        var result = 0
-        (0 until step).forEach {
-            if (moveDown) result++
-            else result--
-            if (result == range - 1) moveDown = false
-            if (result == 0) moveDown = true
-        }
-        return result
-    }
+    fun caught(step: Int) = (step % ((range - 1) * 2)) == 0
 }
 
 class Firewall(config: List<String>) {
-    val scanners: List<Scanner>
-    val maxDepth: Int
+    private val scanners: List<Scanner>
+    private val maxDepth: Int
         get() = scanners.maxOf { it.depth }
 
     init {
@@ -43,5 +29,22 @@ class Firewall(config: List<String>) {
     private fun severityAtStep(step: Int): Int {
         val scanner = scanners.firstOrNull { it.depth == step } ?: return 0
         return if (scanner.caught(step)) scanner.severity else 0
+    }
+
+    fun findBreakthroughDelay(): Int {
+        var delay = 0
+        while (true) {
+            if (checkScannersWithDelay(delay)) return delay
+            delay++
+        }
+    }
+
+    private fun checkScannersWithDelay(delay: Int): Boolean {
+        return (0..maxDepth).none { caughtAtStep(it, it + delay) }
+    }
+
+    private fun caughtAtStep(depth: Int, delay: Int): Boolean {
+        val scanner = scanners.firstOrNull { it.depth == depth } ?: return false
+        return scanner.caught(delay)
     }
 }
