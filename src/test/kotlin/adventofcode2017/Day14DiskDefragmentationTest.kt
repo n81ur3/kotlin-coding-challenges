@@ -33,6 +33,18 @@ class Day14DiskDefragmentationTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val keyString = "flqrgnkx"
+        val defragmenter = Defragmenter()
+
+        defragmenter.buildDisc(keyString)
+        val numberOfGroups = defragmenter.defrag()
+
+        assertEquals(1242, numberOfGroups)
+        println("Number of groups for sample part 2 = $numberOfGroups")
+    }
+
+    @Test
     fun solution_part1() {
         val keyString = "jzgqcdpd"
         val defragmenter = Defragmenter()
@@ -42,5 +54,17 @@ class Day14DiskDefragmentationTest {
 
         assertEquals(8074, numberOfUsedSquares)
         println("Solution for day 14 part 1: $numberOfUsedSquares")
+    }
+
+    @Test
+    fun solution_part2() {
+        val keyString = "jzgqcdpd"
+        val defragmenter = Defragmenter()
+
+        defragmenter.buildDisc(keyString)
+        val numberOfGroups = defragmenter.defrag()
+
+        assertEquals(1212, numberOfGroups)
+        println("Solution for day 14 part 2: $numberOfGroups")
     }
 }

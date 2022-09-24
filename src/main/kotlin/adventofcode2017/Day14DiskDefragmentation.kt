@@ -2,8 +2,9 @@ package adventofcode2017
 
 class Day14DiskDefragmentation
 
-class Defragmenter() {
+class Defragmenter {
     val knotHash = KnotHash(256)
+    val disc = mutableListOf<MutableList<Int>>()
 
     fun calculateCompleteGrid(keyString: String): String {
         return buildString {
@@ -25,6 +26,43 @@ class Defragmenter() {
                 append(it.toHex())
             }
         }
+    }
+
+    fun buildDisc(keyString: String) {
+        val grid = calculateCompleteGrid(keyString)
+        grid.windowed(128, 128).forEach { row ->
+            val rowBits = row.map { if (it == '1') 1 else 0 }.toMutableList()
+            disc.add(rowBits)
+        }
+    }
+
+    fun defrag(): Int {
+        var groupCount = 0
+        disc.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, cell ->
+                if (cell == 1) {
+                    groupCount++
+                    markNeighbors(rowIndex, colIndex)
+                }
+            }
+        }
+        return groupCount
+    }
+
+    private fun markNeighbors(rowIndex: Int, colIndex: Int) {
+        if (disc[rowIndex][colIndex] == 1) {
+            disc[rowIndex][colIndex] = 0
+            getNeighbors(rowIndex, colIndex).forEach { markNeighbors(it.first, it.second) }
+        }
+    }
+
+    private fun getNeighbors(rowIndex: Int, colIndex: Int): List<Pair<Int, Int>> {
+        val result = mutableListOf<Pair<Int, Int>>()
+        if (rowIndex > 0) result.add(rowIndex - 1 to colIndex)
+        if (rowIndex < 127) result.add(rowIndex + 1 to colIndex)
+        if (colIndex > 0) result.add(rowIndex to colIndex - 1)
+        if (colIndex < 127) result.add(rowIndex to colIndex + 1)
+        return result
     }
 
     fun reset() {
