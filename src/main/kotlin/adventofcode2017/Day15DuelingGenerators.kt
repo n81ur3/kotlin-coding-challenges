@@ -2,13 +2,25 @@ package adventofcode2017
 
 class Day15DuelingGenerators
 
-data class Generator(val initValue: Long, val factor: Long) {
+data class Generator(
+    val initValue: Long,
+    val factor: Long,
+    val filter: Boolean = false,
+    val filterModulus: Long = 0L
+) {
     var currentValue = initValue
     val modulus = 2147483647
 
     fun next(): Long {
-        currentValue = (currentValue * factor) % modulus
-        return currentValue
+        if (filter) {
+            while (true) {
+                currentValue = (currentValue * factor) % modulus
+                if ((currentValue % filterModulus) == 0L) return currentValue
+            }
+        } else {
+            currentValue = (currentValue * factor) % modulus
+            return currentValue
+        }
     }
 }
 
