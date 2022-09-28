@@ -14,7 +14,6 @@ class Day13ShuttleSearchTest {
         file = ResourceLoader.getFile("aoc2020/day13_input.txt")
     }
 
-
     @Test
     fun busTripTime13_generateSequence() {
         val bus = Bus(13)
