@@ -61,4 +61,16 @@ class Day16PermutationPromenadeTest {
         assertEquals("ehdpincaogkblmfj", result)
         println("Solution for day 16 part 1: $result")
     }
+
+    @Test
+    fun solution_part2() {
+        val instructions = file.readLines()[0]
+        val dance = Dance(instructions)
+
+        dance.perform(1_000_000_000)
+        val result = dance.getProgramsAsString()
+
+        assertEquals("bpcekomfgjdlinha", result)
+        println("Solution for day 16 part 2: $result")
+    }
 }

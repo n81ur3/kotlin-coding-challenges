@@ -18,9 +18,28 @@ class Dance(instructions: String, numberOfPrograms: Int = 16) {
         }
     }
 
-    fun perform() {
-        commands.forEach { command -> command.execute(programs) }
+    fun perform(turnarounds: Int = 1) {
+        if (turnarounds == 1) {
+            performOneRound()
+            return
+        }
+        val remainingTurnarounds = (turnarounds % findTurnaroundTimes())
+        repeat(remainingTurnarounds) {
+            performOneRound()
+        }
     }
+
+    val initialOrder = "abcdefghijklmnop"
+    private fun findTurnaroundTimes(): Int {
+        var counter = 0
+        do {
+            performOneRound()
+            counter++
+        } while (getProgramsAsString() != initialOrder)
+        return counter
+    }
+
+    private fun performOneRound() = commands.forEach { command -> command.execute(programs) }
 
     fun getProgramsAsString(): String = programs.joinToString(separator = "")
 }
