@@ -20,7 +20,6 @@ class Day17SpinlockTest {
         val spinlock = Spinlock(3)
 
         spinlock.spin(10)
-
     }
 
     @Test
