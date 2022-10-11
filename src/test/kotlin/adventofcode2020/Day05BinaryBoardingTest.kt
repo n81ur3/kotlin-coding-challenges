@@ -1,6 +1,6 @@
 package adventofcode2020
 
-import org.junit.Assert.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import utils.ResourceLoader

@@ -1,35 +1,53 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.4.31"
+//    `java-library`
+	kotlin("jvm") version "1.7.0"
+	kotlin("plugin.serialization") version "1.7.0"
 }
+
+group = "com.kousenit"
+version = "1.0"
+
+val scriptname: String by project  // read value from gradle.properties
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.31")
-    implementation("junit:junit:4.13.1")
-	implementation("junit:junit:4.13.1")
-	testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-	testImplementation("org.amshove.kluent:kluent:1.65")
-	implementation(kotlin("test"))
-	implementation(kotlin("test-junit"))
+	implementation(kotlin("reflect"))
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
+	implementation("org.apache.commons:commons-math3:3.6.1")
+	implementation("com.google.code.gson:gson:2.9.0")
+	implementation("commons-validator:commons-validator:1.7")
+
+	testImplementation("org.hamcrest:hamcrest:2.2")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+	testImplementation(kotlin("test-junit5"))
+
+	implementation(kotlin("script-runtime"))
+	implementation(kotlin("stdlib-jdk8"))
 }
 
-tasks.test {
-	useJUnitPlatform()
-	
-	testLogging {
-		events("failed")
+java {
+	sourceCompatibility = JavaVersion.VERSION_11
+	targetCompatibility = JavaVersion.VERSION_11
+}
 
-		// log full stacktrace of failed test (assertion library descriptive error)
-		exceptionFormat = TestExceptionFormat.FULL
+tasks.named<Test>("test") {
+	useJUnitPlatform {
+		maxParallelForks = Runtime.getRuntime().availableProcessors() / 2 + 1
 	}
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-	kotlinOptions.jvmTarget = "1.8"
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		jvmTarget = "11"
+		freeCompilerArgs = listOf("-Xjsr305=strict")
+		suppressWarnings = true
+	}
 }

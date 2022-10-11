@@ -1,14 +1,43 @@
 package adventofcode2017
 
-import adventofcode2020.mod
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 
 class Day18Duet
 
-class Duet(private val input: List<String>) {
+enum class ProgramStatus {
+    RUNNING,
+    BLOCKED,
+    TERMINATED
+}
+
+class Duet(instructions: List<String>) {
+    val channelZeroToOne = Channel<Long>(Channel.UNLIMITED)
+    val channelOneToZero = Channel<Long>(Channel.UNLIMITED)
+    val programZero =
+        DuetProgram(instructions, channelZeroToOne, channelOneToZero, programId = 0L)
+    val programOne =
+        DuetProgram(instructions, channelOneToZero, channelZeroToOne, programId = 1L)
+
+    suspend fun run(): Int {
+        CoroutineScope(Dispatchers.IO).launch { programZero.executeCommands() }
+        val jobOne = CoroutineScope(Dispatchers.Default).async { programOne.executeCommands() }
+        jobOne.join()
+        return programOne.sendCount
+    }
+}
+
+class DuetProgram(
+    input: List<String>,
+    val sendChannel: Channel<Long>,
+    val receiveChannel: Channel<Long>,
+    var programStatus: ProgramStatus = ProgramStatus.RUNNING,
+    val programId: Long,
+) {
     val commands: List<AssemblyCommand>
     var pc = 0
     val registers = mutableMapOf<Char, Long>()
-    var lastSound = 0L
+    var sendCount = 0
 
     init {
         commands = input.map {
@@ -32,40 +61,66 @@ class Duet(private val input: List<String>) {
         commands.forEach { command ->
             val register = command.instruction.split(" ")[0].first()
             if (command !is JgzCommand) {
-                registers.put(register, 0)
+                registers.put(register, 0L)
             }
         }
+        registers['p'] = programId
+        registers['1'] = 1
     }
 
-    fun executeCommands(): Long {
+    suspend fun executeCommands() {
         var command: AssemblyCommand
         var instructionParts: List<String>
         var register: Char
-        while (pc < commands.size && pc >= 0) {
+        while (pc < commands.size && pc >= 0 && programStatus == ProgramStatus.RUNNING) {
             command = commands[pc]
             instructionParts = command.instruction.split(" ")
             register = instructionParts[0].first()
-            println("Executing: ${command.instruction}")
             when (command) {
                 is SndCommand -> executeSndCommand(register)
                 is SetCommand -> executeSetCommand(register, instructionParts)
                 is AddCommand -> executeAddCommand(register, instructionParts)
                 is MulCommand -> executeMulCommand(register, instructionParts)
                 is ModCommand -> executeModCommand(register, instructionParts)
-                is RcvCommand -> {
-                    val result = executeRcvCommand(register)
-                    if (result != 0L) return result
-                }
-
+                is RcvCommand -> executeRcvCommand(register)
                 is JgzCommand -> executeJgzCommand(register, instructionParts)
             }
         }
-        return 0
+        println("Program $programId send count: $sendCount")
+        programStatus = ProgramStatus.TERMINATED
     }
 
-    private fun executeSndCommand(register: Char) {
-        registers[register]?.let {
-            lastSound = it
+    private suspend fun executeSndCommand(sendValue: Char) {
+        val newValue: Long
+        if (sendValue.isDigit()) {
+            newValue = sendValue.code.toLong() - 49
+        } else {
+            newValue = registers[sendValue] ?: 0L
+        }
+        programStatus = ProgramStatus.BLOCKED
+        try {
+            withTimeout(20000000L) {
+                sendChannel.send(newValue)
+                sendCount++
+                programStatus = ProgramStatus.RUNNING
+            }
+        } catch (exception: Exception) {
+            programStatus = ProgramStatus.TERMINATED
+            println("timeout in program $programId: $exception snd")
+        }
+        pc++
+    }
+
+    suspend private fun executeRcvCommand(register: Char) {
+        programStatus = ProgramStatus.BLOCKED
+        try {
+            withTimeout(2000L) {
+                val newValue = receiveChannel.receive()
+                programStatus = ProgramStatus.RUNNING
+                registers[register] = newValue
+            }
+        } catch (exception: Exception) {
+            programStatus = ProgramStatus.TERMINATED
         }
         pc++
     }
@@ -107,7 +162,7 @@ class Duet(private val input: List<String>) {
         }
 
         registers[register]?.let {
-            val newValue = registers[register]?.times(multiplyer) ?: 1
+            val newValue = registers[register]?.times(multiplyer) ?: 0
             registers.put(register, newValue)
         }
         pc++
@@ -133,39 +188,23 @@ class Duet(private val input: List<String>) {
         pc++
     }
 
-    private fun executeRcvCommand(register: Char): Long {
-        val registerValue = registers[register] ?: 0
-        if (registerValue != 0L) {
-            println("Recovering $lastSound")
-            pc++
-            return lastSound
-        }
-        pc++
-        return 0
-    }
-
     private fun executeJgzCommand(register: Char, instruction: List<String>) {
-        val jump: Long
-        val jgzString = instruction[0]
-        if (jgzString.last().isDigit()) {
-            jump = jgzString.toLong()
-        } else {
-            jump = registers[jgzString.first()] ?: 0L
-        }
-
-        if (jump > 0) {
-            val offset = instruction[1].toLong()
+        if ((registers[register] ?: 0L) > 0L) {
+            val offset: Long
+            if (instruction[1].last().isDigit()) {
+                offset = instruction[1].toLong()
+            } else {
+                offset = registers[register] ?: 0L
+            }
             if (offset < 0L) {
                 pc += offset.toInt()
             } else {
                 pc += offset.toInt()
-                pc++
             }
         } else {
             pc++
         }
     }
-
 }
 
 sealed class AssemblyCommand(val instruction: String)

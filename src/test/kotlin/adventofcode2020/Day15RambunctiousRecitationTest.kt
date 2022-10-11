@@ -1,7 +1,7 @@
 package adventofcode2020
 
-import org.junit.Assert.*
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class Day15RambunctiousRecitationTest {
 

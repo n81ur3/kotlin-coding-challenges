@@ -1,6 +1,5 @@
 package adventofcode2017
 
-import kotlin.test.assertNotNull
 
 class Day07RecursiveCircus
 
@@ -41,7 +40,7 @@ class RCTower(val programms: List<RCProgram>) {
             if (program.dependants.isEmpty()) {
                 return 1
             } else {
-                return program.dependants.sumBy { getDependantsCount(it) }
+                return program.dependants.sumOf { getDependantsCount(it) }
             }
         }
         return 0
@@ -51,48 +50,53 @@ class RCTower(val programms: List<RCProgram>) {
 
     fun getDependantsWeights(programname: String): List<Int> {
         val program = programms.find { it.name == programname }
-        assertNotNull(program)
 
-        if (program.dependants.isEmpty()) {
-            return listOf(program.weight)
-        } else {
-            val childrenWeights = program.dependants.flatMap { getDependantsWeights(it) }
-            return listOf(program.weight) + childrenWeights
+        program?.dependants?.let {
+            if (program.dependants.isEmpty()) {
+                return listOf(program.weight)
+            } else {
+                val childrenWeights = program.dependants.flatMap { getDependantsWeights(it) }
+                return listOf(program.weight) + childrenWeights
+            }
         }
+        return listOf()
     }
 
     fun checkChildsForEqualWeight(programname: String): Int {
         buildWeightedChildList()
         val program = programms.find { it.name == programname }
-        assertNotNull(program)
 
-        if (program.dependants.isNotEmpty()) {
-            program.dependants.forEach { checkChildsForEquality(it) }
+        program?.dependants?.let {
+            if (program.dependants.isNotEmpty()) {
+                program.dependants.forEach { checkChildsForEquality(it) }
+            }
+            return childsInequality
         }
         return childsInequality
     }
 
     fun checkChildsForEquality(programname: String): Int {
         val program = programms.find { it.name == programname }
-        assertNotNull(program)
 
-        if (program.dependants.isNotEmpty()) {
-            val children =
-                program.dependants.map { childWeights.find { child -> child.name == it } }
-                    .sortedBy { it?.dependantsWeight }
-            val distinct = children.last()
-            val others = children.first()
-            distinct?.let {
-                others?.let {
-                    val difference = Math.abs(distinct.dependantsWeight - others.dependantsWeight)
-                    if (difference != 0) {
-                        childsInequality = distinct.weight - difference
+        program?.dependants?.let {
+            if (program.dependants.isNotEmpty()) {
+                val children =
+                    program.dependants.map { childWeights.find { child -> child.name == it } }
+                        .sortedBy { it?.dependantsWeight }
+                val distinct = children.last()
+                val others = children.first()
+                distinct?.let {
+                    others?.let {
+                        val difference = Math.abs(distinct.dependantsWeight - others.dependantsWeight)
+                        if (difference != 0) {
+                            childsInequality = distinct.weight - difference
+                        }
                     }
                 }
             }
+            program.dependants.forEach { checkChildsForEquality(it) }
         }
 
-        program.dependants.forEach { checkChildsForEquality(it) }
         return childsInequality
     }
 
@@ -105,23 +109,23 @@ class RCTower(val programms: List<RCProgram>) {
 
     private fun addToWeightedChildList(programname: String) {
         val program = programms.find { it.name == programname }
-        assertNotNull(program)
 
-        if (program.dependants.isEmpty()) return
+        program?.dependants?.let {
+            if (program.dependants.isEmpty()) return
 
-        for (childname in program.dependants) {
-            val child = programms.find { it.name == childname }
-            assertNotNull(child)
-            childWeights.add(
-                WeightedChild(
-                    child.name,
-                    programname,
-                    child.weight,
-                    child.dependants,
-                    getDependantsWeightSum(child.name)
+            for (childname in program.dependants) {
+                val child = programms.find { it.name == childname }
+                childWeights.add(
+                    WeightedChild(
+                        child!!.name,
+                        programname,
+                        child.weight,
+                        child.dependants,
+                        getDependantsWeightSum(child.name)
+                    )
                 )
-            )
-            addToWeightedChildList(childname)
+                addToWeightedChildList(childname)
+            }
         }
     }
 }

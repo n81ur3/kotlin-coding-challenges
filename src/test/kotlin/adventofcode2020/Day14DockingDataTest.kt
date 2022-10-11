@@ -1,10 +1,10 @@
 package adventofcode2020
 
-import org.junit.Assert.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import utils.ResourceLoader
 import java.io.File
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class Day14DockingDataTest {
