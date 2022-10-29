@@ -19,7 +19,7 @@ class Day22SporificaVirusTest {
         val initialState = file.readLines()
         val cluster = Cluster(initialState)
         cluster.printCluster()
-        cluster.burst()
+        cluster.burst(part = 1)
     }
 
     @Test
@@ -33,10 +33,24 @@ class Day22SporificaVirusTest {
         cluster.printCluster()
         println("\nStarting infections: \n")
         repeat(10000) {
-            cluster.burst()
+            cluster.burst(part = 1)
         }
 
-        assertEquals(7, cluster.infectionCount)
+        assertEquals(5587, cluster.infectionCount)
+    }
+
+    @Test
+    fun runSamplePart2() {
+        val initialState = listOf(
+            "..#",
+            "#..",
+            "..."
+        )
+        val cluster = Cluster(initialState)
+        repeat(100) {
+            cluster.burst(part = 2)
+        }
+        assertEquals(26, cluster.infectionCount)
     }
 
     @Test
@@ -45,10 +59,22 @@ class Day22SporificaVirusTest {
         val cluster = Cluster(initialState)
 
         repeat(10_000) {
-            cluster.burst()
+            cluster.burst(part = 1)
         }
 
         assertEquals(5433, cluster.infectionCount)
+        println("Solution for day 20 part 1: ${cluster.infectionCount}")
+    }
+    @Test
+    fun solution_part2() {
+        val initialState = file.readLines()
+        val cluster = Cluster(initialState)
+
+        repeat(10_000_000) {
+            cluster.burst(part = 2)
+        }
+
+        assertEquals(2512599, cluster.infectionCount)
         println("Solution for day 20 part 1: ${cluster.infectionCount}")
     }
 }

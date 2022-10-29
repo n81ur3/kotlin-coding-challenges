@@ -20,11 +20,20 @@ data class Carrier(var posX: Int = 0, var posY: Int = 0, var direction: CarrierD
     }
 
     fun turnLeft() {
-        direction = when(direction) {
+        direction = when (direction) {
             CarrierDirection.UP -> CarrierDirection.LEFT
             CarrierDirection.LEFT -> CarrierDirection.DOWN
             CarrierDirection.DOWN -> CarrierDirection.RIGHT
             CarrierDirection.RIGHT -> CarrierDirection.UP
+        }
+    }
+
+    fun reverse() {
+        direction = when (direction) {
+            CarrierDirection.UP -> CarrierDirection.DOWN
+            CarrierDirection.LEFT -> CarrierDirection.RIGHT
+            CarrierDirection.DOWN -> CarrierDirection.UP
+            CarrierDirection.RIGHT -> CarrierDirection.LEFT
         }
     }
 
@@ -40,6 +49,8 @@ data class Carrier(var posX: Int = 0, var posY: Int = 0, var direction: CarrierD
 
 class Cluster(initialState: List<String>, initialSize: Int = initialState[0].length) {
     val infectedNodes = mutableListOf<Pair<Int, Int>>()
+    val weakenedNodes = mutableListOf<Pair<Int, Int>>()
+    val flaggedNodes = mutableListOf<Pair<Int, Int>>()
     val minInfectedX: Int
         get() = infectedNodes.minBy { it.first }.first
     val maxInfectedX: Int
@@ -54,19 +65,45 @@ class Cluster(initialState: List<String>, initialSize: Int = initialState[0].len
     init {
         (0 until initialSize).forEach { x ->
             (0 until initialSize).forEach { y ->
-                if (initialState[y][x] == '#') infectedNodes.add ( (x - (initialSize / 2)) to (y - (initialSize / 2)))
+                if (initialState[y][x] == '#') infectedNodes.add((x - (initialSize / 2)) to (y - (initialSize / 2)))
             }
         }
     }
 
-    fun burst() {
-        if (carrier.pos in infectedNodes) {
-            infectedNodes.remove(carrier.pos)
-            carrier.turnRight()
+    fun burst(part: Int) {
+        if (part == 2) {
+            when (carrier.pos) {
+                in weakenedNodes -> {
+                    infectedNodes.add(carrier.pos)
+                    infectionCount++
+                    weakenedNodes.remove(carrier.pos)
+                }
+
+                in infectedNodes -> {
+                    flaggedNodes.add(carrier.pos)
+                    infectedNodes.remove(carrier.pos)
+                    carrier.turnRight()
+                }
+
+                in flaggedNodes -> {
+                    flaggedNodes.remove(carrier.pos)
+                    carrier.reverse()
+                }
+
+                else -> {
+                    weakenedNodes.add(carrier.pos)
+                    carrier.turnLeft()
+                }
+            }
         } else {
-            infectedNodes.add(carrier.pos)
-            carrier.turnLeft()
-            infectionCount++
+            if (carrier.pos in infectedNodes) {
+                infectedNodes.remove(carrier.pos)
+                carrier.turnRight()
+            } else {
+                infectedNodes.add(carrier.pos)
+                carrier.turnLeft()
+                infectionCount++
+            }
         }
         carrier.move()
     }
