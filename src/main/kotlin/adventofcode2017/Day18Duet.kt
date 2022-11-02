@@ -196,11 +196,7 @@ class DuetProgram(
             } else {
                 offset = registers[register] ?: 0L
             }
-            if (offset < 0L) {
-                pc += offset.toInt()
-            } else {
-                pc += offset.toInt()
-            }
+            pc += offset.toInt()
         } else {
             pc++
         }
