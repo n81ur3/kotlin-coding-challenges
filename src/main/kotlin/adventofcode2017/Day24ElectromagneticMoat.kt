@@ -10,6 +10,7 @@ data class Port(val sideA: Int, val sideB: Int) {
 class Bridge(val ports: List<Port> = listOf()) {
 
     fun totalStrength(): Int = ports.sumOf { it.strength }
+    val totalLength: Int = ports.size
 
     override fun toString(): String {
         return buildString {
@@ -28,6 +29,7 @@ class Bridge(val ports: List<Port> = listOf()) {
 
 class BridgeBuilder(input: List<String>) {
     val constructedBridges = mutableSetOf<Bridge>()
+    val ports: List<Port>
     val strongestBridge: Int
         get() {
             return if (constructedBridges.isNotEmpty()) {
@@ -35,7 +37,11 @@ class BridgeBuilder(input: List<String>) {
             }
             else 0
         }
-    val ports: List<Port>
+
+    fun longestStrongestBridge(): Int {
+        val maxLength = constructedBridges.maxOf { bridge -> bridge.totalLength }
+        return constructedBridges.filter { bridge -> bridge.totalLength == maxLength }.maxOf { it.totalStrength() }
+    }
 
     init {
         ports = input.map { portConfiguration ->
@@ -44,7 +50,11 @@ class BridgeBuilder(input: List<String>) {
         }
     }
 
-    fun buildBridge(usedPorts: List<Port> = mutableListOf(), currentEnding: Int, remainingPorts: List<Port>) {
+    fun buildBridge(
+        usedPorts: List<Port> = mutableListOf(),
+        currentEnding: Int = 0,
+        remainingPorts: List<Port> = ports
+    ) {
         val eligiblePorts = findMatchingPorts(currentEnding, remainingPorts)
         if (eligiblePorts.isNotEmpty()) {
 

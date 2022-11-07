@@ -41,10 +41,22 @@ class Day24ElectromagneticMoatTest {
         val input = file.readLines()
         val bridgeBuilder = BridgeBuilder(input)
 
-        bridgeBuilder.buildBridge(currentEnding = 0, remainingPorts = bridgeBuilder.ports)
+        bridgeBuilder.buildBridge()
         val strongestBridge = bridgeBuilder.strongestBridge
 
         assertEquals(1906, strongestBridge)
         println("Solution for day 24 part 1: $strongestBridge")
+    }
+
+    @Test
+    fun solution_part2() {
+        val input = file.readLines()
+        val bridgeBuilder = BridgeBuilder(input)
+
+        bridgeBuilder.buildBridge()
+        val longestStrongestBridge = bridgeBuilder.longestStrongestBridge()
+
+        assertEquals(1824, longestStrongestBridge)
+        println("Solution for day 24 part 2: $longestStrongestBridge")
     }
 }
