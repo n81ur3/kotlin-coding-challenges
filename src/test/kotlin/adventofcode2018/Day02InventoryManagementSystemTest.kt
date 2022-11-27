@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import utils.ResourceLoader
 import java.io.File
 
-class Day02InventoryManagmentSystemTest {
+class Day02InventoryManagementSystemTest {
     lateinit var file: File
 
     @BeforeEach
