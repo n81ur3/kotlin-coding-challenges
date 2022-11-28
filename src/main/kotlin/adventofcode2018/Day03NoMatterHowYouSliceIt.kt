@@ -4,8 +4,8 @@ class Day03NoMatterHowYouSliceIt
 
 data class Claim(val id: Int, val x: Int, val y: Int, val width: Int, val height: Int) {
 
-    fun getFabricCoordinates(): List<FabricCoordinate> {
-        val result = mutableListOf<FabricCoordinate>()
+    fun getFabricCoordinates(): Set<FabricCoordinate> {
+        val result = mutableSetOf<FabricCoordinate>()
         (x until (x + width)).forEach { xCoordinate ->
             (y until (y + height)).forEach { yCoordinate ->
                 result.add(FabricCoordinate(xCoordinate, yCoordinate))
@@ -50,5 +50,12 @@ class SantaFabric(input: List<String>) {
                 }
             }
         }
+    }
+
+    fun findSingleClaimId(): Int {
+        val singleClaims = squaresTaken.filter { it.value == 1 }.keys.toSet()
+
+        val result = claims.first { singleClaims.containsAll(it.getFabricCoordinates()) }
+        return result.id
     }
 }

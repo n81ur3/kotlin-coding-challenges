@@ -38,6 +38,18 @@ class Day03NoMatterHowYouSliceItTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val input = listOf(
+            "#1 @ 1,3: 4x4",
+            "#2 @ 3,1: 4x4",
+            "#3 @ 5,5: 2x2"
+        )
+        val santaFabric = SantaFabric(input)
+        santaFabric.putClaims()
+        assertEquals(3, santaFabric.findSingleClaimId())
+    }
+
+    @Test
     fun solutionPart1() {
         val input = file.readLines()
         val santaFabric = SantaFabric(input)
@@ -46,5 +58,17 @@ class Day03NoMatterHowYouSliceItTest {
 
         assertEquals(98005, santaFabric.numberOfMultiClaims)
         println("Solution for AoC2018-Day03-Part01: ${santaFabric.numberOfMultiClaims}")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val santaFabric = SantaFabric(input)
+
+        santaFabric.putClaims()
+        val singleClaimId = santaFabric.findSingleClaimId()
+
+        assertEquals(331, singleClaimId)
+        println("Solution for AoC2018-Day03-Part02: $singleClaimId")
     }
 }
