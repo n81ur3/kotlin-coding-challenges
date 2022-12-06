@@ -35,12 +35,35 @@ class Day05AlchemicalReductionTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val polymer = "dabAcCaCBAcCcaDA"
+        val chemicalProcessor = ChemicalProcessor(polymer)
+
+        val result = chemicalProcessor.findShortestPolymer()
+
+        assertEquals(4, result)
+        println("Result sample part 2: $result")
+    }
+
+    @Test
     fun solutionPart1() {
         val polymers = file.readLines()[0]
         val chemicalProcessor = ChemicalProcessor(polymers)
 
         val solution = chemicalProcessor.processPolymer().length
+
         assertEquals(10132, solution)
-        println("Solution for AoC2018-Day04-Part01: $solution")
+        println("Solution for AoC2018-Day05-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val polymers = file.readLines()[0]
+        val chemicalProcessor = ChemicalProcessor(polymers)
+
+        val solution = chemicalProcessor.findShortestPolymer()
+
+        assertEquals(4572, solution)
+        println("Solution for AoC2018-Day05-Part02: $solution")
     }
 }
