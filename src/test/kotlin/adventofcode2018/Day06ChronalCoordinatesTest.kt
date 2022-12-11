@@ -28,9 +28,27 @@ class Day06ChronalCoordinatesTest {
 
         val largestFieldSize = coordinateSystem.calcLargestInnerFieldSize()
 
-        assertEquals(17, largestFieldSize)
-        println("Largest innner field size sample part 1: $largestFieldSize")
         coordinateSystem.printSystem()
+
+        assertEquals(17, largestFieldSize)
+    }
+
+    @Test
+    fun runSamplePart2() {
+        val input = listOf(
+            "1, 1",
+            "1, 6",
+            "8, 3",
+            "3, 4",
+            "5, 5",
+            "8, 9"
+        )
+        val coordinateSystem = CoordinateSystem(input)
+
+        val largestSafeRegion = coordinateSystem.sizeOfLargestSafeRegion(range = 32)
+
+        assertEquals(16, largestSafeRegion)
+        println("Largest safe region sample part 2: $largestSafeRegion")
     }
 
     @Test
@@ -42,5 +60,16 @@ class Day06ChronalCoordinatesTest {
 
         assertEquals(3840, largestFieldSize)
         println("Solution for AoC2018-Day06-Part01: $largestFieldSize")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val coordinateSystem = CoordinateSystem(input)
+
+        val largestSafeRegion = coordinateSystem.sizeOfLargestSafeRegion(range = 10000)
+
+        assertEquals(46542, largestSafeRegion)
+        println("Solution for AoC2018-Day06-Part01: $largestSafeRegion")
     }
 }

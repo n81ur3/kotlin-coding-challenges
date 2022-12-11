@@ -80,4 +80,18 @@ class CoordinateSystem(input: List<String>) {
             println()
         }
     }
+
+    fun sizeOfLargestSafeRegion(range: Int): Int {
+        var counter = 0
+        (0..yMax).forEach { y ->
+            (0..xMax).forEach { x ->
+                if (calcTotalDistance(x, y) < range) counter++
+            }
+        }
+        return counter
+    }
+
+    private fun calcTotalDistance(x: Int, y: Int): Int {
+        return coordinates.sumOf { it.manhattanDistance(x, y) }
+    }
 }
