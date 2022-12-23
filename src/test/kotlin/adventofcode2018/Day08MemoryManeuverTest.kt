@@ -23,6 +23,14 @@ class Day08MemoryManeuverTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val input = "2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2"
+        val navSystem = NavSystem(input)
+
+        assertEquals(66, navSystem.rootSum)
+    }
+
+    @Test
     fun solutionPart1() {
         val input = file.readLines()[0]
         val navSystem = NavSystem(input)
@@ -31,5 +39,16 @@ class Day08MemoryManeuverTest {
 
         assertEquals(42146, totalMetaDataSum)
         println("Solution for AoC2018-Day08-Part01: ${totalMetaDataSum}")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val navSystem = NavSystem(input)
+
+        val rootSum = navSystem.rootSum
+
+        assertEquals(26753, rootSum)
+        println("Solution for AoC2018-Day08-Part02: $rootSum")
     }
 }

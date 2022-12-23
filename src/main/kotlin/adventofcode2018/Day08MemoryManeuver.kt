@@ -15,6 +15,17 @@ data class MemoryNode(
         return metaSum + childs.sumOf { it.totalMetaSum() }
     }
 
+    fun rootSum(): Int {
+        if (childs.isEmpty()) return metaSum
+
+        var sum = 0
+        metadata.filter { it != 0 && it <= childs.size }.forEach {
+            sum += childs[it - 1].rootSum()
+        }
+
+        return sum
+    }
+
     companion object {
         fun fromString(iter: Iterator<Int>): MemoryNode {
             val childCount = iter.next()
@@ -31,6 +42,8 @@ class NavSystem(input: String) {
     val root: MemoryNode
     val totalMetadataSum: Int
         get() = root.totalMetaSum()
+    val rootSum: Int
+        get() = root.rootSum()
 
     init {
         root = MemoryNode.fromString(nums.iterator())
