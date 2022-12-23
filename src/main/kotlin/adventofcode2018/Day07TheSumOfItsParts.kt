@@ -8,6 +8,10 @@ enum class Step {
 
 data class Instruction(val step: Step, val preSteps: MutableSet<Step> = mutableSetOf())
 
+data class ConcurrentWorker(var executionTime: Int = 0, var busy: Boolean = false) {
+    fun isAvailable(processTime: Int) = executionTime <= processTime
+}
+
 class SleighProcessor(input: List<String>, private val numberOfSteps: Int) {
     val instructions: MutableList<Instruction>
 
@@ -33,5 +37,38 @@ class SleighProcessor(input: List<String>, private val numberOfSteps: Int) {
                 instructions.remove(nextInstruction)
             }
         }
+    }
+
+    fun executeConcurrently(numberOfWorkers: Int): Int {
+        var totalTime = 0
+        var maxTime = 0
+        val workers = List(numberOfWorkers) { ConcurrentWorker() }
+
+        while (instructions.isNotEmpty()) {
+            var subTime = 0
+            val pendingInstructions = instructions.filter { it.preSteps.isEmpty() }
+            pendingInstructions.forEach { nextInstruction ->
+                val availableWorker = workers.firstOrNull { !(it.busy) } ?: workers.minBy { it.executionTime }
+                val currentExecutionTime = nextInstruction.step.ordinal + 1
+                availableWorker.executionTime = totalTime + subTime + currentExecutionTime
+
+
+                subTime += currentExecutionTime
+
+                instructions.forEach { instruction -> instruction.preSteps.remove(nextInstruction.step) }
+                instructions.remove(nextInstruction)
+
+
+                workers.forEach { worker ->
+                    worker.busy = worker.executionTime >= totalTime + subTime + 1
+                }
+            }
+            totalTime += subTime
+        }
+
+        println("total time: $totalTime")
+
+
+        return workers.maxOf { it.executionTime }
     }
 }
