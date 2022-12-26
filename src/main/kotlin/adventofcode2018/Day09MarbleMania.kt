@@ -3,14 +3,14 @@ package adventofcode2018
 class Day09MarbleMania
 
 class MarbleMania(val numberOfPlayers: Int) {
-    val marbles = mutableListOf<Int>(0)
+    val marbles = ArrayDeque<Int>(0)
     var currentMarble = 0
     var currentIndex = 0
     var currentElf = 0
-    val elfScores =mutableMapOf<Int, Int>()
+    val elfScores = Array(numberOfPlayers) { 0L }
 
     init {
-        repeat(numberOfPlayers) { elfScores[it] = 0 }
+        marbles.add(0)
     }
 
     private fun takeTurn() {
@@ -19,7 +19,7 @@ class MarbleMania(val numberOfPlayers: Int) {
         if (Math.floorMod(currentMarble, 23) == 0) {
             val removeIndex = Math.floorMod((currentIndex - 7), marbles.size)
             val marbleRemoved = marbles.removeAt(removeIndex)
-            elfScores[currentElf] = elfScores[currentElf]!! + currentMarble + marbleRemoved
+            elfScores[currentElf] = elfScores[currentElf] + currentMarble + marbleRemoved
             currentIndex = removeIndex
         } else {
             val pre = Math.floorMod((currentIndex + 1), marbles.size)
@@ -32,8 +32,8 @@ class MarbleMania(val numberOfPlayers: Int) {
         repeat(numberOfTurns) { takeTurn() }
     }
 
-    fun getWinner(): Pair<Int, Int> {
-        val winner = elfScores.maxBy { it.value }.toPair()
-        return (winner.first) to winner.second
+    fun getWinner(): Pair<Int, Long> {
+        val winnerScore = elfScores.max()
+        return (elfScores.indexOf(winnerScore) to winnerScore)
     }
 }

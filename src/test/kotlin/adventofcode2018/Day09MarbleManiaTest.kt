@@ -22,7 +22,7 @@ class Day09MarbleManiaTest {
 
         marbleMania.play(25)
 
-        assertEquals(5 to 32, marbleMania.getWinner())
+        assertEquals(5 to 32L, marbleMania.getWinner())
         println("Sample part 1 winner: ${marbleMania.getWinner()}")
     }
 
@@ -36,7 +36,7 @@ class Day09MarbleManiaTest {
             "30, 5807, 37305"
         )
     )
-    fun runSamplesPart1(numberOfPlayers: Int, numberOfRounds: Int, winnerScore: Int) {
+    fun runSamplesPart1(numberOfPlayers: Int, numberOfRounds: Int, winnerScore: Long) {
         val marbleMania = MarbleMania(numberOfPlayers)
 
         marbleMania.play(numberOfRounds)
@@ -53,7 +53,20 @@ class Day09MarbleManiaTest {
 
         marbleMania.play(numberOfRounds)
 
-        assertEquals(227 to 398242, marbleMania.getWinner())
+        assertEquals(227 to 398242L, marbleMania.getWinner())
         println("Solution for AoC2018-Day09-Part01: ${marbleMania.getWinner().second}")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val numberOfPlayers = input.substringBefore(" players").toInt()
+        val numberOfRounds = input.substringBefore(" points").substringAfter("worth ").toInt()
+        val marbleMania = MarbleMania(numberOfPlayers)
+
+        marbleMania.play(numberOfRounds * 100)
+
+        assertEquals(3273842452, marbleMania.getWinner().second)
+        println("Solution for AoC2018-Day09-Part02: ${marbleMania.getWinner().second}")
     }
 }
