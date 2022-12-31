@@ -33,17 +33,36 @@ class PowerGrid(val serialNumber: Int) {
         }
     }
 
-    fun calculateScores() {
+    fun calculateScores(maxGridSize: Int) {
         (1..89397).forEach { index ->
-            squareScores[fuelCells[index]] = computeScoreAt(index)
+            squareScores[fuelCells[index]] = computeScoreAt(index, maxGridSize)
         }
     }
 
-    private fun computeScoreAt(index: Int): Int {
-        var result = fuelCells[index].powerLevel
-        (1..2).forEach { result += fuelCells[index + it].powerLevel }
-        (300..302).forEach { result += fuelCells[index + it].powerLevel }
-        (600..602).forEach { result += fuelCells[index + it].powerLevel }
+    fun findLargestGrid(): String {
+        var largestGrid = ""
+        var maxScore = 0
+        (1 .. 300).forEach { gridSize ->
+            (0 until (300 - gridSize)).forEach { x ->
+                (0 until (300 - gridSize)).forEach { y ->
+                    val currentScore = computeScoreAt(y + (300 * x), gridSize)
+                    if (currentScore > maxScore) {
+                        maxScore = currentScore
+                        largestGrid = "${x + 1},${y + 1},$gridSize"
+                    }
+                }
+            }
+        }
+        return largestGrid
+    }
+
+    private fun computeScoreAt(index: Int, gridSize: Int): Int {
+        var result = 0
+
+        (0 until gridSize).forEach { y ->
+            (300 * y until (300 * y + gridSize)).forEach { result += fuelCells[index + it].powerLevel }
+        }
+
         return result
     }
 
