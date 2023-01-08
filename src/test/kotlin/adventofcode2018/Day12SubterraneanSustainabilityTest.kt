@@ -16,7 +16,6 @@ class Day12SubterraneanSustainabilityTest {
         file = ResourceLoader.getFile("aoc2018/aoc2018_day12_input.txt")
     }
 
-
     @ParameterizedTest
     @CsvSource(
         value = arrayOf(
@@ -89,5 +88,16 @@ class Day12SubterraneanSustainabilityTest {
 
         assertEquals(3276, totalPotsCount)
         println("Solution for AoC2018-Day12-Part01: $totalPotsCount")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val tunnel = Tunnel(input[0].substringAfter("state: "), input.drop(2))
+
+        val totalPotsCount = tunnel.computeGenerations(50000000000)
+
+        assertEquals(3750000001113, totalPotsCount)
+        println("Solution for AoC2018-Day12-Part02: $totalPotsCount")
     }
 }

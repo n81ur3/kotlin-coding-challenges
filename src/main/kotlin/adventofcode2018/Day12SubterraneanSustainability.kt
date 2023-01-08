@@ -29,7 +29,6 @@ class Tunnel(initialState: String, rules: List<String>) {
     var pots = ArrayDeque(initialState.toList())
     var nullIndex = 0
     val rulesSet: RulesSet = RulesSet.fromRules(rules)
-    val recordedPatterns = mutableListOf<List<Char>>()
 
     private fun extendPots() {
         repeat(3) {
@@ -38,13 +37,25 @@ class Tunnel(initialState: String, rules: List<String>) {
         }
     }
 
-    fun computeGenerations(iterations: Int): Int {
-        repeat(iterations) {
-            if (computeNextGeneration()) {
-                return computeTotalPotsSum()
+    fun computeGenerations(iterations: Long): Long {
+        if (iterations < 2000) {
+            (0 until iterations).forEach {
+                computeNextGeneration()
             }
+            return computeTotalPotsSum()
+        } else {
+            return computeVeryOldGeneration(iterations)
         }
-        return computeTotalPotsSum()
+    }
+
+    private fun computeVeryOldGeneration(iterations: Long): Long {
+        computeGenerations(1000)
+        val oneThousandGenerationCount = computeTotalPotsSum()
+        computeGenerations(1000)
+        val twoThousandGenerationCount = computeTotalPotsSum()
+        val oneThousandIntervalCount = twoThousandGenerationCount - oneThousandGenerationCount
+        val numberOfIntervalls = ((iterations - 1000)/1000)
+        return (numberOfIntervalls) * oneThousandIntervalCount + oneThousandGenerationCount
     }
 
     fun computeNextGeneration(): Boolean {
@@ -54,20 +65,15 @@ class Tunnel(initialState: String, rules: List<String>) {
         }
         if (newList.first() == '#') {
             nullIndex++
-            pots = ArrayDeque(newList.dropLastWhile { it == '.' })
+            pots = ArrayDeque(newList)
         } else {
-            pots = ArrayDeque(newList.drop(1).dropLastWhile { it == '.' })
-        }
-        if (recordedPatterns.contains(pots)) {
-            return true
-        } else {
-            recordedPatterns.add(pots)
+            pots = ArrayDeque(newList.drop(1))
         }
         return false
     }
 
-    fun computeTotalPotsSum(): Int {
-        var result = 0
+    fun computeTotalPotsSum(): Long {
+        var result = 0L
         pots.forEachIndexed { index, pot ->
             if (pot == '#') {
                 result += (index - nullIndex)
