@@ -13,7 +13,8 @@ data class MineCoordinate(val x: Int, val y: Int) {
     fun asCsv(): String = "$x,$y"
 }
 
-data class MineCart(var x: Int, var y: Int, var currentDirection: CartDirection) : Comparable<MineCart> {
+data class MineCart(var x: Int, var y: Int, var currentDirection: CartDirection, var active: Boolean = true) :
+    Comparable<MineCart> {
     var nextTurn = 0
 
     fun move(track: Char) {
@@ -175,12 +176,21 @@ data class MineCart(var x: Int, var y: Int, var currentDirection: CartDirection)
         nextTurn = (nextTurn + 1) % 3
     }
 
-    override fun compareTo(other: MineCart): Int = compareValuesBy(this, other, { this.y }, { this.x })
+    override fun compareTo(other: MineCart): Int =
+        when {
+            y < other.y -> -1
+            y > other.y -> 1
+            x < other.x -> -1
+            x > other.x -> 1
+            else -> 0
+        }
 }
 
 class Mine(input: List<String>) {
     val track: List<List<Char>>
     val carts: List<MineCart>
+    val numberOfActiveCarts: Int
+        get() = carts.filter { it.active }.count()
 
     init {
         val initialCarts = mutableListOf<MineCart>()
@@ -207,31 +217,53 @@ class Mine(input: List<String>) {
 
     fun startCarts(): MineCoordinate {
         var collisionCoordinate: MineCoordinate? = null
-        var collisionCount = 0
 
         while (collisionCoordinate == null) {
             collisionCoordinate = tick()
             collisionCoordinate?.let {
                 println("Collision at: ${collisionCoordinate.asCsv()}")
-                collisionCount++
             }
         }
 
         return collisionCoordinate
     }
 
-    fun tick(): MineCoordinate? {
+    fun startEndGame(): MineCoordinate {
+        while (numberOfActiveCarts > 1) {
+            tick(false)
+        }
+
+        val lastCart = carts.first { it.active }
+        return MineCoordinate(lastCart.x, lastCart.y)
+    }
+
+    fun tick(detectFirstColission: Boolean = true): MineCoordinate? {
         var collisionCoordinate: MineCoordinate? = null
-        carts.sorted().forEach {
+        carts.filter { true }.sorted().forEach {
             it.move(track[it.y][it.x])
-            collisionCoordinate = detectCollision()
-            collisionCoordinate?.let { return it }
+            collisionCoordinate = detectCollision(true)
+            if (detectFirstColission && collisionCoordinate != null) {
+                return collisionCoordinate
+            }
         }
         return collisionCoordinate
     }
 
-    fun detectCollision(): MineCoordinate? {
-        return carts.groupingBy { MineCoordinate(it.x, it.y) }.eachCount().filter { it.value > 1 }.keys.firstOrNull()
+    fun detectCollision(withDeactivation: Boolean = false): MineCoordinate? {
+        val result = carts
+            .filter { it.active }
+            .groupingBy { MineCoordinate(it.x, it.y) }.eachCount()
+            .filter { it.value > 1 }
+            .keys.firstOrNull()
+        if (withDeactivation) {
+            result?.let { deactivateCartsAt(it) }
+        }
+        return result
+    }
+
+    private fun deactivateCartsAt(collisionCoordinate: MineCoordinate) {
+        carts.filter { cart -> cart.x == collisionCoordinate.x && cart.y == collisionCoordinate.y }
+            .forEach { it.active = false }
     }
 
     fun printTrackWithCarts() {
@@ -239,7 +271,7 @@ class Mine(input: List<String>) {
         track.forEach {
             trackWithCarts.add(it.toMutableList())
         }
-        carts.forEach { cart ->
+        carts.filter { it.active }.forEach { cart ->
             when (cart.currentDirection) {
                 CartDirection.UP -> trackWithCarts[cart.y][cart.x] = '^'
                 CartDirection.RIGHT -> trackWithCarts[cart.y][cart.x] = '>'
