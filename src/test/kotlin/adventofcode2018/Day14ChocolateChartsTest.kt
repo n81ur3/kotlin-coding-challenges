@@ -15,10 +15,26 @@ class Day14ChocolateChartsTest {
             "2018,5941429882"
         )
     )
-    fun runSamplePart1(stepCount: Int, result: String) {
+    fun runSamplesPart1(stepCount: Int, result: String) {
         val chocolateChart = ChocolateChart()
 
         assertEquals(result, chocolateChart.produce(stepCount))
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = arrayOf(
+            "51589,9",
+            "01245,5",
+            "92510,18",
+            "59414,2018"
+        )
+    )
+    fun runSamplesPart2(pattern: String, result: Int) {
+        val chocolateChart = ChocolateChart()
+
+        val lastRecipe = chocolateChart.producePattern(pattern)
+        assertEquals(result, lastRecipe)
     }
 
     @Test
@@ -29,5 +45,14 @@ class Day14ChocolateChartsTest {
 
         assertEquals("1342316410", result)
         println("Solution for AoC2018-Day14-Part01: $result")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val chocolateChart = ChocolateChart()
+
+        val result = chocolateChart.producePattern("047801")
+        assertEquals(20235230, result)
+        println("Solution for AoC2018-Day14-Part02: $result")
     }
 }
