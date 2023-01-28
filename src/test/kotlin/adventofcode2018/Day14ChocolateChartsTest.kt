@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class Day14ChocolateChartsTest {
-
     @ParameterizedTest
     @CsvSource(
         value = arrayOf(
