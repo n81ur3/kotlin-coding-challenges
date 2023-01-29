@@ -36,24 +36,8 @@ sealed class Opcode {
     ): Boolean = (execute(registerInState, instructionCode) == expectedResult)
 
     companion object {
-        val allOpcodes = listOf(
-            addi,
-            addr,
-            mulr,
-            muli,
-            banr,
-            bani,
-            bori,
-            borr,
-            setr,
-            seti,
-            gtir,
-            gtri,
-            gtrr,
-            eqir,
-            eqri,
-            eqrr
-        )
+        val allOpcodes =
+            listOf(addi, addr, mulr, muli, banr, bani, bori, borr, setr, seti, gtir, gtri, gtrr, eqir, eqri, eqrr)
     }
 
     object addr : Opcode() {
@@ -141,12 +125,21 @@ data class ExecutionStep(val inState: RegisterState, val instructionCode: Instru
 
 class OpcodePuzzle(input: List<String>) {
     val executionSteps: List<ExecutionStep>
+    val opcodes: Set<Int>
+    val opcodesMapping = mutableMapOf<Int, Opcode>()
+    val instructions: List<InstructionCode>
+    var registerState = RegisterState(0, 0, 0, 0)
 
     init {
         executionSteps = input
             .takeWhile { !it.startsWith("1 0 0 1") }
             .windowed(3, 4)
             .map { ExecutionStep(parseRegisterState(it[0]), parseInstructionCode(it[1]), parseRegisterState(it[2])) }
+        opcodes = executionSteps.map { it.instructionCode.opcode }.toSet()
+        instructions = input
+            .dropWhile { it != "1 0 0 1" }
+            .map { parseInstructionCode(it) }
+        mapOpcodes()
     }
 
     private fun parseRegisterState(input: String): RegisterState {
@@ -161,6 +154,27 @@ class OpcodePuzzle(input: List<String>) {
 
     fun findNumberOfAmbiguousExecutionSteps() = executionSteps.filter { checkExecutionStepAmbiguity(it) }.size
 
+    fun runAllInstructions() {
+        instructions.forEach { instruction ->
+            opcodesMapping[instruction.opcode]?.execute(registerState, instruction)?.let { registerState = it }
+        }
+    }
+
     private fun checkExecutionStepAmbiguity(executionStep: ExecutionStep) =
         Opcode.allOpcodes.filter { it.verifyResult(executionStep) }.size > 2
+
+    private fun mapOpcodes() {
+        val pendingOpcodes = opcodes.toMutableSet()
+        val opcodesFound = mutableSetOf<Opcode>()
+        while (pendingOpcodes.isNotEmpty()) {
+            executionSteps.forEach { step ->
+                val candidates = Opcode.allOpcodes.filterNot { it in opcodesFound }.filter { it.verifyResult(step) }
+                if (candidates.size == 1) {
+                    opcodesFound.add(candidates.first())
+                    pendingOpcodes.remove(step.instructionCode.opcode)
+                    opcodesMapping[step.instructionCode.opcode] = candidates.first()
+                }
+            }
+        }
+    }
 }

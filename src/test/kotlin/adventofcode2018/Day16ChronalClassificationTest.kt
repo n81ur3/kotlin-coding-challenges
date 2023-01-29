@@ -53,6 +53,18 @@ class Day16ChronalClassificationTest {
         println("Solution for AoC2018-Day16-Part01: $result")
     }
 
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val opcodePuzzle = OpcodePuzzle(input)
+
+        opcodePuzzle.runAllInstructions()
+        val result = opcodePuzzle.registerState.reg0
+
+        assertEquals(445, result)
+        println("Solution for AoC2018-Day16-Part02: $result")
+    }
+
     companion object {
         @JvmStatic
         fun opcodeTestData() = listOf(
