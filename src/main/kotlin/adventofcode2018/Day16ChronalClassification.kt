@@ -2,16 +2,36 @@ package adventofcode2018
 
 class Day16ChronalClassification
 
-data class RegisterState(val reg0: Int, val reg1: Int, val reg2: Int, val reg3: Int) {
+data class RegisterState(
+    var reg0: Int,
+    var reg1: Int,
+    var reg2: Int,
+    var reg3: Int,
+    var reg4: Int = 0,
+    var reg5: Int = 0
+) {
     fun getRegValue(reg: Int) = when (reg) {
         0 -> reg0
         1 -> reg1
         2 -> reg2
-        else -> reg3
+        3 -> reg3
+        4 -> reg4
+        else -> reg5
+    }
+
+    fun setRegister(register: Int, value: Int) {
+        when (register) {
+            0 -> reg0 = value
+            1 -> reg1 = value
+            2 -> reg2 = value
+            3 -> reg3 = value
+            4 -> reg4 = value
+            else -> reg5 = value
+        }
     }
 }
 
-data class InstructionCode(val opcode: Int, val a: Int, val b: Int, val c: Int)
+data class InstructionCode(val opcode: Int = 0, val a: Int, val b: Int, val c: Int)
 
 sealed class Opcode {
     abstract fun evaluateResult(registerInState: RegisterState, instruction: InstructionCode): Int
@@ -22,7 +42,9 @@ sealed class Opcode {
             0 -> registerInState.copy(reg0 = result)
             1 -> registerInState.copy(reg1 = result)
             2 -> registerInState.copy(reg2 = result)
-            else -> registerInState.copy(reg3 = result)
+            3 -> registerInState.copy(reg3 = result)
+            4 -> registerInState.copy(reg4 = result)
+            else -> registerInState.copy(reg5 = result)
         }
     }
 
@@ -38,6 +60,24 @@ sealed class Opcode {
     companion object {
         val allOpcodes =
             listOf(addi, addr, mulr, muli, banr, bani, bori, borr, setr, seti, gtir, gtri, gtrr, eqir, eqri, eqrr)
+        val oppCodesMapping = mapOf(
+            "addi" to addi,
+            "addr" to addr,
+            "mulr" to mulr,
+            "muli" to muli,
+            "banr" to banr,
+            "bani" to bani,
+            "bori" to bori,
+            "borr" to borr,
+            "setr" to setr,
+            "seti" to seti,
+            "gtir" to gtir,
+            "gtri" to gtri,
+            "gtrr" to gtrr,
+            "eqir" to eqir,
+            "eqri" to eqri,
+            "eqrr" to eqrr,
+        )
     }
 
     object addr : Opcode() {

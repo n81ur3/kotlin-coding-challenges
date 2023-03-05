@@ -29,9 +29,13 @@ class Day18SettlersOfTheNorthPoleTest {
             "...#.|..|."
         )
         val northPoleArea = NorthPoleArea(input)
+        northPoleArea.printArea()
 
-        northPoleArea.transform(10)
+        println(northPoleArea.neighborsAt(9, 9).joinToString(separator=""))
 
+        northPoleArea.transform(10L)
+
+        northPoleArea.printArea()
         assertEquals(1147, northPoleArea.totalResource)
     }
 
@@ -40,9 +44,19 @@ class Day18SettlersOfTheNorthPoleTest {
         val input = file.readLines()
         val northPoleArea = NorthPoleArea(input)
 
-        northPoleArea.transform(10)
+        northPoleArea.transform(10L)
 
         assertEquals(644640, northPoleArea.totalResource)
         println("Solution for AoC2018-Day18-Part01: ${northPoleArea.totalResource}")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val northPoleArea = NorthPoleArea(input)
+
+        northPoleArea.transform(1000000000L)
+
+        println("Solution for AoC2018-Day18-Part02: ${northPoleArea.totalResource}")
     }
 }
