@@ -29,7 +29,9 @@ class Day20AregularMapTest {
     fun runSamplesPart1(directions: String, expectedDistance: Int) {
         val mazeWalker = MazeWalker(directions)
 
-        val maxDistance = mazeWalker.walk()
+        mazeWalker.walk()
+        val maxDistance = mazeWalker.reachedPositions.maxOf { it.value }
+
         assertEquals(expectedDistance, maxDistance)
         println("finish max distance = $expectedDistance")
     }
@@ -39,9 +41,22 @@ class Day20AregularMapTest {
         val directions = file.readLines()[0].drop(1).dropLast(1)
         val mazeWalker = MazeWalker(directions)
 
-        val maxDistance = mazeWalker.walk()
+        mazeWalker.walk()
+        val maxDistance = mazeWalker.reachedPositions.maxOf { it.value }
 
         assertEquals(4274, maxDistance)
-        println("Solution for AoC2018-Day11-Part01: $maxDistance")
+        println("Solution for AoC2018-Day20-Part01: $maxDistance")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val directions = file.readLines()[0].drop(1).dropLast(1)
+        val mazeWalker = MazeWalker(directions)
+
+        mazeWalker.walk()
+        val roomsWithLongPath = mazeWalker.reachedPositions.count { it.value >= 1000 }
+
+        assertEquals(8547, roomsWithLongPath)
+        println("Solution for AoC2018-Day20-Part02: $roomsWithLongPath")
     }
 }

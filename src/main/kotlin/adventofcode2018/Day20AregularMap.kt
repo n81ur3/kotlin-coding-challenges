@@ -19,7 +19,7 @@ class MazeWalker(val directions: String) {
     var currentPosition = MazePosition(0, 0)
     var reachedPositions = mutableMapOf(currentPosition to 0)
 
-    fun walk(): Int {
+    fun walk() {
         val stack = ArrayDeque<MazePosition>()
 
         directions.forEach { d ->
@@ -44,8 +44,6 @@ class MazeWalker(val directions: String) {
                 }
             }
         }
-
-        return reachedPositions.maxOf { it.value }
     }
 
     companion object {
