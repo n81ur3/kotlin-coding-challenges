@@ -10,6 +10,9 @@ data class RegisterState(
     var reg4: Int = 0,
     var reg5: Int = 0
 ) {
+    val highestRegValue: Int
+        get() = maxOf(reg0, reg1, reg2, reg3, reg4, reg5)
+
     fun getRegValue(reg: Int) = when (reg) {
         0 -> reg0
         1 -> reg1
@@ -20,6 +23,7 @@ data class RegisterState(
     }
 
     fun setRegister(register: Int, value: Int) {
+        if (value > 1000000) println("High reg value: $value")
         when (register) {
             0 -> reg0 = value
             1 -> reg1 = value

@@ -43,4 +43,15 @@ class Day19GoWithTheFlowTest {
         assertEquals(1920, finalReg0Value)
         println("Solution for AoC2018-Day19-Part01: $finalReg0Value")
     }
+
+    @Test
+    fun solutionPart2() {
+        val instructions = file.readLines()
+        val opcodeExecutor = OpcodeExecutor(instructions)
+        opcodeExecutor.registerState.setRegister(0, 1)
+
+        val finalReg0Value = opcodeExecutor.execute()
+
+        println("Final Reg 0 value part 2: $finalReg0Value")
+    }
 }

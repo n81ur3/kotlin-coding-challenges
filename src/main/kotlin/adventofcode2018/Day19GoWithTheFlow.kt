@@ -35,4 +35,12 @@ class OpcodeExecutor(input: List<String>) {
         println("final result: $registerState")
         return registerState.getRegValue(0)
     }
+
+    private fun checkForHighRegisterValue(): Int {
+        return if (registerState.highestRegValue > 300000) registerState.highestRegValue else 0
+    }
+}
+
+private fun Int.factorSum(): Int {
+    return (1..this).filter { this % it == 0 }.sum()
 }
