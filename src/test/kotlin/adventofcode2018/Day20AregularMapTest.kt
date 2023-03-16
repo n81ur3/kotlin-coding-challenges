@@ -16,7 +16,6 @@ class Day20AregularMapTest {
         file = ResourceLoader.getFile("aoc2018/aoc2018_day20_input.txt")
     }
 
-
     @ParameterizedTest
     @CsvSource(
         value = arrayOf(
