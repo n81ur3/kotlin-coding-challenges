@@ -19,9 +19,23 @@ class Day21ChronalConversionTest {
     fun solutionPart1() {
         val instructions = file.readLines()
         val timeTravelModule = TimeTravelModule(instructions)
-        timeTravelModule.executeCode(100000)
-        val reg0Value = timeTravelModule.codeExecutor.magicRegisterValues.first()
+
+        val (first, _) = timeTravelModule.executeCode()
+        val reg0Value = first
+
         assertEquals(11592302, reg0Value)
         println("Solution for AoC2018-Day21-Part01: $reg0Value")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val instructions = file.readLines()
+        val timeTravelModule = TimeTravelModule(instructions)
+
+        val (_, last) = timeTravelModule.executeCode()
+        val reg0Value = last
+
+        assertEquals(313035, reg0Value)
+        println("Solution for AoC2018-Day21-Part02: $reg0Value")
     }
 }

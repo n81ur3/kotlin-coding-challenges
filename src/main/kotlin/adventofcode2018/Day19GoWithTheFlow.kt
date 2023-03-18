@@ -13,7 +13,7 @@ class OpcodeExecutor(input: List<String>) {
     var instructionCounter = 0
     var ip = 0
     var ipBound = 0
-    val magicRegisterValues = mutableListOf<Int>()
+    val magicRegisterValues = LinkedHashSet<Int>()
 
     init {
         ipBound = input[0].substringAfter(" ").toInt()
@@ -27,13 +27,15 @@ class OpcodeExecutor(input: List<String>) {
         return OpInstruction(opcodesMapping[parts[0]]!!, parts[1].toInt(), parts[2].toInt(), parts[3].toInt())
     }
 
-    fun execute(maxLoops:Int = Int.MAX_VALUE): Int {
-        var loopCounter = 0
-        while (ip < instructions.size && loopCounter++ < maxLoops) {
+    fun execute(): Pair<Int, Int> {
+        while (ip < instructions.size) {
             registerState.setRegister(ipBound, ip)
             instructionCounter++
             val currentInstruction = instructions[ip]
             if (currentInstruction == OpInstruction(Opcode.eqrr, 1, 0, 5)) {
+                if (registerState.reg1 in magicRegisterValues) {
+                    return magicRegisterValues.first() to magicRegisterValues.last()
+                }
                 magicRegisterValues.add(registerState.reg1)
             }
             registerState = instructions[ip].opCode.execute(registerState, instructions[ip].toInstructionCode())
@@ -41,6 +43,6 @@ class OpcodeExecutor(input: List<String>) {
             ip++
         }
         println("final result: $registerState")
-        return registerState.getRegValue(0)
+        return registerState.getRegValue(0) to 0
     }
 }

@@ -29,7 +29,7 @@ class Day19GoWithTheFlowTest {
         )
 
         val opcodeExecutor = OpcodeExecutor(instructions)
-        val finalReg0Value = opcodeExecutor.execute()
+        val (finalReg0Value, _) = opcodeExecutor.execute()
         assertEquals(6, finalReg0Value)
     }
 
@@ -38,7 +38,7 @@ class Day19GoWithTheFlowTest {
         val instructions = file.readLines()
         val opcodeExecutor = OpcodeExecutor(instructions)
 
-        val finalReg0Value = opcodeExecutor.execute()
+        val (finalReg0Value, _) = opcodeExecutor.execute()
 
         assertEquals(1920, finalReg0Value)
         println("Solution for AoC2018-Day19-Part01: $finalReg0Value")
