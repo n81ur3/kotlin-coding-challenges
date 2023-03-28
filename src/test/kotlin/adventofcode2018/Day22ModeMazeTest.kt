@@ -32,6 +32,6 @@ class Day22ModeMazeTest {
         val riskLevel = mazeCalculator.riskLevel
 
         assertEquals(11359, riskLevel)
-        println("Solution for AoC2018-Day21-Part01: $riskLevel")
+        println("Solution for AoC2018-Day22-Part01: $riskLevel")
     }
 }
