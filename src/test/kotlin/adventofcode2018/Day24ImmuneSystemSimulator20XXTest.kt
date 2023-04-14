@@ -21,7 +21,7 @@ class Day24ImmuneSystemSimulator20XXTest {
         val input = sampleFile.readLines()
         val immuneSystemSimulator = ImmuneSystemSimulator(input)
 
-        val battleResult = immuneSystemSimulator.battle()
+        val battleResult = immuneSystemSimulator.battle().first
         assertEquals(5216, battleResult)
     }
 
@@ -30,8 +30,24 @@ class Day24ImmuneSystemSimulator20XXTest {
         val input = file.readLines()
         val immuneSystemSimulator = ImmuneSystemSimulator(input)
 
-        val battleResult = immuneSystemSimulator.battle()
+        val battleResult = immuneSystemSimulator.battle().first
         assertEquals(30881, battleResult)
         println("Solution for AoC2018-Day24-Part01: $battleResult")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val immuneSystemSimulator = ImmuneSystemSimulator(input)
+
+        var battleResult = immuneSystemSimulator.battle()
+
+        var booster = 84
+        while (battleResult.second != BattleGroupType.IMMUNESYSTEM) {
+            battleResult = immuneSystemSimulator.battle(booster++)
+        }
+
+        assertEquals(1847, battleResult.first)
+        println("Solution for AoC2018-Day24-Part02: ${battleResult.first}")
     }
 }

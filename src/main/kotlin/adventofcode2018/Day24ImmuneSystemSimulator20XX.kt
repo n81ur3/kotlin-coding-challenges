@@ -16,10 +16,11 @@ abstract class BattleGroup(
     val immunes: List<String> = emptyList(),
     val attackDamage: Int,
     val attackType: String,
-    val initiative: Int
+    val initiative: Int,
+    var booster: Int = 0
 ) {
     val effectivePower: Int
-        get() = units * attackDamage
+        get() = units * (attackDamage + booster)
 
     fun defendAgainst(otherGroup: BattleGroup, isSimulation: Boolean = true): Int {
         val damage = if (immunes.contains(otherGroup.attackType)) 0
@@ -35,6 +36,12 @@ abstract class BattleGroup(
         return "BattleGroup(type=$type, units=$units, hitPoints=$hitPoints, weaks=$weaks, immunes=$immunes, attackDamage=$attackDamage, attackType='$attackType', initiative=$initiative)"
     }
 
+    fun copy(): BattleGroup {
+        return when (type) {
+            IMMUNESYSTEM -> ImmuneSystem(units, hitPoints, weaks, immunes, attackDamage, attackType, initiative)
+            INFECTION -> Infection(units, hitPoints, weaks, immunes, attackDamage, attackType, initiative)
+        }
+    }
 
     companion object {
         fun fromInput(input: String, type: BattleGroupType): BattleGroup {
@@ -71,20 +78,6 @@ abstract class BattleGroup(
     }
 }
 
-object BattleGroupComparator : Comparator<BattleGroup> {
-    override fun compare(group1: BattleGroup?, group2: BattleGroup?): Int {
-        requireNotNull(group1)
-        requireNotNull(group2)
-
-        if (group1.effectivePower != group2.effectivePower) {
-            return group1.effectivePower.compareTo(group2.effectivePower)
-        } else if (group1.initiative != group2.initiative) {
-            return group1.initiative.compareTo(group2.initiative)
-        } else {
-            return (group2.defendAgainst(group1)).compareTo(group1.defendAgainst(group2))
-        }
-    }
-}
 
 class ImmuneSystem(
     units: Int,
@@ -125,9 +118,8 @@ class Infection(
 )
 
 class ImmuneSystemSimulator(input: List<String>) {
-    val battleGroups: MutableList<BattleGroup>
-    val immuneGroups: MutableList<BattleGroup>
-    val infectionGroups: MutableList<BattleGroup>
+    var battleGroups: MutableList<BattleGroup>
+    var initialBattleState: List<BattleGroup>
 
     init {
         val groups = mutableListOf<BattleGroup>()
@@ -139,12 +131,16 @@ class ImmuneSystemSimulator(input: List<String>) {
                 groups.add(BattleGroup.fromInput(it, currentType))
             }
         }
+        initialBattleState = groups.toList()
         battleGroups = groups
-        immuneGroups = groups.filter { it.type == IMMUNESYSTEM }.toMutableList()
-        infectionGroups = groups.filter { it.type == INFECTION }.toMutableList()
     }
 
-    fun battle(): Int {
+    fun battle(immuneSystemBooster: Int = 0): Pair<Int, BattleGroupType> {
+        battleGroups = initialBattleState.map { it.copy() }.toMutableList()
+
+        if (immuneSystemBooster > 0) {
+            battleGroups.filter { it.type == BattleGroupType.IMMUNESYSTEM }.forEach { it.booster = immuneSystemBooster }
+        }
 
         while (battleGroups.groupBy { it.type }.keys.size > 1) {
             val battlePairs = targetSelection()
@@ -159,7 +155,7 @@ class ImmuneSystemSimulator(input: List<String>) {
             }
         }
 
-        return battleGroups.sumOf { it.units }
+        return battleGroups.sumOf { it.units } to battleGroups.first().type
     }
 
     private fun targetSelection(): List<Pair<BattleGroup, BattleGroup>> {
