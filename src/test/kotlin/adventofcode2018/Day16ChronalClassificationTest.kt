@@ -8,7 +8,6 @@ import utils.ResourceLoader
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class Day16ChronalClassificationTest {
     lateinit var file: File
