@@ -39,6 +39,20 @@ class Day01TyrannyOfRocketEquationTest {
         assertEquals((2 + 2 + 654 + 33583), spacecraft.totalFuelRequirements())
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        value = arrayOf(
+            "14, 2",
+            "1969, 966",
+            "100756, 50346",
+        )
+    )
+    fun runSamplePart2(mass: String, expectedFuel: Int) {
+        val spacecraft = ElfSpacecraft(listOf(mass))
+
+        assertEquals(expectedFuel, spacecraft.totalFuelRequirementsRec())
+    }
+
     @Test
     fun solutionPart1() {
         val input = file.readLines()
@@ -48,5 +62,16 @@ class Day01TyrannyOfRocketEquationTest {
 
         assertEquals(3249140, totalFuelRequirements)
         println("Solution for AoC2019-Day01-Part01: $totalFuelRequirements")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val spacecraft = ElfSpacecraft(input)
+
+        val totalFuelRequirements = spacecraft.totalFuelRequirementsRec()
+
+        assertEquals(4870838, totalFuelRequirements)
+        println("Solution for AoC2019-Day01-Part2: $totalFuelRequirements")
     }
 }
