@@ -32,11 +32,21 @@ class Day02ProgramAlarmTest {
         val input = file.readLines()[0]
         val intcodeProgram = IntcodeProgram(input)
 
-        intcodeProgram.set1202State()
+        intcodeProgram.setInitialState()
         val result = intcodeProgram.run()
 
         assertEquals(3516593, result)
         println("Solution for AoC2019-Day01-Part01: $result")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val intcodeProgram = IntcodeProgram(input)
+
+        val result = intcodeProgram.runForTarget(19690720)
+        assertEquals(7749, result)
+        println("Solution for AoC2019-Day02-Part02: $result")
     }
 
     companion object {
