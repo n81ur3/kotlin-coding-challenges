@@ -36,7 +36,7 @@ class Day02ProgramAlarmTest {
         val result = intcodeProgram.run()
 
         assertEquals(3516593, result)
-        println("Solution for AoC2019-Day01-Part01: $result")
+        println("Solution for AoC2019-Day02-Part01: $result")
     }
 
     @Test
