@@ -36,6 +36,25 @@ class Day03CrossedWiresTest {
         println("Solution for AoC2019-Day03-Part01: $closestTwistDistance")
     }
 
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val firstWire = GravityWire()
+        val secondWire = GravityWire()
+
+        firstWire.buildPathFromString(input[0])
+        secondWire.buildPathFromString(input[1])
+
+        val fuelManagementSystem = FuelManagementSystem()
+        fuelManagementSystem.firstWire = firstWire
+        fuelManagementSystem.secondWire = secondWire
+
+        val closestTwistDistanceSteps = fuelManagementSystem.findClosestTwistDistanceSteps()
+
+        assertEquals(13836, closestTwistDistanceSteps)
+        println("Solution for AoC2019-Day03-Part02: $closestTwistDistanceSteps")
+    }
+
     companion object {
         @JvmStatic
         fun sampleTestData() = listOf(
