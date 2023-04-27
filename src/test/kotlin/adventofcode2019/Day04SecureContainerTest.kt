@@ -26,4 +26,14 @@ class Day04SecureContainerTest {
         assertEquals(1890, validPasswordsCount)
         println("Solution for AoC2019-Day04-Part01: $validPasswordsCount")
     }
+
+    @Test
+    fun solutionPart2() {
+        val passwordEvaluator = PasswordEvaluator()
+
+        val advancedPasswordCount = (138241..674034).filter { passwordEvaluator.isAdvancedPassword(it) }.count()
+
+        assertEquals(1277, advancedPasswordCount)
+        println("Solution for AoC2019-Day04-Part02: $advancedPasswordCount")
+    }
 }
