@@ -35,6 +35,28 @@ class Day06UniversalOrbitMapTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val input = listOf(
+            "COM)B",
+            "B)C",
+            "C)D",
+            "D)E",
+            "E)F",
+            "B)G",
+            "G)H",
+            "D)I",
+            "E)J",
+            "J)K",
+            "K)L",
+            "K)YOU",
+            "I)SAN"
+        )
+        val spaceOrbit = SpaceOrbit(input)
+
+        assertEquals(4, spaceOrbit.findYouSanDistance())
+    }
+
+    @Test
     fun solutionPart1() {
         val input = file.readLines()
         val spaceOrbit = SpaceOrbit(input)
@@ -43,5 +65,16 @@ class Day06UniversalOrbitMapTest {
 
         assertEquals(227612, orbitsCount)
         println("Solution for AoC2019-Day06-Part01: $orbitsCount")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val spaceOrbit = SpaceOrbit(input)
+
+        val youSanDistance = spaceOrbit.findYouSanDistance()
+
+        assertEquals(454, youSanDistance)
+        println("Solution for AoC2019-Day06-Part02: $youSanDistance")
     }
 }

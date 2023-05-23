@@ -30,4 +30,29 @@ class SpaceOrbit(val orbitMap: List<String>) {
         }
     }
 
+    fun findYouSanDistance(): Int {
+        val youMap = mutableMapOf<OrbitObject, Int>()
+        val sanMap = mutableMapOf<OrbitObject, Int>()
+
+        var parent = orbits.firstOrNull { it.satelite.code == "YOU" }?.center
+        var distance = 0
+        while (parent != null) {
+            youMap[parent] = distance++
+            parent = orbits.firstOrNull { it.satelite.code == parent?.code }?.center
+        }
+
+        parent = orbits.first { it.satelite.code == "SAN" }.center
+        distance = 0
+        while (parent != null) {
+            sanMap[parent] = distance++
+            parent = orbits.firstOrNull { it.satelite.code == parent?.code }?.center
+        }
+
+        val intersection = youMap.keys.first { sanMap.contains(it) }
+        val youDistance = youMap[intersection] ?: 0
+        val sanDistance = sanMap[intersection] ?: 0
+
+        return youDistance + sanDistance
+    }
+
 }
