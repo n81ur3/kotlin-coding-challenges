@@ -1,11 +1,19 @@
 package adventofcode2019
 
 class IntComputer(program: String) {
-    val memory: MutableList<Int> = program.split(",").map { it.toInt() }.toMutableList()
+    var memory: MutableList<Int>
+    val initialState: List<Int>
     var ip = 0
+    var inputCounter = 0
     var singleInput = 0
+    var secondInput = 0
     var output = 0
     var directPointer = false
+
+    init {
+        initialState = program.split(",").map { it.toInt() }
+        memory = initialState.toMutableList()
+    }
 
     fun run(input: Int): Int {
         singleInput = input
@@ -16,6 +24,27 @@ class IntComputer(program: String) {
             }
         }
         return output
+    }
+
+    fun reset() {
+        memory = initialState.toMutableList()
+        inputCounter = 0
+        singleInput = 0
+        secondInput = 0
+        output = 0
+        ip = 0
+        directPointer = false
+    }
+
+    fun runWithPhase(phase: Int, input: Int): Int {
+        secondInput = input
+        var result = 0
+        try {
+            result = run(phase)
+        } catch (exc: IndexOutOfBoundsException) {
+            println("Index out of bounds")
+        }
+        return result
     }
 
     private fun execute(instruction: Int): Int {
@@ -32,7 +61,13 @@ class IntComputer(program: String) {
         }
     }
 
-    private fun executeSimpleInstruction(instruction: Int, op1: Int = 0, op2: Int = 0, op3: Int = 0, increment: Int): Int {
+    private fun executeSimpleInstruction(
+        instruction: Int,
+        op1: Int = 0,
+        op2: Int = 0,
+        op3: Int = 0,
+        increment: Int
+    ): Int {
         directPointer = false
         when (instruction) {
             1 -> {
@@ -44,6 +79,10 @@ class IntComputer(program: String) {
             }
 
             3 -> {
+                if (inputCounter > 0) {
+                    singleInput = secondInput
+                }
+                inputCounter++
                 memory[memory[ip + 1]] = singleInput
             }
 
