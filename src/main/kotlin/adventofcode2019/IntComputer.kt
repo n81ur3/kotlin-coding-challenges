@@ -4,9 +4,7 @@ class IntComputer(program: String) {
     var memory: MutableList<Int>
     val initialState: List<Int>
     var ip = 0
-    var inputCounter = 0
     var singleInput = 0
-    var secondInput = 0
     var output = 0
     var directPointer = false
 
@@ -28,19 +26,14 @@ class IntComputer(program: String) {
 
     fun reset() {
         memory = initialState.toMutableList()
-        inputCounter = 0
-        singleInput = 0
-        secondInput = 0
-        output = 0
-        ip = 0
-        directPointer = false
     }
 
     fun runWithPhase(phase: Int, input: Int): Int {
-        secondInput = input
+        memory[0] = phase
+        memory[1] = input
         var result = 0
         try {
-            result = run(phase)
+            result = run(0)
         } catch (exc: IndexOutOfBoundsException) {
             println("Index out of bounds")
         }
@@ -79,10 +72,6 @@ class IntComputer(program: String) {
             }
 
             3 -> {
-                if (inputCounter > 0) {
-                    singleInput = secondInput
-                }
-                inputCounter++
                 memory[memory[ip + 1]] = singleInput
             }
 

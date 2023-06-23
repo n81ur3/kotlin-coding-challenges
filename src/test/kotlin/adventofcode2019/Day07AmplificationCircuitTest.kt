@@ -1,5 +1,6 @@
 package adventofcode2019
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -19,7 +20,7 @@ class Day07AmplificationCircuitTest {
         val input = "3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0"
         val amplifierController = AmplifierController(input)
 
-        val permutations = amplifierController.buildPermutations()
+        val permutations = amplifierController.buildPermutations(0, 4)
 
         permutations.forEach { println(it)}
     }
@@ -35,13 +36,33 @@ class Day07AmplificationCircuitTest {
     }
 
     @Test
-    fun solutionPart1() {
+    fun runSamplePart2() {
+        val input = "3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0"
+        val amplifierController = AmplifierController(input)
+
+        val largestAmplifiedSignal = runBlocking { amplifierController.findLargestAmplifiedSignal(input) }
+
+        println("Sample part 2 largestAmplifiedSignal: $largestAmplifiedSignal")
+    }
+
+    @Test
+fun solutionPart1() {
+    val input = file.readLines()[0]
+    val amplifierController = AmplifierController(input)
+
+    val largestOutputSignal = amplifierController.findLargestOutputSignal()
+
+    assertEquals(359142, largestOutputSignal)
+    println("Solution for AoC2019-Day07-Part01: $largestOutputSignal")
+}
+
+    @Test
+    fun solutionPart2() {
         val input = file.readLines()[0]
         val amplifierController = AmplifierController(input)
 
-        val largestOutputSignal = amplifierController.findLargestOutputSignal()
+        val largestAmplifiedSignal = runBlocking { amplifierController.findLargestAmplifiedSignal(input) }
 
-        assertEquals(359142, largestOutputSignal)
-        println("Solution for AoC2019-Day07-Part01: $largestOutputSignal")
+        println("Solution for AoC2019-Day07-Part02: $largestAmplifiedSignal")
     }
 }
