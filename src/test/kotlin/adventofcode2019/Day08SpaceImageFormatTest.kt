@@ -1,6 +1,5 @@
 package adventofcode2019
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,6 +23,14 @@ class Day08SpaceImageFormatTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val input = "0222112222120000"
+        val passwordImage = PasswordImage(input, 2, 2)
+
+        passwordImage.decryptMessage()
+    }
+
+    @Test
     fun solutionPart1() {
         val input = file.readLines()[0]
         val passwordImage = PasswordImage(input, 25, 6)
@@ -33,5 +40,15 @@ class Day08SpaceImageFormatTest {
 
         assertEquals(1690, solutionPart1)
         println("Solution for AoC2019-Day08-Part01: $solutionPart1")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val passwordImage = PasswordImage(input, 25, 6)
+
+        passwordImage.decryptMessage()
+
+        println("Solution for AoC2019-Day08-Part02: ZPZUB")
     }
 }
