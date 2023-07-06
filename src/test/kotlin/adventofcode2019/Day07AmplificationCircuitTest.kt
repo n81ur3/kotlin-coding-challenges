@@ -32,7 +32,7 @@ class Day07AmplificationCircuitTest {
 
         val largestOutputSignal = amplifierController.findLargestOutputSignal()
 
-        assertEquals(65210, largestOutputSignal)
+        assertEquals(65210L, largestOutputSignal)
     }
 
     @Test

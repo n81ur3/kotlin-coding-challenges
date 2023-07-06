@@ -1,0 +1,3 @@
+package adventofcode2019
+
+class Day09SensorBoost

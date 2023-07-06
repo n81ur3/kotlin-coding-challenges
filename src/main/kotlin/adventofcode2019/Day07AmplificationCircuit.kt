@@ -10,8 +10,8 @@ class Day07AmplificationCircuit
 class AmplifierController(program: String) {
     val amplifiers = List(5) { IntComputer(program) }
 
-    fun findLargestOutputSignal(): Int {
-        var highestOutputSignal = 0
+    fun findLargestOutputSignal(): Long {
+        var highestOutputSignal = 0L
 
         val settings = buildPermutations(0, 4)
 
@@ -60,8 +60,8 @@ class AmplifierController(program: String) {
     private suspend fun <T> Channel<T>.andSend(msg: T): Channel<T> =
         this.also { send(msg) }
 
-    fun buildPermutations(start: Int, end: Int): List<List<Int>> {
-        val result = mutableListOf<List<Int>>()
+    fun buildPermutations(start: Long, end: Long): List<List<Long>> {
+        val result = mutableListOf<List<Long>>()
 
         (start..end).forEach { a ->
             (start..end).forEach { b ->
@@ -79,7 +79,7 @@ class AmplifierController(program: String) {
         return result
     }
 
-    fun isUnique(candidate: List<Int>): Boolean {
+    fun isUnique(candidate: List<Long>): Boolean {
         val groups = candidate.groupBy { it }
         return groups.values.none { it.size > 1 }
     }
