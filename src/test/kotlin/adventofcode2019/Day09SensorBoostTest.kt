@@ -1,6 +1,5 @@
 package adventofcode2019
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -39,9 +38,18 @@ class Day09SensorBoostTest {
         val input = file.readLines()[0]
         val intComputer = IntComputer(input)
 
+        val boostCode = intComputer.run(1)
+        assertEquals(2932210790L, boostCode)
+        println("Solution for AoC2019-Day09-Part01: $boostCode")
+    }
 
-        val bootCode = intComputer.run(1)
-        assertEquals(2932210790L, bootCode)
-        println("Solution for AoC2019-Day09-Part01: $bootCode")
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val intComputer = IntComputer(input)
+
+        val coordinates = intComputer.run(2)
+        assertEquals(73144, coordinates)
+        println("Solution for AoC2019-Day09-Part02: $coordinates")
     }
 }
