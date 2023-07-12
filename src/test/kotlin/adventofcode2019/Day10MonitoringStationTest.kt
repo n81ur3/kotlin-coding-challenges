@@ -50,6 +50,16 @@ class Day10MonitoringStationTest {
         println("Solution for AoC2019-Day10-Part01: $detectionsFromBestLocation")
     }
 
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()
+        val ceres = Ceres(input)
+
+        val solution = ceres.vaborize()
+        assertEquals(1119, solution)
+        println("Solution for AoC2019-Day10-Part02: $solution")
+    }
+
     companion object {
         @JvmStatic
         fun sampleTestData() = listOf(
