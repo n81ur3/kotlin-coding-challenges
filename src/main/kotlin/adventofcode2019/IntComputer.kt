@@ -1,5 +1,7 @@
 package adventofcode2019
 
+import kotlinx.coroutines.channels.Channel
+
 class IntComputer(program: String) {
     var memory = mutableMapOf<Long, Long>()
     val initialState = mutableMapOf<Long, Long>()
@@ -10,6 +12,7 @@ class IntComputer(program: String) {
     var output = 0L
     var directPointer = false
     var relativeBase = 0L
+    var outputObserver: IntComputerObserver? = null
 
     init {
         program.split(",").forEachIndexed { index, element ->
@@ -77,8 +80,9 @@ class IntComputer(program: String) {
             }
 
             4L -> {
-                println("output: ${op1}")
+//                println("output: ${op1}")
                 output = op1
+                outputObserver?.run { onOutput(output) }
             }
 
             5L -> {
@@ -200,4 +204,14 @@ class IntComputer(program: String) {
 
         return executeInstruction(opcode, op1, op2, op3, increment)
     }
+
+    fun setInput(inputCode: Long) {
+        singleInput = inputCode
+        secondInput = inputCode
+        inputCounter = 0L
+    }
+}
+
+interface IntComputerObserver {
+    fun onOutput(output: Long)
 }
