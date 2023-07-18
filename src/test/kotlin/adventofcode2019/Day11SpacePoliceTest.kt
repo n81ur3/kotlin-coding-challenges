@@ -23,7 +23,7 @@ class Day11SpacePoliceTest {
         val paintedPanelsCount = paintingRobot.paintedPanelsCount
 
         assertEquals(2184, paintedPanelsCount)
-        println("Solution for AoC2019-Day10-Part01: ${paintedPanelsCount}")
+        println("Solution for AoC2019-Day11-Part01: ${paintedPanelsCount}")
     }
 
     @Test
@@ -33,6 +33,6 @@ class Day11SpacePoliceTest {
 
         paintingRobot.paint(1L)
         paintingRobot.paintRegistrationIdentifier()
-        println("Solution for AoC2019-Day10-Part02: AHCHZEPK")
+        println("Solution for AoC2019-Day11-Part02: AHCHZEPK")
     }
 }
