@@ -29,6 +29,31 @@ class Day12TheNbodyProblemTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val coordinates = listOf(
+            "<x=-8, y=-10, z=0>",
+            "<x=5, y=5, z=10>",
+            "<x=2, y=-7, z=3>",
+            "<x=9, y=-8, z=-3>"
+        )
+        val jupiterOrbit = JupiterOrbit(coordinates)
+        assertEquals(4686774924, jupiterOrbit.stepsUntilCircle())
+    }
+
+    @Test
+    fun testLCM() {
+        val coordinates = listOf(
+            "<x=-8, y=-10, z=0>",
+            "<x=5, y=5, z=10>",
+            "<x=2, y=-7, z=3>",
+            "<x=9, y=-8, z=-3>"
+        )
+        val jupiterOrbit = JupiterOrbit(coordinates)
+        val lcm = jupiterOrbit.lcm(12, 15, 75, 45, 88, 845, 555)
+        println("LCM: ${lcm}")
+    }
+
+    @Test
     fun solutionPart1() {
         val coordinates = file.readLines()
         val jupiterOrbit = JupiterOrbit(coordinates)
@@ -38,6 +63,17 @@ class Day12TheNbodyProblemTest {
 
         assertEquals(5350, totalEnergy)
         println("Solution for AoC2019-Day12-Part01: ${totalEnergy}")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val coordinates = file.readLines()
+        val jupiterOrbit = JupiterOrbit(coordinates)
+
+        val stepsUntilCircle = jupiterOrbit.stepsUntilCircle()
+
+        assertEquals(467034091553512, stepsUntilCircle)
+        println("Solution for AoC2019-Day12-Part02: ${stepsUntilCircle}")
     }
 
     companion object {
