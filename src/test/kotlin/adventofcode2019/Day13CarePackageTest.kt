@@ -26,4 +26,18 @@ class Day13CarePackageTest {
         Assertions.assertEquals(335, blockCount)
         println("Solution for AoC2019-Day13-Part01: ${blockCount}")
     }
+
+    @Test
+    fun solutionPart2() {
+        val program = file.readLines()[0]
+        val arcadeCabinet = ArcadeCabinet(program)
+
+        arcadeCabinet.enableFreePlay()
+        arcadeCabinet.play()
+
+        val finalScore = arcadeCabinet.currentScore
+
+        Assertions.assertEquals(15706, finalScore)
+        println("Solution for AoC2019-Day13-Part02: ${finalScore}")
+    }
 }
