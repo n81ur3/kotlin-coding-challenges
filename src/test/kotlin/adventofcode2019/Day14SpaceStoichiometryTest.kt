@@ -19,13 +19,23 @@ class Day14SpaceStoichiometryTest {
     }
 
     @ParameterizedTest
-    @MethodSource("sampleTestData")
-    fun runSamplesPart1(reactionsInput: List<String>, expectedResult: Int) {
+    @MethodSource("sampleTestData1")
+    fun runSamplesPart1(reactionsInput: List<String>, expectedResult: Long) {
         val chemicalReactor = ChemicalReactor(reactionsInput)
 
         val requiredOre = chemicalReactor.calculateRequiredOre()
 
         assertEquals(expectedResult, requiredOre)
+    }
+
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2(reactionsInput: List<String>, acquiredFire: Long) {
+        val chemicalReactor = ChemicalReactor(reactionsInput)
+
+        val bestMatch = chemicalReactor.calculateFireForOneTrillionOres()
+
+        assertEquals(acquiredFire, bestMatch)
     }
 
     @Test
@@ -39,15 +49,32 @@ class Day14SpaceStoichiometryTest {
         println("Solution for AoC2019-Day14-Part01: $requiredOre")
     }
 
+    @Test
+    fun solutionPart2() {
+        val reactionsInput = file.readLines()
+        val chemicalReactor = ChemicalReactor(reactionsInput)
+
+        val bestMatch = chemicalReactor.calculateFireForOneTrillionOres()
+
+        assertEquals(3061522, bestMatch)
+        println("Solution for AoC2019-Day14-Part02: $bestMatch")
+    }
 
     companion object {
         @JvmStatic
-        fun sampleTestData() = listOf(
+        fun sampleTestData1() = listOf(
             Arguments.of(reactionsInput1, 31),
             Arguments.of(reactionsInput2, 165),
             Arguments.of(reactionsInput3, 13312),
             Arguments.of(reactionsInput4, 180697),
             Arguments.of(reactionsInput5, 2210736)
+        )
+
+        @JvmStatic
+        fun sampleTestData2() = listOf(
+            Arguments.of(reactionsInput3, 82892753L),
+            Arguments.of(reactionsInput4, 5586022L),
+            Arguments.of(reactionsInput5, 460664L)
         )
 
         val reactionsInput1 = listOf(
