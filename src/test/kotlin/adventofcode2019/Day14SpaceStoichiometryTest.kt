@@ -60,41 +60,41 @@ class Day14SpaceStoichiometryTest {
         println("Solution for AoC2019-Day14-Part02: $bestMatch")
     }
 
-    companion object {
-        @JvmStatic
-        fun sampleTestData1() = listOf(
-            Arguments.of(reactionsInput1, 31),
-            Arguments.of(reactionsInput2, 165),
-            Arguments.of(reactionsInput3, 13312),
-            Arguments.of(reactionsInput4, 180697),
-            Arguments.of(reactionsInput5, 2210736)
-        )
+companion object {
+    @JvmStatic
+    fun sampleTestData1() = listOf(
+        Arguments.of(reactionsInput1, 31),
+        Arguments.of(reactionsInput2, 165),
+        Arguments.of(reactionsInput3, 13312),
+        Arguments.of(reactionsInput4, 180697),
+        Arguments.of(reactionsInput5, 2210736)
+    )
 
-        @JvmStatic
-        fun sampleTestData2() = listOf(
-            Arguments.of(reactionsInput3, 82892753L),
-            Arguments.of(reactionsInput4, 5586022L),
-            Arguments.of(reactionsInput5, 460664L)
-        )
+    @JvmStatic
+    fun sampleTestData2() = listOf(
+        Arguments.of(reactionsInput3, 82892753L),
+        Arguments.of(reactionsInput4, 5586022L),
+        Arguments.of(reactionsInput5, 460664L)
+    )
 
-        val reactionsInput1 = listOf(
-            "10 ORE => 10 A",
-            "1 ORE => 1 B",
-            "7 A, 1 B => 1 C",
-            "7 A, 1 C => 1 D",
-            "7 A, 1 D => 1 E",
-            "7 A, 1 E => 1 FUEL"
-        )
+    val reactionsInput1 = listOf(
+        "10 ORE => 10 A",
+        "1 ORE => 1 B",
+        "7 A, 1 B => 1 C",
+        "7 A, 1 C => 1 D",
+        "7 A, 1 D => 1 E",
+        "7 A, 1 E => 1 FUEL"
+    )
 
-        val reactionsInput2 = listOf(
-            "9 ORE => 2 A",
-            "8 ORE => 3 B",
-            "7 ORE => 5 C",
-            "3 A, 4 B => 1 AB",
-            "5 B, 7 C => 1 BC",
-            "4 C, 1 A => 1 CA",
-            "2 AB, 3 BC, 4 CA => 1 FUEL"
-        )
+    val reactionsInput2 = listOf(
+        "9 ORE => 2 A",
+        "8 ORE => 3 B",
+        "7 ORE => 5 C",
+        "3 A, 4 B => 1 AB",
+        "5 B, 7 C => 1 BC",
+        "4 C, 1 A => 1 CA",
+        "2 AB, 3 BC, 4 CA => 1 FUEL"
+    )
 
         val reactionsInput3 = listOf(
             "157 ORE => 5 NZVS",

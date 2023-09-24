@@ -12,6 +12,7 @@ class IntComputer(program: String) {
     var output = 0L
     var directPointer = false
     var relativeBase = 0L
+    var started = false
     var outputObserver: IntComputerObserver? = null
 
     init {
@@ -23,7 +24,8 @@ class IntComputer(program: String) {
 
     fun run(input: Long): Long {
         singleInput = input
-        while ((memory.getOrDefault(ip, 0) % 100L) != 99L) {
+        started = true
+        while ((memory.getOrDefault(ip, 0) % 100L) != 99L && started) {
             val increment = this.execute(memory.getOrDefault(ip, 0))
             if (!directPointer) {
                 ip += increment
@@ -80,7 +82,6 @@ class IntComputer(program: String) {
             }
 
             4L -> {
-//                println("output: ${op1}")
                 output = op1
                 outputObserver?.run { onOutput(output) }
             }
@@ -209,6 +210,10 @@ class IntComputer(program: String) {
         singleInput = inputCode
         secondInput = inputCode
         inputCounter = 0L
+    }
+
+    fun stop() {
+        started = false
     }
 }
 
