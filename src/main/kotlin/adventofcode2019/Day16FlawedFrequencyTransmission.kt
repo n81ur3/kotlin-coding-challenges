@@ -1,10 +1,11 @@
 package adventofcode2019
 
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 class Day16FlawedFrequencyTransmission
 
-class FFT(input: String) {
+class FFT(val input: String) {
     var elements: List<Int>
 
     init {
@@ -39,4 +40,17 @@ class FFT(input: String) {
         val basePattern = mutableListOf(0, 1, 0, -1)
         return basePattern.map { element -> List(phase) { element } }.flatten()
     }
+
+    fun runExtended(phases: Int = 100): String {
+        val offset = input.take(7).toInt()
+        val stretchedInput = (offset until 10_000 * input.length).map { elements[it % input.length] }.toIntArray()
+        repeat(phases) {
+            stretchedInput.indices.reversed().fold(0) { carry, idx ->
+                (stretchedInput[idx] + carry).lastDigit().also { stretchedInput[idx] = it }
+            }
+        }
+        return stretchedInput.take(8).joinToString(separator = "")
+    }
+
+    private fun Int.lastDigit(): Int = (this % 10).absoluteValue
 }

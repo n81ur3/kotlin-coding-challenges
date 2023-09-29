@@ -46,6 +46,17 @@ class Day16FlawedFrequencyTransmissionTest {
         println("Solution for AoC2019-Day16-Part01: $result")
     }
 
+    @Test
+    fun solutionPart2() {
+        val input = file.readLines()[0]
+        val fft = FFT(input)
+
+        val result = fft.runExtended(100)
+
+        Assertions.assertEquals("57762756", result)
+        println("Solution for AoC2019-Day16-Part02: $result")
+    }
+
     companion object {
         @JvmStatic
         fun sampleTestData1() = listOf(
