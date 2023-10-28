@@ -2,7 +2,7 @@ package adventofcode2019
 
 import kotlinx.coroutines.channels.Channel
 
-class IntComputer(program: String) {
+class IntComputer(program: String, val input: List<Long> = emptyList()) {
     var memory = mutableMapOf<Long, Long>()
     val initialState = mutableMapOf<Long, Long>()
     var ip = 0L
@@ -34,6 +34,10 @@ class IntComputer(program: String) {
         return output
     }
 
+    fun runWithInputList() {
+        run(input[0])
+    }
+
     fun reset() {
         memory = initialState.toMutableMap()
         inputCounter = 0L
@@ -55,6 +59,9 @@ class IntComputer(program: String) {
         return result
     }
 
+    fun setMemoryValue(index: Long, value: Long) {
+        memory[index] = value
+    }
 
     private fun executeInstruction(
         instruction: Long,
@@ -74,7 +81,9 @@ class IntComputer(program: String) {
             }
 
             3L -> {
-                if (inputCounter > 0) {
+                if (input.isNotEmpty()) {
+                    singleInput = input[inputCounter.toInt()]
+                } else if (inputCounter > 0) {
                     singleInput = secondInput
                 }
                 inputCounter++

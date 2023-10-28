@@ -8,8 +8,8 @@ data class ScaffoldPoint(
     val token: Long
 )
 
-class AsciiScaffold(program: String) : IntComputerObserver {
-    val intComputer: IntComputer = IntComputer(program)
+class AsciiScaffold(program: String, val input: List<Long> = emptyList()) : IntComputerObserver {
+    val intComputer: IntComputer = if (input.isEmpty()) IntComputer(program) else IntComputer(program, input)
     val collectedTokens = mutableListOf<Long>()
     val scaffoldPoints = mutableListOf<ScaffoldPoint>()
 
@@ -38,6 +38,12 @@ class AsciiScaffold(program: String) : IntComputerObserver {
             }
             x++
         }
+    }
+
+    fun detectDust(): Long {
+        intComputer.setMemoryValue(0, 2)
+        intComputer.runWithInputList()
+        return collectedTokens.last()
     }
 
     fun calibrate(): Long {
