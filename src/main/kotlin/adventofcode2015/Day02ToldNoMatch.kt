@@ -9,6 +9,8 @@ data class RectPrism(
 ) {
     fun requiredPaper() = (2 * l * w) + (2 * w * h) + (2 * h * l) + smallestSquare()
 
+    fun requiredRibbon() = listOf(l, w, h).sorted().take(2).sumOf { it + it } + (l * w * h)
+
     private fun smallestSquare() = listOf(l, w, h).sorted().take(2).reduce { acc, i -> acc * i }
 }
 
@@ -16,6 +18,8 @@ class PrismCalculator(input: List<String>) {
     val boxes: List<RectPrism>
     val totalPaperRequired: Int
         get() = boxes.sumOf { it.requiredPaper() }
+    val totalRibbonRequired: Int
+        get() = boxes.sumOf { it.requiredRibbon() }
 
     init {
         boxes = input.map { toBox(it) }
