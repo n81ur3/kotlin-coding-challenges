@@ -25,6 +25,14 @@ class Day03SphericalHousesTest {
         assertEquals(expectedResult, northVillage.numberOfVisitedHouses)
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2(directions: String, expectedResult: Int) {
+        val northVillage = NorthVillage()
+        northVillage.visitWithRobo(directions)
+        assertEquals(expectedResult, northVillage.numberOfVisitedHouses)
+    }
+
     @Test
     fun solutionPart1() {
         val directions = file.readLines()[0]
@@ -36,6 +44,16 @@ class Day03SphericalHousesTest {
         println("Solution for AoC2015-Day03-Part01: ${northVillage.numberOfVisitedHouses}")
     }
 
+    @Test
+    fun solutionPart2() {
+        val directions = file.readLines()[0]
+        val northVillage = NorthVillage()
+
+        northVillage.visitWithRobo(directions)
+
+        assertEquals(2631, northVillage.numberOfVisitedHouses)
+        println("Solution for AoC2015-Day03-Part02: ${northVillage.numberOfVisitedHouses}")
+    }
 
     companion object {
         @JvmStatic
@@ -43,6 +61,13 @@ class Day03SphericalHousesTest {
             Arguments.of(">", 2),
             Arguments.of("^>v<", 4),
             Arguments.of("^v^v^v^v^v", 2),
+        )
+
+        @JvmStatic
+        fun sampleTestData2() = listOf(
+            Arguments.of("^v", 3),
+            Arguments.of("^>v<", 3),
+            Arguments.of("^v^v^v^v^v", 11)
         )
     }
 }
