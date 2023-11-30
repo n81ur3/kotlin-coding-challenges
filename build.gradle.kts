@@ -24,6 +24,9 @@ dependencies {
 	implementation("com.google.code.gson:gson:2.9.0")
 	implementation("commons-validator:commons-validator:1.7")
 
+	implementation("io.ktor:ktor-server-core:2.3.6")
+	implementation("io.ktor:ktor-server-netty:2.3.6")
+
 	testImplementation("org.hamcrest:hamcrest:2.2")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")

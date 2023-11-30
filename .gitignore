@@ -42,3 +42,4 @@ google-services.json
 
 .DS_Store
 /src/main/kotlin/Playground.kt
+/src/main/kotlin/playground/
