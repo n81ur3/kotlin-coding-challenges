@@ -22,7 +22,17 @@ class Day04IdealStockingStufferTest {
         val result = md5Breaker.findHash(secretKey)
 
         assertEquals(346386, result)
-        println("Solution for AoC2015-Day03-Part01: $result")
+        println("Solution for AoC2015-Day04-Part01: $result")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val md5Breaker = MD5Breaker()
+        val secretKey = "iwrupvqb"
+        val result = md5Breaker.findHash(secretKey, 6)
+
+        assertEquals(9958218, result)
+        println("Solution for AoC2015-Day04-Part02: $result")
     }
 
     companion object {
