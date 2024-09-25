@@ -25,6 +25,14 @@ class Day05InternElvesTest {
         assertEquals(expectedResult, result)
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2(candidate: String, expectedResult: Boolean) {
+        val stringChecker = StringChecker()
+        val result = stringChecker.checkStringsPartTwo(listOf(candidate)) > 0
+        assertEquals(expectedResult, result)
+    }
+
     @Test
     fun solutionPart1() {
         val candidates = file.readLines()
@@ -36,6 +44,17 @@ class Day05InternElvesTest {
         println("Solution for AoC2015-Day05-Part01: $numberOfNiceStrings")
     }
 
+    @Test
+    fun solutionPart2() {
+        val candidates = file.readLines()
+        val stringChecker = StringChecker()
+
+        val numberOfNiceStrings = stringChecker.checkStringsPartTwo(candidates)
+
+//        assertEquals(258, numberOfNiceStrings)
+        println("Solution for AoC2015-Day05-Part02: $numberOfNiceStrings")
+    }
+
     companion object {
         @JvmStatic
         fun sampleTestData1() = listOf(
@@ -44,6 +63,14 @@ class Day05InternElvesTest {
             Arguments.of("jchzalrnumimnmhp", false),
             Arguments.of("haegwjzuvuyypxyu", false),
             Arguments.of("dvszwmarrgswjxmb", false),
+        )
+
+        @JvmStatic
+        fun sampleTestData2() = listOf(
+            Arguments.of("qjhvhtzxzqqjkmpb", true),
+            Arguments.of("xxyxx", true),
+            Arguments.of("uurcxstgmygtbstg", false),
+            Arguments.of("ieodomkazucvgmuy", false),
         )
     }
 }
