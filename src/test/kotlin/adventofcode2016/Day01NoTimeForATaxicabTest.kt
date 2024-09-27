@@ -9,7 +9,7 @@ import utils.ResourceLoader
 import java.io.File
 import kotlin.test.assertEquals
 
-class NoTimeForATaxicabTest {
+class Day01NoTimeForATaxicabTest {
     lateinit var file: File
 
     @BeforeEach
