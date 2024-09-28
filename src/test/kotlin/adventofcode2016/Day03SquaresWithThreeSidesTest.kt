@@ -16,6 +16,12 @@ class Day03SquaresWithThreeSidesTest {
     fun setup() {
         file = ResourceLoader.getFile("aoc2016/aoc2016_day03_input.txt")
     }
+    @ParameterizedTest
+    @MethodSource("sampleTestData1")
+    fun runSamplesPart1(description: String, expectedResult: Boolean) {
+        val triangle = Triangle.fromString(description)
+        assertEquals(expectedResult, triangle.isValid())
+    }
 
     @Test
     fun solutionPart1() {
@@ -26,11 +32,13 @@ class Day03SquaresWithThreeSidesTest {
         println("Solution for AoC2016-Day03-Part01: $validTrianglesCount")
     }
 
-    @ParameterizedTest
-    @MethodSource("sampleTestData1")
-    fun runSamplesPart1(description: String, expectedResult: Boolean) {
-        val triangle = Triangle.fromString(description)
-        assertEquals(expectedResult, triangle.isValid())
+    @Test
+    fun solutionPart2() {
+        val squareChecker = SquareChecker()
+        val descriptions = file.readLines().filter { it.length > 1}
+        val validTrianglesCount = squareChecker.checkTrianglesVertically(descriptions)
+        assertEquals(1836, validTrianglesCount)
+        println("Solution for AoC2016-Day03-Part02: $validTrianglesCount")
     }
 
     companion object {
