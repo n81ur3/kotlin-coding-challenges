@@ -16,6 +16,7 @@ class Day03SquaresWithThreeSidesTest {
     fun setup() {
         file = ResourceLoader.getFile("aoc2016/aoc2016_day03_input.txt")
     }
+
     @ParameterizedTest
     @MethodSource("sampleTestData1")
     fun runSamplesPart1(description: String, expectedResult: Boolean) {
