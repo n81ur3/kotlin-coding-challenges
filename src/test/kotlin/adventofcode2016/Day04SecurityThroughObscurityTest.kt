@@ -39,6 +39,13 @@ class Day04SecurityThroughObscurityTest {
     }
 
     @Test
+    fun runSamplePart2() {
+        val room = Room("qzmt-zixmtkozy-ivhz", 343, "checksum")
+        val result = room.decrypt()
+        assertEquals("very encrypted name", result)
+    }
+
+    @Test
     fun solutionPart1() {
         val descriptions = file.readLines()
         val infoKiosk = InfoKiosk()
@@ -46,6 +53,15 @@ class Day04SecurityThroughObscurityTest {
         println(result)
         assertEquals(409147, result)
         println("Solution for AoC2016-Day04-Part01: $result")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val descriptions = file.readLines()
+        val infoKiosk = InfoKiosk()
+        val storageID = infoKiosk.getNorthPoleObjectStorageID(descriptions)
+        assertEquals(991, storageID)
+        println("Solution for AoC2016-Day04-Part02: $storageID")
     }
 
     companion object {

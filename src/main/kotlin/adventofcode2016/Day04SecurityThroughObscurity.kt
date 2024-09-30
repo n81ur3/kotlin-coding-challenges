@@ -4,6 +4,11 @@ class InfoKiosk() {
 
     fun checkRooms(roomDescriptions: List<String>) =
         roomDescriptions.map { Room.fromString(it) }.filter { it.verifyRoom() }.sumOf { it.sectorID }
+
+    fun getNorthPoleObjectStorageID(roomDescriptions: List<String>): Int {
+        val validRooms = roomDescriptions.map { Room.fromString(it) }.filter { it.verifyRoom() }
+        return validRooms.first { it.decrypt() == "northpoleobjectstorage" }.sectorID
+    }
 }
 
 data class Room(
@@ -18,6 +23,16 @@ data class Room(
         val requiredChecksum = StringBuilder()
         sortedGroup.forEach { requiredChecksum.append(it.key) }
         return requiredChecksum.take(5).toString() == checksum
+    }
+
+    fun decrypt(): String {
+        return name.map { if (it != '-') rotate(it) else ' '}.joinToString(separator = "")
+    }
+
+    fun rotate(c: Char): Char {
+        val rotated = 97 + Math.floorMod(c.code + sectorID - 97, 26)
+        val result = Char(rotated)
+        return Char(rotated)
     }
 
     companion object {
