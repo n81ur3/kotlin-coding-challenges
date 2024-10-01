@@ -50,7 +50,6 @@ class Day04SecurityThroughObscurityTest {
         val descriptions = file.readLines()
         val infoKiosk = InfoKiosk()
         val result = infoKiosk.checkRooms(descriptions)
-        println(result)
         assertEquals(409147, result)
         println("Solution for AoC2016-Day04-Part01: $result")
     }
