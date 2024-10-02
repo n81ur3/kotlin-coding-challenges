@@ -1,20 +1,10 @@
 package adventofcode2016
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import utils.ResourceLoader
-import java.io.File
 
 
 class Day05NiceGameOfChessTest {
-    lateinit var file: File
-
-    @BeforeEach
-    fun setup() {
-        file = ResourceLoader.getFile("aoc2016/aoc2016_day04_input.txt")
-    }
-
     @Test
     fun runSamplePart1() {
         val md5Station = Md5Station()
