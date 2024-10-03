@@ -9,6 +9,24 @@ import java.io.File
 
 class Day06SignalsAndNoiseTest {
     lateinit var file: File
+    val sampleMessages = listOf(
+        "eedadn",
+        "drvtee",
+        "eandsr",
+        "raavrd",
+        "atevrs",
+        "tsrnev",
+        "sdttsa",
+        "rasrtv",
+        "nssdts",
+        "ntnada",
+        "svetve",
+        "tesnvt",
+        "vntsnd",
+        "vrdear",
+        "dvrsen",
+        "enarar",
+    )
 
     @BeforeEach
     fun setup() {
@@ -18,26 +36,15 @@ class Day06SignalsAndNoiseTest {
     @Test
     fun runSamplePart1() {
         val noiseDecoder = NoiseDecoder()
-        val messages = listOf(
-            "eedadn",
-            "drvtee",
-            "eandsr",
-            "raavrd",
-            "atevrs",
-            "tsrnev",
-            "sdttsa",
-            "rasrtv",
-            "nssdts",
-            "ntnada",
-            "svetve",
-            "tesnvt",
-            "vntsnd",
-            "vrdear",
-            "dvrsen",
-            "enarar",
-        )
-        val message = noiseDecoder.decodeMessage(messages)
+        val message = noiseDecoder.decodeMessage(sampleMessages)
         assertEquals("easter", message)
+    }
+
+    @Test
+    fun runSamplePart2() {
+        val noiseDecoder = NoiseDecoder()
+        val hiddenMessage = noiseDecoder.decodeHiddenMessage(sampleMessages)
+        assertEquals("advent", hiddenMessage)
     }
 
     @Test
@@ -46,6 +53,15 @@ class Day06SignalsAndNoiseTest {
         val messages = file.readLines()
         val message = noiseDecoder.decodeMessage(messages)
         assertEquals("umcvzsmw", message)
-        println("Solution for AoC2016-Day05-Part01: $message")
+        println("Solution for AoC2016-Day06-Part01: $message")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val noiseDecoder = NoiseDecoder()
+        val messages = file.readLines()
+        val hiddenMessage = noiseDecoder.decodeHiddenMessage(messages)
+        assertEquals("rwqoacfz", hiddenMessage)
+        println("Solution for AoC2016-Day06-Part02: $hiddenMessage")
     }
 }

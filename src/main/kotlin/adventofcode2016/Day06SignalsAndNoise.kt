@@ -8,7 +8,12 @@ class NoiseDecoder {
 
     fun decodeMessage(messages: List<String>): String {
         parseInput(messages)
-        return buildMessage()
+        return buildMessage(false)
+    }
+
+    fun decodeHiddenMessage(messages: List<String>): String {
+        parseInput(messages)
+        return buildMessage(true)
     }
 
     private fun parseInput(messages: List<String>) {
@@ -18,11 +23,16 @@ class NoiseDecoder {
         }
     }
 
-    private fun buildMessage(): String {
+    private fun buildMessage(findLeastCommon: Boolean): String {
         val message = StringBuilder()
         buckets.forEach { bucket ->
-            val mostFrequentCharacter = bucket.groupBy { it }.maxByOrNull { it.value.size }?.value?.first() ?: ""
-            message.append(mostFrequentCharacter)
+            if (findLeastCommon) {
+                val leastFrequentCharacter = bucket.groupBy { it }.minByOrNull { it.value.size }?.value?.first() ?: ""
+                message.append(leastFrequentCharacter)
+            } else {
+                val mostFrequentCharacter = bucket.groupBy { it }.maxByOrNull { it.value.size }?.value?.first() ?: ""
+                message.append(mostFrequentCharacter)
+            }
         }
         return message.toString()
     }
