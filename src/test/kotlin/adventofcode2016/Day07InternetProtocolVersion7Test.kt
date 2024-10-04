@@ -25,6 +25,13 @@ class Day07InternetProtocolVersion7Test {
         assertEquals(expectedResult, ipV7router.isTLSsupported(ipAddress))
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2(ipAddress: String, expectedResult: Boolean) {
+        val ipV7router = IpV7router()
+        assertEquals(expectedResult, ipV7router.isSSLsupported(ipAddress))
+    }
+
     @Test
     fun solutionPart1() {
         val ipV7router = IpV7router()
@@ -32,6 +39,15 @@ class Day07InternetProtocolVersion7Test {
         val tlsNetsCount = ipAddresses.filter { ipV7router.isTLSsupported(it) }.count()
         assertEquals(115, tlsNetsCount)
         println("Solution for AoC2016-Day07-Part01: $tlsNetsCount")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val ipV7router = IpV7router()
+        val ipAddresses = file.readLines()
+        val sslNetsCount = ipAddresses.filter { ipV7router.isSSLsupported(it) }.count()
+        assertEquals(231, sslNetsCount)
+        println("Solution for AoC2016-Day07-Part02: $sslNetsCount")
     }
 
     companion object {
@@ -42,6 +58,14 @@ class Day07InternetProtocolVersion7Test {
             Arguments.of("abcd[bddb]xyyx", false),
             Arguments.of("aaaa[qwer]tyui", false),
             Arguments.of("ioxxoj[asdfgh]zxcvbn", true),
+        )
+
+        @JvmStatic
+        fun sampleTestData2() = listOf(
+            Arguments.of("aba[bab]xyz", true),
+            Arguments.of("xyx[xyx]xyx", false),
+            Arguments.of("aaa[kek]eke", true),
+            Arguments.of("zazbz[bzb]cdb", true),
         )
     }
 }
