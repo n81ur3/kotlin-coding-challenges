@@ -41,4 +41,13 @@ class Day08TwoFactorAuthenticationTest {
         assertEquals(110, activePixelsCount)
         println("Solution for AoC2016-Day08-Part01: $activePixelsCount")
     }
+
+    @Test
+    fun solutionPart2() {
+        val lcdScreenOperator = LcdScreenOperator()
+        val commands = file.readLines()
+        commands.forEach { command -> lcdScreenOperator.executeCommand(command) }
+        lcdScreenOperator.printScreen()
+        println("Solution for AoC2016-Day08-Part02: ZJHRKCPLYJ")
+    }
 }
