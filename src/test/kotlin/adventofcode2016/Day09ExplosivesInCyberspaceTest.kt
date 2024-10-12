@@ -25,6 +25,20 @@ class Day09ExplosivesInCyberspaceTest {
         assertEquals(uncompressed, unzipper.unzip(compressed))
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2First(compressed: String, uncompressed: String) {
+        val unzipper = Unzipper()
+        assertEquals(uncompressed, unzipper.decompress(compressed))
+    }
+
+    @ParameterizedTest
+    @MethodSource("sampleTestData3")
+    fun runSamplePart2Second(compressed: String, length: Long) {
+        val unzipper = Unzipper()
+        assertEquals(length, unzipper.decompress(compressed))
+    }
+
     @Test
     fun solutionPart1() {
         val unzipper = Unzipper()
@@ -32,6 +46,15 @@ class Day09ExplosivesInCyberspaceTest {
         val decompressedLength = unzipper.unzip(compressed).length
         assertEquals(123908, decompressedLength)
         println("Solution for AoC2016-Day09-Part01: $decompressedLength")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val unzipper = Unzipper()
+        val compressed = file.readLines()[0]
+        val decompressedLength = unzipper.decompress(compressed)
+        assertEquals(10755693147, decompressedLength)
+        println("Solution for AoC2016-Day09-Part02: $decompressedLength")
     }
 
     companion object {
@@ -48,10 +71,14 @@ class Day09ExplosivesInCyberspaceTest {
 
         @JvmStatic
         fun sampleTestData2() = listOf(
-            Arguments.of("aba[bab]xyz", true),
-            Arguments.of("xyx[xyx]xyx", false),
-            Arguments.of("aaa[kek]eke", true),
-            Arguments.of("zazbz[bzb]cdb", true),
+            Arguments.of("(3x3)XYZ", "XYZXYZXYZ"),
+            Arguments.of("X(8x2)(3x3)ABCY", "XABCABCABCABCABCABCY"),
+        )
+
+        @JvmStatic
+        fun sampleTestData3() = listOf(
+            Arguments.of("(27x12)(20x12)(13x14)(7x10)(1x12)A", 241920),
+            Arguments.of("(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN", 445)
         )
     }
 }
