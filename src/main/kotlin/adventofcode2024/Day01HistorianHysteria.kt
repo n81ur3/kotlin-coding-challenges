@@ -1,10 +1,6 @@
 package adventofcode2024
 
-import adventofcode2020.SeatPlan.Companion.parseInput
 import kotlin.math.abs
-
-class Day01HistorianHysteria {
-}
 
 class ListComparer(
     input: List<String>

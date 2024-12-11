@@ -25,6 +25,13 @@ class Day02RedNosedReportsTest {
         assertEquals(expectedResult, reportClassifier.getSafeReportsCount())
     }
 
+    @ParameterizedTest
+    @MethodSource("sampleTestData2")
+    fun runSamplesPart2(lists: List<String>, expectedResult: Int) {
+        val reportClassifier = ReportClassifier(lists)
+        assertEquals(expectedResult, reportClassifier.getDampenedSafeReportsCount())
+    }
+
     @Test
     fun solutionPart1() {
         val lists = file.readLines()
@@ -32,6 +39,15 @@ class Day02RedNosedReportsTest {
         val solution = reportClassifier.getSafeReportsCount()
         assertEquals(680, solution)
         println("Solution for AoC2024-Day02-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val lists = file.readLines()
+        val reportClassifier = ReportClassifier(lists)
+        val solution = reportClassifier.getDampenedSafeReportsCount()
+        assertEquals(710, solution)
+        println("Solution for AoC2024-Day02-Part02: $solution")
     }
 
     companion object {
@@ -54,13 +70,13 @@ class Day02RedNosedReportsTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 listOf(
-                    "3 4",
-                    "4 3",
-                    "2 5",
-                    "1 3",
-                    "3 9",
-                    "3 3"
-                ), 31
+                    "7 6 4 2 1",
+                    "1 2 7 8 9",
+                    "9 7 6 2 1",
+                    "1 3 2 4 5",
+                    "8 6 4 4 1",
+                    "1 3 6 7 9",
+                ), 4
             )
         )
     }
