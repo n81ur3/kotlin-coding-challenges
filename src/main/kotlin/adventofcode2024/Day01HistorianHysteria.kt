@@ -32,4 +32,9 @@ class ListComparer(
     fun getDifference(): Int {
         return list1.zip(list2).map { abs(it.first - it.second) }.sum()
     }
+
+    fun getFrequencySum(): Int {
+        val result = list1.map { firstElement -> list2.filter { it == firstElement }.count() * firstElement }.sum()
+        return result
+    }
 }
