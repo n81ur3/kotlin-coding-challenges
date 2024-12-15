@@ -26,7 +26,9 @@ class Day03MullItOverTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(lists: List<String>, expectedResult: Int) {
+    fun runSamplesPart2(instructions: List<String>, expectedResult: Int) {
+        val regexCalculator = RegexCalculator(instructions)
+        assertEquals(expectedResult, regexCalculator.getMulTotalOnOff())
     }
 
     @Test
@@ -35,6 +37,15 @@ class Day03MullItOverTest {
         val solution = regexCalculator.getMulTotal()
         assertEquals(183380722, solution)
         println("Solution for AoC2024-Day03-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val regexCalculator = RegexCalculator(file.readLines())
+        val solution = regexCalculator.getMulTotalOnOff()
+        println(solution)
+        assertEquals(82733683, solution)
+        println("Solution for AoC2024-Day03-Part02: $solution")
     }
 
     companion object {
@@ -52,8 +63,8 @@ class Day03MullItOverTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 listOf(
-                    "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
-                ), 161
+                    "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+                ), 48
             )
         )
     }
