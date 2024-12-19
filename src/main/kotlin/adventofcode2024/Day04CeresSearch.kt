@@ -99,4 +99,27 @@ class XmasCounter(
         }
         return xmasCount
     }
+
+    fun crossCount(): Int {
+        val maxX = ceresPoints.maxOf { it.x }
+        val maxY = ceresPoints.maxOf { it.y }
+        var result = 0
+
+        (0..maxY).forEach { y ->
+            (0..maxX).forEach { x ->
+                if (ceresPoints.firstOrNull { it.x == x && it.y == y }?.c == 'A') {
+                    if (isCross(x, y)) result++
+                }
+            }
+
+        }
+        return result
+    }
+
+    private fun isCross(x: Int, y: Int): Boolean {
+        val mappings =
+            crossOffsets.map { offset -> ceresPoints.firstOrNull { x + offset.first == it.x && y + offset.second == it.y } }
+        val result = mappings.fold("") { acc, point -> acc + point?.c}
+        return (result == "MMSS" || result == "SSMM" || result == "MSMS" || result == "SMSM")
+    }
 }

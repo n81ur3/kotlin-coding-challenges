@@ -43,7 +43,6 @@ class Day03MullItOverTest {
     fun solutionPart2() {
         val regexCalculator = RegexCalculator(file.readLines())
         val solution = regexCalculator.getMulTotalOnOff()
-        println(solution)
         assertEquals(82733683, solution)
         println("Solution for AoC2024-Day03-Part02: $solution")
     }

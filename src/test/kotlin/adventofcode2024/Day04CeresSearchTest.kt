@@ -21,16 +21,15 @@ class Day04CeresSearchTest {
     @MethodSource("sampleTestData1")
     fun runSamplesPart1(lines: List<String>, expectedResult: Int) {
         val xmasCounter = XmasCounter(lines)
-//        val result = xmasCounter.xMasCount()
         assertEquals(expectedResult, xmasCounter.xMasCount())
 
     }
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(instructions: List<String>, expectedResult: Int) {
-        val regexCalculator = RegexCalculator(instructions)
-        assertEquals(expectedResult, regexCalculator.getMulTotalOnOff())
+    fun runSamplesPart2(lines: List<String>, expectedResult: Int) {
+        val xmasCounter = XmasCounter(lines)
+        assertEquals(expectedResult, xmasCounter.crossCount())
     }
 
     @Test
@@ -43,10 +42,9 @@ class Day04CeresSearchTest {
 
     @Test
     fun solutionPart2() {
-        val regexCalculator = RegexCalculator(file.readLines())
-        val solution = regexCalculator.getMulTotalOnOff()
-        println(solution)
-        assertEquals(82733683, solution)
+        val xmasCounter = XmasCounter(file.readLines())
+        val solution = xmasCounter.crossCount()
+        assertEquals(1992, solution)
         println("Solution for AoC2024-Day04-Part02: $solution")
     }
 
@@ -55,7 +53,7 @@ class Day04CeresSearchTest {
         @JvmStatic
         fun sampleTestData1() = listOf(
             Arguments.of(
-                    """
+                """
                     MMMSXXMASM
                     MSAMXMSMSA
                     AMXSXMAAMM
@@ -66,17 +64,25 @@ class Day04CeresSearchTest {
                     SAXAMASAAA
                     MAMMMXMMMM
                     MXMXAXMASX
-                    """.trimIndent().lines()
-                , 18
+                    """.trimIndent().lines(), 18
             )
         )
 
         @JvmStatic
         fun sampleTestData2() = listOf(
             Arguments.of(
-                listOf(
-                    "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
-                ), 48
+                """
+                    .M.S......
+                    ..A..MSMS.
+                    .M.S.MAA..
+                    ..A.ASMSM.
+                    .M.S.M....
+                    ..........
+                    S.S.S.S.S.
+                    .A.A.A.A..
+                    M.M.M.M.M.
+                    ..........
+                    """.trimIndent().lines(), 9
             )
         )
     }
