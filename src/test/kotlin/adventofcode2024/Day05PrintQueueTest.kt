@@ -28,8 +28,9 @@ class Day05PrintQueueTest {
     @ParameterizedTest
     @MethodSource("sampleTestData2")
     fun runSamplesPart2(lines: List<String>, expectedResult: Int) {
-        val xmasCounter = XmasCounter(lines)
-        assertEquals(expectedResult, xmasCounter.crossCount())
+        val queuePrinter = QueuePrinter(lines)
+        val result = queuePrinter.getSumOfIncorrectUpdateRules()
+        assertEquals(expectedResult, result)
     }
 
     @Test
@@ -38,6 +39,14 @@ class Day05PrintQueueTest {
         val solution = queuePrinter.getSumOfCorrectUpdateRules()
         assertEquals(5064, solution)
         println("Solution for AoC2024-Day05-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val queuePrinter = QueuePrinter(file.readLines())
+        val solution = queuePrinter.getSumOfIncorrectUpdateRules()
+        assertEquals(5152, solution)
+        println("Solution for AoC2024-Day05-Part02: $solution")
     }
 
     companion object {
@@ -82,17 +91,35 @@ class Day05PrintQueueTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    .M.S......
-                    ..A..MSMS.
-                    .M.S.MAA..
-                    ..A.ASMSM.
-                    .M.S.M....
-                    ..........
-                    S.S.S.S.S.
-                    .A.A.A.A..
-                    M.M.M.M.M.
-                    ..........
-                    """.trimIndent().lines(), 9
+                    47|53
+                    97|13
+                    97|61
+                    97|47
+                    75|29
+                    61|13
+                    75|53
+                    29|13
+                    97|29
+                    53|29
+                    61|53
+                    97|53
+                    61|29
+                    47|13
+                    75|47
+                    97|75
+                    47|61
+                    75|61
+                    47|29
+                    75|13
+                    53|13
+
+                    75,47,61,53,29
+                    97,61,53,29,13
+                    75,29,13
+                    75,97,47,61,53
+                    61,13,29
+                    97,13,75,29,47
+                    """.trimIndent().lines(), 123
             )
         )
     }

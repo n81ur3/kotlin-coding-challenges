@@ -33,5 +33,57 @@ class QueuePrinter(
         return result
     }
 
+    fun getSumOfIncorrectUpdateRules(): Int {
+        var result = 0
+        val printedPages = mutableSetOf<Int>()
+
+        updateRules.forEach { updateRule ->
+            var validUpdate = true
+            updateRule.forEach { update ->
+                val ok = orderRules
+                    .filter { it.second == update }
+                    .filter { updateRule.contains(it.first) }
+                    .map { it.first }
+                    .all { printedPages.contains(it) }
+                if (ok) printedPages.add(update)
+                else validUpdate = false
+            }
+            if (!validUpdate) result += fixRule(updateRule)
+            printedPages.clear()
+        }
+
+        return result
+    }
+
+    private fun fixRule(updateRule: List<Int>): Int {
+        var updateCandidate = updateRule.toMutableList()
+        var validUpdate = false
+        var currentIndex = 0
+        val newCandidate = updateCandidate.toMutableList()
+        while (validUpdate == false || currentIndex < updateRule.size - 1) {
+            validUpdate = true
+                val requiredUpdates =
+                    orderRules.filter { it.second == updateCandidate[currentIndex] }.filter { updateRule.contains(it.first) }
+                        .map { it.first }.filter { !(updateCandidate.take(currentIndex).contains(it)) }
+                if (requiredUpdates.isNotEmpty()) {
+                    validUpdate = false
+                    requiredUpdates.forEachIndexed { innerIndex, innerUpdate ->
+                        newCandidate.remove(innerUpdate)
+                        newCandidate.add(currentIndex, innerUpdate)
+                    }
+                } else {
+                    currentIndex++
+                }
+            updateCandidate = newCandidate
+        }
+        return updateCandidate.getMiddleValue()
+    }
+
+    private fun MutableList<Int>.swap(firstIndex: Int, secondIndex: Int) {
+        val tmp = this[firstIndex]
+        this[firstIndex] = this[secondIndex]
+        this[secondIndex] = tmp
+    }
+
     private fun List<Int>.getMiddleValue() = this[size / 2]
 }
