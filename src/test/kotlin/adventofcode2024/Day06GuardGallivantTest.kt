@@ -29,6 +29,10 @@ class Day06GuardGallivantTest {
     @ParameterizedTest
     @MethodSource("sampleTestData2")
     fun runSamplesPart2(lines: List<String>, expectedResult: Int) {
+        val guardMaze = GuardMaze(lines)
+        guardMaze.walk()
+        assertEquals(expectedResult, guardMaze.findLoopObstacles())
+        guardMaze.printMaze()
     }
 
     @Test
@@ -36,7 +40,6 @@ class Day06GuardGallivantTest {
         val guardMaze = GuardMaze(file.readLines())
         guardMaze.walk()
         val solution = guardMaze.distinctPositionsVisited
-        println(solution)
         assertEquals(4939, solution)
         println("Solution for AoC2024-Day06-Part01: $solution")
     }
@@ -45,10 +48,10 @@ class Day06GuardGallivantTest {
     fun solutionPart2() {
         val guardMaze = GuardMaze(file.readLines())
         guardMaze.walk()
-        val solution = guardMaze.distinctPositionsVisited
+        val solution = guardMaze.findLoopObstacles()
         println(solution)
-        assertEquals(4939, solution)
-        println("Solution for AoC2024-Day06-Part02: $solution")
+//        assertEquals(4939, solution)
+//        println("Solution for AoC2024-Day06-Part02: $solution")
     }
 
     companion object {
@@ -75,35 +78,17 @@ class Day06GuardGallivantTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    47|53
-                    97|13
-                    97|61
-                    97|47
-                    75|29
-                    61|13
-                    75|53
-                    29|13
-                    97|29
-                    53|29
-                    61|53
-                    97|53
-                    61|29
-                    47|13
-                    75|47
-                    97|75
-                    47|61
-                    75|61
-                    47|29
-                    75|13
-                    53|13
-
-                    75,47,61,53,29
-                    97,61,53,29,13
-                    75,29,13
-                    75,97,47,61,53
-                    61,13,29
-                    97,13,75,29,47
-                    """.trimIndent().lines(), 123
+                    ....#.....
+                    .........#
+                    ..........
+                    ..#.......
+                    .......#..
+                    ..........
+                    .#..^.....
+                    ........#.
+                    #.........
+                    ......#...
+                    """.trimIndent().lines(), 6
             )
         )
     }
