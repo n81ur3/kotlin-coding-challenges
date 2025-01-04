@@ -1,15 +1,14 @@
 package adventofcode2024
 
-
 data class BridgeEquation(
     val target: Long,
     val numbers: List<Long>
 ) {
-    fun isValid(): Boolean {
-        return getResults()
+    fun isValid(withConcatenation: Boolean = false): Boolean {
+        return getResults(withConcatenation)
     }
 
-    fun getResults(): Boolean {
+    fun getResults(withConcatenation: Boolean = false): Boolean {
         val results = mutableSetOf<Long>()
         val currentResults = mutableSetOf(numbers[0])
         numbers.drop(1).forEachIndexed { index, number ->
@@ -20,6 +19,10 @@ data class BridgeEquation(
                 val multiplication = it * number
                 if (multiplication <= target) currentResults.add(multiplication)
                 if (addition <= target) currentResults.add(addition)
+                if (withConcatenation) {
+                    val concatenation = it.concatenate(number)
+                    if (concatenation <= target) currentResults.add(concatenation)
+                }
             }
             results.clear()
         }
@@ -27,6 +30,10 @@ data class BridgeEquation(
             return true
         }
         return false
+    }
+
+    private fun Long.concatenate(other: Long): Long {
+        return (this.toString() + other.toString()).toLong()
     }
 }
 
@@ -39,8 +46,8 @@ class BridgeRepairer(
         equations = input.map { parseEquation(it) }
     }
 
-    fun numberOfValidEquations(): Long {
-        return equations.filter { it.isValid() }.sumOf { it.target }
+    fun numberOfValidEquations(withConcatenation: Boolean = false): Long {
+        return equations.filter { it.isValid(withConcatenation) }.sumOf { it.target }
     }
 
     private fun parseEquation(equation: String): BridgeEquation {
