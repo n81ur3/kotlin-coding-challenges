@@ -27,7 +27,9 @@ class Day08ResonatCollinearityTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(lines: List<String>, expectedResult: Long) {
+    fun runSamplesPart2(lines: List<String>, expectedResult: Int) {
+        val resonator = Resonator(lines)
+        assertEquals(expectedResult, resonator.buildAntinodes(withResonance = true))
     }
 
     @Test
@@ -36,6 +38,14 @@ class Day08ResonatCollinearityTest {
         val solution = resonator.buildAntinodes()
         assertEquals(249, solution)
         println("Solution for AoC2024-Day08-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val resonator = Resonator(file.readLines())
+        val solution = resonator.buildAntinodes(withResonance = true)
+        assertEquals(905, solution)
+        println("Solution for AoC2024-Day08-Part02: $solution")
     }
 
     companion object {
@@ -64,16 +74,19 @@ class Day08ResonatCollinearityTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    190: 10 19
-                    3267: 81 40 27
-                    83: 17 5
-                    156: 15 6
-                    7290: 6 8 6 15
-                    161011: 16 10 13
-                    192: 17 8 14
-                    21037: 9 7 18 13
-                    292: 11 6 16 20
-                    """.trimIndent().lines(), 11387
+                    ............
+                    ........0...
+                    .....0......
+                    .......0....
+                    ....0.......
+                    ......A.....
+                    ............
+                    ............
+                    ........A...
+                    .........A..
+                    ............
+                    ............
+                    """.trimIndent().lines(), 34
             )
         )
     }

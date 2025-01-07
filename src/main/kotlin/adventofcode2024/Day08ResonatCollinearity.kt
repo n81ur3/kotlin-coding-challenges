@@ -1,7 +1,6 @@
 package adventofcode2024
 
-class Day08ResonatCollinearity {
-}
+import kotlin.math.max
 
 data class Antenna(
     val frequency: Char,
@@ -44,21 +43,41 @@ class Resonator(
         }
     }
 
-    fun buildAntinodes(): Int {
+    fun buildAntinodes(withResonance: Boolean = false): Int {
         val antennaGroups = antennas.groupBy { it.frequency }
         antennaGroups.forEach { antennaGroup ->
             antennaGroup.value.forEach { firstAntenna ->
                 antennaGroup.value.forEach { secondAntenna ->
                     val distance = firstAntenna.distance(secondAntenna)
                     if (distance.first > 0 || distance.second > 0) {
-                        antinodes.add(firstAntenna.antinodeFromDistance(distance.first, distance.second))
-                        antinodes.add(secondAntenna.antinodeFromDistance(distance.first * -1, distance.second * -1))
+                        if (withResonance) {
+                            (1..max(width, height)).forEach { counter ->
+                                antinodes.add(
+                                    firstAntenna.antinodeFromDistance(
+                                        distance.first * counter,
+                                        distance.second * counter
+                                    )
+                                )
+                                antinodes.add(
+                                    secondAntenna.antinodeFromDistance(
+                                        distance.first * -counter,
+                                        distance.second * -counter
+                                    )
+                                )
+                            }
+                        } else {
+                            antinodes.add(firstAntenna.antinodeFromDistance(distance.first, distance.second))
+                            antinodes.add(secondAntenna.antinodeFromDistance(distance.first * -1, distance.second * -1))
+                        }
                     }
                 }
             }
         }
-        antinodes.removeIf { !(antinodeInRange(it.first, it.second))}
-        return antinodes.size
+        antinodes.removeIf { !(antinodeInRange(it.first, it.second)) }
+        return when {
+            withResonance -> ((antennas.map { it.x to it.y }).toSet() + antinodes).size
+            else -> antinodes.size
+        }
     }
 
     private fun antinodeInRange(x: Int, y: Int): Boolean {
