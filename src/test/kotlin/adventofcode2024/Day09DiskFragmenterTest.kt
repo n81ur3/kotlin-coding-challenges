@@ -30,7 +30,10 @@ class Day09DiskFragmenterTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(lines: List<String>, expectedResult: Int) {
+    fun runSamplesPart2(input: String, expectedResult: Long) {
+        val diskMap = DiskMap(input)
+        diskMap.defragEfficient()
+        assertEquals(expectedResult, diskMap.checksum())
     }
 
     @Test
@@ -42,6 +45,15 @@ class Day09DiskFragmenterTest {
         println("Solution for AoC2024-Day09-Part01: $solution")
     }
 
+    @Test
+    fun solutionPart2() {
+        val diskMap = DiskMap(file.readLines()[0])
+        diskMap.defragEfficient()
+        val solution = diskMap.checksum()
+        assertEquals(6377400869326, solution)
+        println("Solution for AoC2024-Day09-Part02: $solution")
+    }
+
     companion object {
         @JvmStatic
         fun sampleTestData1() = listOf(
@@ -50,22 +62,7 @@ class Day09DiskFragmenterTest {
 
         @JvmStatic
         fun sampleTestData2() = listOf(
-            Arguments.of(
-                """
-                    ............
-                    ........0...
-                    .....0......
-                    .......0....
-                    ....0.......
-                    ......A.....
-                    ............
-                    ............
-                    ........A...
-                    .........A..
-                    ............
-                    ............
-                    """.trimIndent().lines(), 34
-            )
+            Arguments.of("2333133121414131402", 2858)
         )
     }
 }
