@@ -27,7 +27,10 @@ class Day10HoofItTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(input: List<String>, expectedResult: Long) {
+    fun runSamplesPart2(input: List<String>, expectedResult: Int) {
+        val pathfinder = Pathfinder(input)
+        pathfinder.findPaths()
+        assertEquals(expectedResult, pathfinder.sumOfTotalTrailPaths)
     }
 
     @Test
@@ -36,6 +39,15 @@ class Day10HoofItTest {
         val solution = pathfinder.findPaths()
         assertEquals(517, solution)
         println("Solution for AoC2024-Day10-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val pathfinder = Pathfinder(file.readLines())
+        pathfinder.findPaths()
+        val solution = pathfinder.sumOfTotalTrailPaths
+        assertEquals(1116, solution)
+        println("Solution for AoC2024-Day10-Part02: $solution")
     }
 
     companion object {
@@ -60,19 +72,15 @@ class Day10HoofItTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    ............
-                    ........0...
-                    .....0......
-                    .......0....
-                    ....0.......
-                    ......A.....
-                    ............
-                    ............
-                    ........A...
-                    .........A..
-                    ............
-                    ............
-                    """.trimIndent().lines(), 34
+                    89010123
+                    78121874
+                    87430965
+                    96549874
+                    45678903
+                    32019012
+                    01329801
+                    10456732
+                    """.trimIndent().lines(), 81
             )
         )
     }

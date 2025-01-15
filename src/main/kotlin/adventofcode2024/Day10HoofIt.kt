@@ -22,13 +22,19 @@ class Pathfinder(
     val width = input[0].length - 1
     val height = input.size - 1
     val trailPaths = mutableMapOf<Stepstone, MutableSet<Stepstone>>()
+    val trailPathsCounters = mutableMapOf<Stepstone, Int>()
+    val sumOfTotalTrailPaths: Int
+        get() = trailPathsCounters.values.sum()
 
     init {
         stepstones = input.flatMapIndexed { y, line ->
             line.mapIndexed { x, entry -> Stepstone(x, y, entry.digitToInt()) }
         }
         trailheads = stepstones.filter { it.height == 0 }
-        trailheads.forEach { trailPaths[it] = mutableSetOf<Stepstone>() }
+        trailheads.forEach {
+            trailPaths[it] = mutableSetOf<Stepstone>()
+            trailPathsCounters[it] = 0
+        }
     }
 
     fun printMap() {
@@ -50,7 +56,8 @@ class Pathfinder(
 
     private fun findPath(nextStep: Stepstone, trailhead: Stepstone) {
         if (nextStep.height == 9) {
-            trailPaths[trailhead]!!.add(nextStep)
+            trailPaths[trailhead]?.add(nextStep)
+            trailPathsCounters[trailhead] = trailPathsCounters[trailhead]?.inc() ?: 0
             return
         }
         getNeighbors(nextStep).forEach { findPath(it, trailhead) }
