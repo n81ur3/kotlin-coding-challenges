@@ -20,23 +20,33 @@ class Day11PlutonianPebblesTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData1")
-    fun runSamplesPart1(input: List<String>, expectedResult: Int) {
+    fun runSamplesPart1(input: List<String>, expectedResult: Long) {
         val plutoTransformer = PlutoTransformer(input[0])
-        assertEquals(expectedResult, plutoTransformer.blink(25))
+        assertEquals(expectedResult, plutoTransformer.blinkSum(25))
     }
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(input: List<String>, expectedResult: Int) {
+    fun runSamplesPart2(input: List<String>, expectedResult: Long) {
+        val plutoTransformer = PlutoTransformer(input[0])
+        assertEquals(expectedResult, plutoTransformer.blinkSum(75))
     }
 
     @Test
     fun solutionPart1() {
         val plutoTransformer = PlutoTransformer(file.readLines()[0])
-        val solution = plutoTransformer.blink(25)
+        val solution = plutoTransformer.blinkSum(25)
         println(solution)
         assertEquals(198089, solution)
         println("Solution for AoC2024-Day11-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val plutoTransformer = PlutoTransformer(file.readLines()[0])
+        val solution = plutoTransformer.blinkSum(75)
+        assertEquals(236302670835517, solution)
+        println("Solution for AoC2024-Day11-Part02: $solution")
     }
 
     companion object {
@@ -54,15 +64,8 @@ class Day11PlutonianPebblesTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    89010123
-                    78121874
-                    87430965
-                    96549874
-                    45678903
-                    32019012
-                    01329801
-                    10456732
-                    """.trimIndent().lines(), 81
+                    125
+                    """.trimIndent().lines(), 22840618691206
             )
         )
     }
