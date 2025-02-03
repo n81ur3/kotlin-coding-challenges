@@ -22,18 +22,14 @@ class Day12GardenGroupsTest {
     @MethodSource("sampleTestData1")
     fun runSamplesPart1(input: List<String>, expectedResult: Int) {
         val elveGarden = ElveGarden(input)
-        elveGarden.gardenAreas.forEach {
-            println("${it.type}: ${it.totalArea} * ${elveGarden.totalFencePriceForArea(it)}")
-        }
-        println(elveGarden.totalFencePriceForGarden())
         assertEquals(expectedResult, elveGarden.totalFencePriceForGarden())
     }
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(input: List<String>, expectedResult: Long) {
-        val plutoTransformer = PlutoTransformer(input[0])
-        assertEquals(expectedResult, plutoTransformer.blinkSum(75))
+    fun runSamplesPart2(input: List<String>, expectedResult: Int) {
+        val elveGarden = ElveGarden(input)
+        assertEquals(expectedResult, elveGarden.totalDiscountedFencePriceForGarden())
     }
 
     @Test
@@ -42,6 +38,14 @@ class Day12GardenGroupsTest {
         val solution = elveGarden.totalFencePriceForGarden()
         assertEquals(1486324, solution)
         println("Solution for AoC2024-Day12-Part01: $solution")
+    }
+
+    @Test
+    fun solutionPart2() {
+        val elveGarden = ElveGarden(file.readLines())
+        val solution = elveGarden.totalDiscountedFencePriceForGarden()
+        assertEquals(898684, solution)
+        println("Solution for AoC2024-Day12-Part02: $solution")
     }
 
     companion object {
@@ -68,8 +72,17 @@ class Day12GardenGroupsTest {
         fun sampleTestData2() = listOf(
             Arguments.of(
                 """
-                    125
-                    """.trimIndent().lines(), 22840618691206
+                    RRRRIICCFF
+                    RRRRIICCCF
+                    VVRRRCCFFF
+                    VVRCCCJFFF
+                    VVVVCJJCFE
+                    VVIVCCJJEE
+                    VVIIICJJEE
+                    MIIIIIJJEE
+                    MIIISIJEEE
+                    MMMISSJEEE
+                    """.trimIndent().lines(), 1206
             )
         )
     }
