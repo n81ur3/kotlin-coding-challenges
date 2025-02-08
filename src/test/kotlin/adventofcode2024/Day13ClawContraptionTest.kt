@@ -27,9 +27,9 @@ class Day13ClawContraptionTest {
 
     @ParameterizedTest
     @MethodSource("sampleTestData2")
-    fun runSamplesPart2(input: List<String>, expectedResult: Int) {
-        val elveGarden = ElveGarden(input)
-        assertEquals(expectedResult, elveGarden.totalDiscountedFencePriceForGarden())
+    fun runSamplesPart2(input: List<String>, expectedResult: Long) {
+        val clawArcade = ClawArcade(input)
+        assertEquals(expectedResult, clawArcade.calculateFewestTokensAdvanced())
     }
 
     @Test
@@ -39,6 +39,15 @@ class Day13ClawContraptionTest {
         assertEquals(29711, solution)
         println("Solution for AoC2024-Day13-Part01: $solution")
     }
+
+    @Test
+    fun solutionPart2() {
+        val clawArcade = ClawArcade(file.readLines())
+        val solution = clawArcade.calculateFewestTokensAdvanced()
+        assertEquals(94955433618919, solution)
+        println("Solution for AoC2024-Day13-Part02: $solution")
+    }
+
 
     companion object {
 
@@ -84,7 +93,7 @@ class Day13ClawContraptionTest {
                     Button A: X+69, Y+23
                     Button B: X+27, Y+71
                     Prize: X=18641, Y=10279
-                    """.trimIndent().lines(), 1206
+                    """.trimIndent().lines(), 875318608908
             )
         )
     }

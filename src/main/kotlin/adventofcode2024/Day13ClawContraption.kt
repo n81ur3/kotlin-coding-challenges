@@ -23,13 +23,28 @@ data class ClawMachine(
 
         return if (result < Int.MAX_VALUE) result else 0
     }
+
+    fun findAdvancedPrize(): Long {
+        val prizeXY = (prizeX + 10000000000000) * aY
+        val prizeYX = (prizeY + 10000000000000) * aX
+        val prizeDiff = Math.abs(prizeXY - prizeYX)
+        val diff = Math.abs((bX * aY) - (bY * aX))
+        val b = (1.0 * prizeDiff) / diff
+        val a = ((prizeX + 10000000000000.0) - (bX * b)) / aX
+
+        if (a % 1.0 == 0.0 && b % 1.0 == 0.0) {
+            return (3 * a + b).toLong()
+        } else {
+            return 0L
+        }
+    }
 }
 
 class ClawArcade(val input: List<String>) {
     val clawMachines: List<ClawMachine>
 
     init {
-        clawMachines = input.windowed(4, 4, true).map { buildClawMachine(it.take(3))}
+        clawMachines = input.windowed(4, 4, true).map { buildClawMachine(it.take(3)) }
     }
 
     private fun buildClawMachine(input: List<String>): ClawMachine {
@@ -44,5 +59,9 @@ class ClawArcade(val input: List<String>) {
 
     fun calculateFewestTokens(): Int {
         return clawMachines.sumOf { it.findPrize() }
+    }
+
+    fun calculateFewestTokensAdvanced(): Long {
+        return clawMachines.sumOf { it.findAdvancedPrize() }
     }
 }
