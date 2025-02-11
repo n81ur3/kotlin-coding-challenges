@@ -43,9 +43,9 @@ class Day14RestroomRedoubtTest {
 
     @Test
     fun solutionPart2() {
-        val clawArcade = ClawArcade(file.readLines())
-        val solution = clawArcade.calculateFewestTokensAdvanced()
-        assertEquals(94955433618919, solution)
+        val restroom = EBHQRestroom(file.readLines(), 101, 103)
+        val solution = restroom.findEasterEgg(printChristmasTree = false)
+        assertEquals(6355, solution)
         println("Solution for AoC2024-Day14-Part02: $solution")
     }
 

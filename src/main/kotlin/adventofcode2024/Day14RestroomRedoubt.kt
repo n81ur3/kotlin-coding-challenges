@@ -33,7 +33,17 @@ class EBHQRestroom(input: List<String>, val width: Int, val height: Int) {
         return SecurityBot(x, y, vx, vy)
     }
 
-    fun moveRobots(seconds: Int) {
+    fun findEasterEgg(printChristmasTree: Boolean): Int {
+        var counter = 0
+        while (bots.groupBy { it.x to it.y }.values.any { it.size > 1 }) {
+            moveRobots()
+            counter++
+        }
+        if (printChristmasTree) printLayout()
+        return counter
+    }
+
+    fun moveRobots(seconds: Int = 1) {
         repeat(seconds) { bots.forEach { it.move(width, height) } }
     }
 
